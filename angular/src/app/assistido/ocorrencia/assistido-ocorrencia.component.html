@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>Cadastro de Ocorrência Assistido</h2>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col d-flex justify-content-center">
+      <form class="needs-validation" novalidate>
+        <div class="row">
+
+          <div class="col-md-4 mb-3">
+            <label for="zip">Data</label>
+            <input type="text" class="form-control" id="data" placeholder="dd/MM/yyyy" required>
+            <div class="invalid-feedback">
+              Data required.
+            </div>
+          </div>
+
+          <div class="col-md-8 mb-3">
+            <label for="zip">Assistido</label>
+            <input type="text" class="form-control" id="zip" placeholder="" required>
+            <div class="invalid-feedback">
+              Zip code required.
+            </div>
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <label for="lastName">Ocorrência</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" style="resize: none;"></textarea>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+
+        </div>
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Cadastrar</button>
+      </form>
+    </div>
+  </div>
+</div>

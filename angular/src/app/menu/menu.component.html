@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">Cuidadores</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Assistido
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" [routerLink]="['assistido/cadastro']">Cadastrar</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" [routerLink]="['assistido/ocorrencia/cadastro']">Cadastrar Ocorrência</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Colaborador
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" [routerLink]="['colaborador/cadastro']">Cadastrar</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" [routerLink]="['colaborador/conta/cadastro']">Cadastrar Conta</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" [routerLink]="['colaborador/entrevista/cadastro']">Cadastrar Entrevista</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" [routerLink]="['colaborador/colaborador/cadastro']">Cadastrar Ocorrência</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Prospect
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" [routerLink]="['prospect/cadastro']">Cadastrar</a>
+          <!-- <div class="dropdown-divider"></div> -->
+          <!-- <a class="dropdown-item" [routerLink]="['assistido/ocorrencia/cadastro']">Cadastrar Ocorrência</a> -->
+        </div>
+      </li>
+    </ul>
+    <span class="navbar-text">
+      <h6 class="text-white">Olá Usuário, seja bem-vindo!</h6>
+    	<!-- <li><a href="#"><span class="glyphicon glyphicon-user"></span> Perfil</a></li> -->
+    	<!-- <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Sair</a></li> -->
+    </span>
+  </div>
+</nav>

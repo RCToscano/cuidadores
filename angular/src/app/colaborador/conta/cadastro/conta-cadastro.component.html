@@ -1,0 +1,88 @@
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>Cadastro de Conta Colaborador</h2>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form class="needs-validation" novalidate>
+        <div class="row">
+
+          <div class="col-md-4 mb-3">
+            <label>Colaborador é o Titular da Conta ?</label>
+            <div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" id="customControlValidation2" name="radio-stacked" required>
+                <label class="custom-control-label" for="customControlValidation2">Sim</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline mb-3">
+                <input type="radio" class="custom-control-input" id="customControlValidation3" name="radio-stacked" required>
+                <label class="custom-control-label" for="customControlValidation3">Não</label>
+                <div class="invalid-feedback">More example invalid feedback text</div>
+              </div>
+              <!-- <label class="radio-inline"><input type="radio" name="titular" id="titular1" value="S" checked onclick="ocultaDivContaTitular()" /> Sim </label> -->
+              <!-- <label class="radio-inline"><input type="radio" name="titular" id="titular2" value="N" onclick="mostraDivContaTitular()" /> Não </label> -->
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Banco</label>
+            <select class="combobox form-control" name="banco" id="banco">
+              <option value="0" selected="selected">Selecione o Banco</option>
+
+            </select>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Tipo</label>
+            <select class="combobox form-control" name="tpconta" id="tpconta">
+              <option value="0" selected="selected">Selecione a Tipo</option>
+              <option value="1">Corrente</option>
+              <option value="2">Poupança</option>
+            </select>
+          </div>
+
+          <div class="col-md-8 mb-3">
+            <label>Nome do Titular da Conta</label>
+            <input class="form-control" name="nometitular" id="nometitular" placeholder="Inserir Nome do Dependente" type="text" maxlength="100"/>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>CPF do Titular da Conta</label>
+            <input class="form-control" name="cpftitular" id="cpftitular" placeholder="Inserir o CPF do titular da conta" type="text"/>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>Agência</label>
+            <input type="text" name="agencia" id="agencia" class="form-control" placeholder="Agência" type="text" maxlength="20"/>
+          </div>
+
+          <div class="col-md-1 mb-3">
+            <label>Dígito</label>
+            <input type="text" name="agenciadig" id="agenciadig" class="form-control" type="text" maxlength="3"/>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>Conta</label>
+            <input type="text" name="conta" id="conta" class="form-control" placeholder="Conta" type="text" maxlength="30"/>
+          </div>
+
+          <div class="col-md-1 mb-3">
+            <label>Dígito</label>
+            <input type="text" name="contadig" id="contadig" class="form-control" type="text" maxlength="3"/>
+          </div>
+
+          <div class="col-md-1 mb-3">
+            <label>Operação</label>
+            <input type="text" name="operacao" id="operacao" class="form-control" type="text" maxlength="5"/>
+          </div>
+
+        </div>
+
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Cadastrar</button>
+
+      </form>
+    </div>
+  </div>
+
+</div>
