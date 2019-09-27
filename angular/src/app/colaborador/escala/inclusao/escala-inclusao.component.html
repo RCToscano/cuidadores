@@ -1,0 +1,213 @@
+<div class="container">
+  <div class="py-4 text-center">
+    <h2>Programação de Escala</h2>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form class="needs-validation" novalidate>
+        <div class="row">
+
+          <div class="col-md-3 mb-3">
+            <label for="lastName">Início</label>
+            <input type="text" class="form-control" id="lastName" placeholder="dd/MM/yyyy 00:00" value="" required>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label for="lastName">Fim</label>
+            <input type="text" class="form-control" id="lastName" placeholder="dd/MM/yyyy 00:00" value="" required>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>Selecione o Contrato</label>
+            <select class="combobox form-control" name="contrato" id="contrato">
+              <option value="0">Selecione</option>
+              <option value="1">Contrato 1</option>
+              <option value="2">Contrato 2</option>
+            </select>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>Valor Colaborador</label>
+            <input type="text" class="form-control" name="tel" id="tel" value="" maxlength="15">
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>Selecione o Tipo de Escala</label>
+            <select class="combobox form-control" name="contrato" id="contrato">
+              <option value="0">Selecione</option>
+              <option value="1">Tipo 1</option>
+              <option value="2">Tipo 2</option>
+              <option value="3">Tipo Extra</option>
+            </select>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>Valor Assistido</label>
+            <input type="text" class="form-control" name="tel" id="tel" value="" maxlength="15">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <!-- Combo com autocomplete -->
+            <label>Selecione o Colaborador</label>
+            <select class="combobox form-control" name="contrato" id="contrato">
+              <option value="0">Selecione</option>
+              <option value="1">Colaborador 1</option>
+              <option value="2">Colaborador 2</option>
+            </select>
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <div class="col-md-12">
+              <label style="padding-right:10px"><b>Repetir</b></label>
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="same-address">
+                <label class="custom-control-label" for="same-address">Todos</label>
+              </div>
+            </div>
+            <div class="col-md-12 mb-3">
+
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="same-address1">
+                <label class="custom-control-label" for="same-address1">10/08/2019</label>
+              </div>
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="same-address2">
+                <label class="custom-control-label" for="same-address2">11/08/2019</label>
+              </div>
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="same-address3">
+                <label class="custom-control-label" for="same-address3">12/08/2019</label>
+              </div>
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="same-address4">
+                <label class="custom-control-label" for="same-address4">13/08/2019</label>
+              </div>
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="same-address5">
+                <label class="custom-control-label" for="same-address5">14/08/2019</label>
+              </div>
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="same-address6">
+                <label class="custom-control-label" for="same-address6">15/08/2019</label>
+              </div>
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="same-address7">
+                <label class="custom-control-label" for="same-address7">16/08/2019</label>
+              </div>
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="same-address8">
+                <label class="custom-control-label" for="same-address8">17/08/2019</label>
+              </div>
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="same-address9">
+                <label class="custom-control-label" for="same-address9">18/08/2019</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5 mb-3">&nbsp;</div>
+
+          <div class="col-md-2 mb-3">
+            <button class="btn btn-primary btn-block" type="submit">Programar</button>
+          </div>
+        </div>
+
+        <hr class="mb-4">
+
+        <div class="col-md-12 mb-3">
+          <div class="table-responsive-sm">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Data Hora</th>
+                  <th scope="col">Colaborador</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Tipo</th>
+                  <th scope="col">Valor</th>
+                  <th scope="col">Obs</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>10/08/2019 08:00 - 15/08/2019 20:00</td>
+                  <td>JOSE ARNALDO DOS SANTOS SILVA</td>
+                  <td>
+                    <select class="combobox form-control" name="contrato" id="contrato">
+                      <option value="0">Ativo</option>
+                      <option value="1">Cancelada Interno</option>
+                      <option value="2">Cancelada com Desc. Assistido</option>
+                      <option value="2">Cancelada sem Desc. Assistido</option>
+                    </select>
+                  </td>
+                  <td>Normal</td>
+                  <td>
+                    <input type="text" class="form-control" name="tel" id="tel" value="500,00" maxlength="15">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" name="tel" id="tel" value="" maxlength="100" placeholder="Observações">
+                  </td>
+                  <td>
+                    <button class="btn btn-primary btn-block" type="submit">Alterar</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>10/08/2019 08:00 - 15/08/2019 20:00</td>
+                  <td>JOSE ARNALDO DOS SANTOS SILVA</td>
+                  <td>
+                    <select class="combobox form-control" name="contrato" id="contrato">
+                      <option value="0">Ativo</option>
+                      <option value="1">Cancelada Interno</option>
+                      <option value="2">Cancelada com Desc. Assistido</option>
+                      <option value="2">Cancelada sem Desc. Assistido</option>
+                    </select>
+                  </td>
+                  <td>Normal</td>
+                  <td>
+                    <input type="text" class="form-control" name="tel" id="tel" value="500,00" maxlength="15">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" name="tel" id="tel" value="" maxlength="100" placeholder="Observações">
+                  </td>
+                  <td>
+                    <button class="btn btn-primary btn-block" type="submit">Alterar</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>10/08/2019 08:00 - 15/08/2019 20:00</td>
+                  <td>JOSE ARNALDO DOS SANTOS SILVA</td>
+                  <td>
+                    <select class="combobox form-control" name="contrato" id="contrato">
+                      <option value="0">Ativo</option>
+                      <option value="1">Cancelada Interno</option>
+                      <option value="2">Cancelada com Desc. Assistido</option>
+                      <option value="2">Cancelada sem Desc. Assistido</option>
+                    </select>
+                  </td>
+                  <td>Normal</td>
+                  <td>
+                    <input type="text" class="form-control" name="tel" id="tel" value="500,00" maxlength="15">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" name="tel" id="tel" value="" maxlength="100" placeholder="Observações">
+                  </td>
+                  <td>
+                    <button class="btn btn-primary btn-block" type="submit">Alterar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

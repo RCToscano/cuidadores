@@ -1,0 +1,644 @@
+<div class="container-fluid">
+
+  <div class="col-md-12">&nbsp;</div>
+  <div class="row">
+    <div class="col-md-12">
+      <form>
+        <div class="row">
+          <div class="col-sm-2 mb-3">
+            <input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control">
+          </div>
+          <div class="col-sm-7 mb-3">
+            <ng-multiselect-dropdown
+              [placeholder]="'Selecione o Cliente'"
+              [data]="dropdownList"
+              formControlItem="selectedItems"
+              [settings]="dropdownSettings"
+              (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+            >
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="col-sm-2 mb-3">
+            <ng-multiselect-dropdown
+              [placeholder]="'Selecione a Situação'"
+              [data]="dropdownList2"
+              formControlItem="selectedItems2"
+              [settings]="dropdownSettings2"
+              (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+            >
+            </ng-multiselect-dropdown>
+          </div>
+          <!-- <div class="col-sm-7 mb-3">
+            <select class="combobox form-control" name="idcliente" id="idcliente" title="Selecione o Cliente">
+              <option value="183">ADALBERTO BAGGIO</option>
+              <option value="59">ADELE GLOGOWSKY</option>
+              <option value="3">ADLIZ SARTORELLI</option>
+              <option value="359">ADORACAO GIL CLIQUET DORA</option>
+              <option value="372">AFRA</option>
+              <option value="335">AGNES HORST PIMENTA</option>
+              <option value="179">ALCIDA ENI DEMETRIO MIRISOLA</option>
+              <option value="334">ALFREDO DO NASCIMENTO CANTEIRO</option>
+              <option value="260">AMELIA DE CARVALHO</option>
+            </select>
+          </div> -->
+          <!-- <div class="col-sm-2 mb-3">
+              <select class="combobox form-control" title="Selecione a Situação">
+              <option value="1">Ativo</option>
+              <option value="2">Inativo</option>
+              <option value="3">Suspenso</option>
+              <option value="4">Ativo Internado</option>
+              <option value="5">Ativo Viagem</option>
+              <option value="6">Prospect</option>
+            </select>
+          </div> -->
+          <div class="col-sm-1 mb-3">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="d-flex flex-row-reverse">
+    <div class="p-2">
+      <button type="button" class="btn btn-dark btn-sm" style='color: white;'><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+    </div>
+    <div class="p-2">
+      <button type="button" class="btn btn-dark btn-sm" style='color: white;'><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+    </div>
+  </div>
+  <div style="boder: solid black 1px">
+    <table id='example' class='stripe row-border order-column' cellspacing='0' width='100%'>
+      <thead>
+        <tr>
+          <th style='background: #fff;'>Assistido</th>
+          <th style='text-align: center; background-color: ;'>16/08/2019 - Sex <span id='spanalertadata_20190816' class='glyphicon glyphicon-warning-sign text-danger'></span></th>
+          <th style='text-align: center; background-color: #e6e6ff;'>17/08/2019 - Sáb <span id='spanalertadata_20190817'></span></th>
+          <th style='text-align: center; background-color: #e6e6ff;'>18/08/2019 - Dom <span id='spanalertadata_20190818'></span></th>
+          <th style='text-align: center; background-color: ;'>19/08/2019 - Seg <span id='spanalertadata_20190819' class='glyphicon glyphicon-warning-sign text-danger'></span></th>
+          <th style='text-align: center; background-color: ;'>20/08/2019 - Ter <span id='spanalertadata_20190820' class='glyphicon glyphicon-warning-sign text-danger'></span></th>
+          <th style='text-align: center; background-color: ;'>21/08/2019 - Qua <span id='spanalertadata_20190821' class='glyphicon glyphicon-warning-sign text-danger'></span></th>
+          <th style='text-align: center; background-color: ;'>22/08/2019 - Qui <span id='spanalertadata_20190822' class='glyphicon glyphicon-warning-sign text-danger'></span></th>
+          <th style='text-align: center; background-color: ;'>23/08/2019 - Sex <span id='spanalertadata_20190823' class='glyphicon glyphicon-warning-sign text-danger'></span></th>
+          <th style='text-align: center; background-color: #e6e6ff;'>24/08/2019 - Sáb <span id='spanalertadata_20190824' class='glyphicon glyphicon-warning-sign text-danger'></span></th>
+          <th style='text-align: center; background-color: #e6e6ff;'>25/08/2019 - Dom <span id='spanalertadata_20190825'></span></th>
+          <th style='text-align: center; background-color: ;'>26/08/2019 - Seg <span id='spanalertadata_20190826'></span></th>
+          <th style='text-align: center; background-color: ;'>27/08/2019 - Ter <span id='spanalertadata_20190827'></span></th>
+          <th style='text-align: center; background-color: ;'>28/08/2019 - Qua <span id='spanalertadata_20190828'></span></th>
+          <th style='text-align: center; background-color: ;'>29/08/2019 - Qui <span id='spanalertadata_20190829'></span></th>
+          <th style='text-align: center; background-color: ;'>30/08/2019 - Sex <span id='spanalertadata_20190830'></span></th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th style='background: #fff;'>Assistido</th>
+          <th style='text-align: center;'>16/08/2019 - Sex <span id='spanalertadata_20190816' class='glyphicon glyphicon-warning-sign text-danger'></span></th>
+          <th style='text-align: center;'>17/08/2019 - Sáb <span id='spanalertadata_20190817'></span></th>
+          <th style='text-align: center;'>18/08/2019 - Dom <span id='spanalertadata_20190818'></span></th>
+          <th style='text-align: center;'>19/08/2019 - Seg <span id='spanalertadata_20190819' class='glyphicon glyphicon-warning-sign text-danger'></span></th>
+          <th style='text-align: center;'>20/08/2019 - Ter <span id='spanalertadata_20190820' class='glyphicon glyphicon-warning-sign text-danger'></span></th>
+          <th style='text-align: center;'>21/08/2019 - Qua <span id='spanalertadata_20190821' class='glyphicon glyphicon-warning-sign text-danger'></span></th>
+          <th style='text-align: center;'>22/08/2019 - Qui <span id='spanalertadata_20190822' class='glyphicon glyphicon-warning-sign text-danger'></span></th>
+          <th style='text-align: center;'>23/08/2019 - Sex <span id='spanalertadata_20190823' class='glyphicon glyphicon-warning-sign text-danger'></span></th>
+          <th style='text-align: center;'>24/08/2019 - Sáb <span id='spanalertadata_20190824' class='glyphicon glyphicon-warning-sign text-danger'></span></th>
+          <th style='text-align: center;'>25/08/2019 - Dom <span id='spanalertadata_20190825'></span></th>
+          <th style='text-align: center;'>26/08/2019 - Seg <span id='spanalertadata_20190826'></span></th>
+          <th style='text-align: center;'>27/08/2019 - Ter <span id='spanalertadata_20190827'></span></th>
+          <th style='text-align: center;'>28/08/2019 - Qua <span id='spanalertadata_20190828'></span></th>
+          <th style='text-align: center;'>29/08/2019 - Qui <span id='spanalertadata_20190829'></span></th>
+          <th style='text-align: center;'>30/08/2019 - Sex <span id='spanalertadata_20190830'></span></th>
+        </tr>
+      </tfoot>
+      <tbody>
+        <tr>
+          <td style='max-width: 200px;'>
+            <a href='AssistCadAlt?acao=3&codclientebusca=116' target='_blank'>
+              ADELE<br>GLOGOWSKY
+            </a>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #dff0d8;' id='divEscalaCor_59_20190816'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190816'>
+                  <label style='font-size: 9pt;'> 09:30 - 21:30 <a href='ColabCadAlt?acao=2&cpf=065.975.608-09' target='_blank'>CREMILDA VIEIRA D</a></label>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-success btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-check-square-o"></i> Ativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #e1e1d0;' id='divEscalaCor_59_20190817'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190817'>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-secondary btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-square-o"></i> Inativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #dff0d8;' id='divEscalaCor_59_20190818'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190818'>
+                  <label style='font-size: 9pt;'> 19:00 - 21:00 <a href='ColabCadAlt?acao=2&cpf=065.975.608-09' target='_blank'>CREMILDA VIEIRA D</a></label>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-secondary btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-square-o"></i> Inativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #dff0d8;' id='divEscalaCor_59_20190819'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190819'>
+                  <label style='font-size: 9pt;'> 08:30 - 20:30 <a href='ColabCadAlt?acao=2&cpf=094.870.758-52' target='_blank'>JOSENILDA FERREIR</a></label><br>
+                  <label style='font-size: 9pt;'> 09:30 - 21:30 <a href='ColabCadAlt?acao=2&cpf=118.544.208-10' target='_blank'>LUCIMEIRE VIEIRA </a></label><br>
+                  <label style='font-size: 9pt;'> 20:30 - 08:30 <a href='ColabCadAlt?acao=2&cpf=094.870.758-52' target='_blank'>JOSENILDA FERREIR</a></label>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-secondary btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-square-o"></i> Inativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #dff0d8;' id='divEscalaCor_59_20190820'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190820'>
+                  <span title='Escala Ativa' style='background-color: #5cb85c; font-family: arial; font-size: 9pt; font-weight:bold; color: white; padding-right: 2px; padding-left: 2px;' >A</span>                            <span title='Normal' style='background-color: #5cb85c; font-family: arial; font-size: 9pt; font-weight:bold; color: white; padding-right: 2px; padding-left: 2px;' >N</span>                            <span title='Fixo' style='background-color: #5cb85c; font-family: arial; font-size: 9pt; font-weight:bold; color: white; padding-right: 2px; padding-left: 2px;' >F</span>                            <label style='font-size: 9pt;'> 09:30 - 21:30 <a href='ColabCadAlt?acao=2&cpf=065.975.608-09' target='_blank'>CREMILDA VIEIRA D</a></label>
+                  <span title='Ocorrência' style='background-color: #337ab7; font-family: arial; font-size: 9pt; font-weight:bold; color: white; padding-right: 2px; padding-left: 2px;' onclick="abrirOcorrencia(59,483,'2019-08-20','C')">O</span><br>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-secondary btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-square-o"></i> Inativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #f2dede;' id='divEscalaCor_59_20190821'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190821'>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-success btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-check-square-o"></i> Ativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #f2dede;' id='divEscalaCor_59_20190822'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190822'>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-success btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-check-square-o"></i> Ativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #f2dede;' id='divEscalaCor_59_20190823'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190823'>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-success btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-check-square-o"></i> Ativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #f2dede;' id='divEscalaCor_59_20190824'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190824'>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-success btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-check-square-o"></i> Ativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #f2dede;' id='divEscalaCor_59_20190825'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190825'>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-success btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-check-square-o"></i> Ativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #f2dede;' id='divEscalaCor_59_20190826'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190826'>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-success btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-check-square-o"></i> Ativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #f2dede;' id='divEscalaCor_59_20190827'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190827'>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-success btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-check-square-o"></i> Ativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #f2dede;' id='divEscalaCor_59_20190828'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190828'>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-success btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-check-square-o"></i> Ativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #f2dede;' id='divEscalaCor_59_20190829'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190829'>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-success btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-check-square-o"></i> Ativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td style='padding: 0px;'>
+            <div class='panel panel-success' style='padding: 0px; margin: 3px;'>
+              <div class='panel-body' style='width: 300px; height: 200px; margin: 0px; background: #f2dede;' id='divEscalaCor_59_20190830'>
+                <div style='height: 80%;' id='divEscalaColab_59_20190830'>
+                </div>
+                <div>
+                  <button type='button' class='btn btn-warning btn-sm' onclick="abrirJanelaColaborador('59','2019-08-16')" style='color: white;'>
+                    <i class="fa fa-user" aria-hidden="true"></i> Colab
+                  </button>
+                  <button type='button' class='btn btn-primary btn-sm' onclick="abrirModalRepetirEscala()" style='color: white;'>
+                    <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                  </button>
+                  <button type='button' class='btn btn-info btn-sm' onclick="abrirModalNotaEscala()" style='color: white;'>
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Nota
+                  </button>
+                  <button type='button' class='btn btn-success btn-sm' id='btanotg_59_20190816' onclick="abrirJanelaNota('59','2019-08-16')">
+                    <i class="fa fa-check-square-o"></i> Ativo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-flex flex-row-reverse">
+    <div class="p-2">
+      <button type="button" class="btn btn-dark btn-sm" style='color: white;'><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+    </div>
+    <div class="p-2">
+      <button type="button" class="btn btn-dark btn-sm" style='color: white;'><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+    </div>
+  </div>
+
+
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id='modalRepetirEscala'>
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLabel">09/09/2019 - ADELE GLOGOWSKY</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Colaborador</th>
+                <th scope="col">Status</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="">
+                  </div>
+                </th>
+                <td>CREMILDA VIEIRA DOS SANTOS MACIEL</td>
+                <td>Ativa</td>
+                <td>Normal</td>
+                <td>90,00</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="">
+                  </div>
+                </th>
+                <td>LUCIMEIRE VIEIRA DA SILVA</td>
+                <td>Ativa</td>
+                <td>Normal</td>
+                <td>90,00</td>
+              </tr>
+            </tbody>
+          </table>
+          <hr/>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+            <strong><label class="form-check-label" for="inlineCheckbox1">Todos</label></strong>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+            <label class="form-check-label" for="inlineCheckbox2">11/09/2019</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+            <label class="form-check-label" for="inlineCheckbox3">12/09/2019</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option3">
+            <label class="form-check-label" for="inlineCheckbox3">13/09/2019</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option3">
+            <label class="form-check-label" for="inlineCheckbox3">14/09/2019</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="option3">
+            <label class="form-check-label" for="inlineCheckbox3">15/09/2019</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="option3">
+            <label class="form-check-label" for="inlineCheckbox3">16/09/2019</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox8" value="option3">
+            <label class="form-check-label" for="inlineCheckbox3">17/09/2019</label>
+          </div>
+          <div class="form-group row" style="margin-top: 20px">
+            <div class="col-sm-12">
+              <div class="d-flex justify-content-center">
+                <button type='button' class='btn btn-primary btn-sm'  style='color: white;'>
+                  <i class="fa fa-repeat" aria-hidden="true"></i> Repetir
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id='modalNotaEscala'>
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLabel">10/09/2019 - ADELE GLOGOWSKY</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Anotações</label>
+            <textarea class="form-control" id="idNotaEscala" rows="3"></textarea>
+          </div>
+          <hr/>
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <strong><label for="exampleFormControlTextarea1">Repetir</label></strong>
+            </div>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+            <strong><label class="form-check-label" for="inlineCheckbox1">Todos</label></strong>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+            <label class="form-check-label" for="inlineCheckbox2">11/09/2019</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+            <label class="form-check-label" for="inlineCheckbox3">12/09/2019</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option3">
+            <label class="form-check-label" for="inlineCheckbox3">13/09/2019</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option3">
+            <label class="form-check-label" for="inlineCheckbox3">14/09/2019</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="option3">
+            <label class="form-check-label" for="inlineCheckbox3">15/09/2019</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="option3">
+            <label class="form-check-label" for="inlineCheckbox3">16/09/2019</label>
+          </div>
+          <div class="form-group row" style="margin-top: 20px">
+            <div class="col-sm-12">
+              <div class="d-flex justify-content-center">
+                <button type='button' class='btn btn-primary'  style='color: white;'>
+                  Gravar
+                </button>
+              </div>
+            </div>
+          </div>
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col">Data Criação</th>
+                <th scope="col">Anotação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>08/09/2019</td>
+                <td>Anotações</td>
+              </tr>
+              <tr>
+                <td>08/09/2019</td>
+                <td>Anotações</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

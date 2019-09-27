@@ -66,3 +66,25 @@
   font-size: 12px;
   color: #777;
 }
+
+
+/* Ensure that the demo table scrolls */
+th, td { white-space: nowrap; }
+div.dataTables_wrapper {
+    width: 100%;
+    margin: 0 auto;
+}
+
+th input {
+    width: 90%;
+}
+
+/*alteracao largura modal repetir escala*/
+.modal-lg {
+  max-width: 80%;
+}
+
+/*alteracao altura combo box situacao*/
+.select2-container .select2-selection {
+  min-height: 38px;
+}

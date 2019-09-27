@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>Cadastro de Empresa</h2>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col d-flex justify-content-center">
+      <form class="needs-validation" novalidate>
+        <div class="row">
+
+          <div class="col-md-7 mb-3">
+            <label for="zip">Nome</label>
+            <input type="text" class="form-control" id="data" placeholder="" required>
+            <div class="invalid-feedback">
+              Nome required.
+            </div>
+          </div>
+
+          <div class="col-md-5 mb-3">
+            <label for="zip">CNPJ</label>
+            <input type="text" class="form-control" id="zip" placeholder="" required>
+            <div class="invalid-feedback">
+              CNPJ required.
+            </div>
+          </div>
+
+          <div class="col-md-7 mb-3">
+            <label>Busca de Logradouro no Google</label>
+            <input id="autocomplete" class="form-control" placeholder="Digite o Endereço ou CEP" onFocus="geolocate()" type="text" size="100"/>
+          </div>
+
+          <div class="col-md-5 mb-3">
+            <label>Coordenadas</label>
+            <div class="input-group">
+              <input class="form-control" type="text" name="coordenadas" id="coordenadas" value="" readonly/>
+              <input class="form-control" type="hidden" name="latitude" id="latitude" value=""/>
+              <input class="form-control" type="hidden" name="longitude" id="longitude" value=""/>
+              <div class="input-group-append">
+                <button class="btn btn-outline-info" type="button" id="button-addon2">Mapa <span class="glyphicon glyphicon-map-marker text-danger"></span></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-7 mb-3">
+            <label>Endereço</label>
+            <input class="form-control" type="text" name="endereco" id="route" value="" maxlength="100"/>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label>Número</label>
+            <input class="form-control" type="text" name="numero" id="street_number" value="" maxlength="6"/>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>Complemento</label>
+            <input class="form-control" type="text" name="compl" id="compl" value="" placeholder="" maxlength="50">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Município</label>
+            <input class="form-control" type="text" name="municipio" id="locality" value="" maxlength="100"/>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>Estado</label>
+            <input class="form-control" type="text" name="estado" id="administrative_area_level_1" value="" maxlength="50"/>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label>CEP</label>
+            <input class="form-control" type="text" name="cep" id="postal_code" value="" maxlength="9"/>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>País</label>
+            <input class="form-control" type="text" name="pais" id="country" value="" maxlength="50"/>
+          </div>
+
+        </div>
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Cadastrar</button>
+      </form>
+    </div>
+  </div>
+</div>
