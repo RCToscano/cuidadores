@@ -6,6 +6,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { DigitOnlyDirective } from './common/directives/digitonly/digit-only.directive';
+import { TextMaskModule } from 'angular2-text-mask';
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 
 
 import { LoginComponent } from './login/login.component';
@@ -42,6 +45,7 @@ import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.co
 @NgModule({
   declarations: [
     AppComponent,
+    DigitOnlyDirective,
     LoginComponent,
     MenuComponent,
     AssistidoCadastroComponent,
@@ -65,7 +69,11 @@ import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.co
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    TextMaskModule,
+    GooglePlaceModule,
+    BrowserModule,
+    FormsModule
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy}
