@@ -1,0 +1,36 @@
+<div *ngIf="carregar">
+  <ngx-spinner
+    [fullScreen]="true"
+    type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading" style="color: white"> Aguarde... </p>
+  </ngx-spinner>
+</div>
+
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Alterar Situação</h4>
+  <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p *ngIf="situacao == 'Ativa'">
+    <strong>Deseja realmente alterar a situação
+      <span class="text-primary">"{{situacao}}"</span>
+      para
+      <span class="text-primary">"Inativa"</span> ?
+    </strong>
+  </p>
+  <p *ngIf="situacao == 'Inativa'">
+    <strong>Deseja realmente alterar a situação
+      <span class="text-primary">"{{situacao}}"</span>
+      para
+      <span class="text-primary">"Ativa"</span> ?
+    </strong>
+  </p>
+  <p>Você pode repetir essa operação novamente.</p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancelar</button>
+  <button type="button" class="btn btn-danger" (click)="alterar()">Confirmar</button>
+</div>

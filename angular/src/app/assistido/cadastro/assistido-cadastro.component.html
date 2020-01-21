@@ -1,6 +1,6 @@
 <div class="container">
   <div class="py-5 text-center">
-    <h2>Cadastro de Assistido</h2>
+    <h2>Cadastro de Cliente</h2>
   </div>
 
   <div class="row">
@@ -10,7 +10,7 @@
 
           <div class="col-md-2 mb-3">
             <label for="zip">CPF</label>
-            <input type="text" class="form-control" id="zip" placeholder="" required>
+            <input pattern="[0-9]*" digitOnly [textMask]="{mask: maskCPF}" type="text" class="form-control" id="zip" placeholder="" required>
             <div class="invalid-feedback">
               Zip code required.
             </div>
@@ -207,7 +207,7 @@
 
         </div>
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit">Cadastrar</button>
+        <button class="btn btn-primary btn-lg btn-block mb-5" type="submit">Cadastrar</button>
       </form>
     </div>
   </div>

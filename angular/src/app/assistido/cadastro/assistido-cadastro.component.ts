@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssistidoCadastroComponent implements OnInit {
 
+  maskCPF = [/[0-9]/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+
   constructor() { }
 
   ngOnInit() {

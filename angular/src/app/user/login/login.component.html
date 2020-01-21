@@ -1,0 +1,90 @@
+<div *ngIf="userService.user == undefined" class="container">
+
+  <div *ngIf="carregar">
+    <ngx-spinner
+      bdOpacity = 0.6
+      bdColor = "rgba(255,255,255,0.85)"
+      size = "default"
+      color = "#3d3b3b"
+      type = "ball-clip-rotate"
+      [fullScreen] = "true"
+    >
+    <p style="color: #3d3b3b" > Loading... </p>
+    </ngx-spinner>
+  </div>
+
+  <!-- Outer Row -->
+  <div class="row justify-content-center">
+
+    <div class="col-xl-10 col-lg-12 col-md-9">
+
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-6 d-none d-lg-block"
+                  style="background: url(assets/images/Image1.jpg); background-position:center;background-size:cover"></div>
+            <div class="col-lg-6">
+              <div class="p-5">
+                <div class="text-center">
+                  <img src="assets/images/Image3.png" style="max-height:80px; object-fit: contain; "/>
+                  <h1 class="h4 text-gray-900 mb-3">Cuidadores</h1>
+                </div>
+                <div class="invalid-feedback mb-3" style="min-height:30px; text-align: center; font-size: 17px; display:block">
+                  <div *ngIf="submitted && error">
+                    {{ error }}
+                  </div>
+                </div>
+                <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+                  <div class="form-group mb-4">
+                    <input formControlName="email" type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="E-mail">
+                    <div class="invalid-feedback" style="height:8px; display:block">
+                      <div *ngIf="submitted && form.email.errors?.required">
+                        Por favor, preencha o e-mail.
+                      </div>
+                      <div *ngIf="submitted && form.email.errors?.email">
+                        E-mail inválido.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group mb-4">
+                    <input formControlName="password" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Senha">
+                    <div class="invalid-feedback" style="height:8px; display:block">
+                      <div *ngIf="submitted && form.password.errors?.required">
+                        Por favor, preencha a senha.
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="form-group">
+                    <div class="custom-control custom-checkbox small">
+                      <input type="checkbox" class="custom-control-input" id="customCheck">
+                      <label class="custom-control-label" for="customCheck">Remember Me</label>
+                    </div>
+                  </div> -->
+                  <button class="btn btn-primary btn-block" type="submit">Login</button>
+                  <!-- <hr>
+                  <a href="index.html" class="btn btn-google btn-user btn-block">
+                    <i class="fab fa-google fa-fw"></i> Login with Google
+                  </a>
+                  <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                    <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                  </a> -->
+                </form>
+                <!-- <hr>
+                <div class="text-center">
+                  <a class="small" href="forgot-password.html">Forgot Password?</a>
+                </div>
+                <div class="text-center">
+                  <a class="small" href="register.html">Create an Account!</a>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

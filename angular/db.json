@@ -1,0 +1,296 @@
+{
+  "parametros": {
+    "estadoCivil": [
+      {
+        "id": 1,
+        "descricao": "Casado"
+      },
+      {
+        "id": 2,
+        "descricao": "Solteiro"
+      },
+      {
+        "id": 3,
+        "descricao": "Separado"
+      },
+      {
+        "id": 4,
+        "descricao": "Divorciado"
+      },
+      {
+        "id": 5,
+        "descricao": "União Estável"
+      },
+      {
+        "id": 6,
+        "descricao": "Viúvo"
+      }
+    ],
+    "sexo": [
+      {
+        "id": "M",
+        "descricao": "Masculino"
+      },
+      {
+        "id": "F",
+        "descricao": "Feminino"
+      }
+    ],
+    "situacao": [
+      {
+        "id": 1,
+        "descricao": "Ativo"
+      },
+      {
+        "id": 2,
+        "descricao": "Inativo"
+      }
+    ],
+    "vinculo": [
+      {
+        "id": 1,
+        "descricao": "MEI"
+      },
+      {
+        "id": 2,
+        "descricao": "Prestação de Serviços"
+      },
+      {
+        "id": 3,
+        "descricao": "Cuidador"
+      }
+    ],
+    "funcao": [
+      {
+        "id": 1,
+        "descricao": "Assistente"
+      },
+      {
+        "id": 2,
+        "descricao": "Cuidador"
+      }
+    ],
+    "formaPagamento": [
+      {
+        "id": 1,
+        "descricao": "Plantão"
+      },
+      {
+        "id": 2,
+        "descricao": "Mensal"
+      }
+    ]
+  },
+  "bancos": [
+    {
+      "id": 1,
+      "descricao": "Santander"
+    },
+    {
+      "id": 2,
+      "descricao": "Bradesco"
+    },
+    {
+      "id": 3,
+      "descricao": "Itau"
+    },
+    {
+      "id": 4,
+      "descricao": "Caixa Econômica Federal"
+    }
+  ],
+  "colaboradores": [
+    {
+      "id": 1,
+      "cpf": "316.786.818-06",
+      "rg": "49605241X",
+      "nome": "Teste Nome",
+      "dataNascimento": "14/08/1993",
+      "estadoCivil": 1,
+      "sexo": "M",
+      "email": "teste@gmail.com",
+      "situacao": 1,
+      "telFixo": "",
+      "telCel": "11994599299",
+      "vinculo": 1,
+      "funcao": 1,
+      "formaPagamento": 1,
+      "coordenadas": "0000",
+      "latitude": "123",
+      "longitude": "456",
+      "endereco": "Av Dr Guilherme Dumont Vilares",
+      "numero": 1136,
+      "complemento": "Apt 44",
+      "municipio": "Sao Paulo",
+      "estado": "SP",
+      "cep": "05640001",
+      "pais": "Brasil"
+    },
+    {
+      "id": 2,
+      "cpf": "316.786.818-06",
+      "rg": "49605241X",
+      "nome": "Teste2",
+      "dataNascimento": "14/08/1989",
+      "estadoCivil": 2,
+      "sexo": "F",
+      "email": "teste@gmail.com",
+      "situacao": 2,
+      "telFixo": "",
+      "telCel": "11994599299",
+      "vinculo": 2,
+      "funcao": 2,
+      "formaPagamento": 2,
+      "coordenadas": "0000",
+      "latitude": "123",
+      "longitude": "456",
+      "endereco": "Av Dr Guilherme Dumont Vilares",
+      "numero": 1136,
+      "complemento": "Apt 44",
+      "municipio": "Sao Paulo",
+      "estado": "SP",
+      "cep": "05640001",
+      "pais": "Brasil"
+    },
+    {
+      "id": 3,
+      "cpf": "316.786.818-06",
+      "rg": "49605241X",
+      "nome": "Teste3",
+      "dataNascimento": "14/08/1993",
+      "estadoCivil": 3,
+      "sexo": "M",
+      "email": "teste@gmail.com",
+      "situacao": 1,
+      "telFixo": "",
+      "telCel": "11994599299",
+      "vinculo": 3,
+      "funcao": 1,
+      "formaPagamento": 1,
+      "coordenadas": "0000",
+      "latitude": "123",
+      "longitude": "456",
+      "endereco": "Av Dr Guilherme Dumont Vilares",
+      "numero": 1136,
+      "complemento": "Apt 44",
+      "municipio": "Sao Paulo",
+      "estado": "SP",
+      "cep": "05640001",
+      "pais": "Brasil"
+    },
+    {
+      "cpf": "316.786.818-06",
+      "rg": "999999",
+      "nome": "Teste4",
+      "dataNascimento": "1993-04-18T03:00:00.000Z",
+      "estadoCivil": "4",
+      "sexo": "M",
+      "email": "teste4@gmail.com",
+      "situacao": "2",
+      "telFixo": "(11) 2628-6094",
+      "telCel": "(11) 99459-9299",
+      "vinculo": "2",
+      "funcao": "2",
+      "formaPagamento": "2",
+      "coordenadas": "-23.6172862,-46.742376899999954",
+      "latitude": "-23.6172862",
+      "longitude": "-46.742376899999954",
+      "endereco": "R. Dr. José de Andrade Figueira",
+      "numero": "217",
+      "complemento": "83",
+      "municipio": "Vila Suzana",
+      "estado": "São Paulo",
+      "cep": "05709-010",
+      "pais": "São Paulo",
+      "id": 4
+    },
+    {
+      "cpf": "316.786.818-06",
+      "rg": "111111",
+      "nome": "Teste5",
+      "dataNascimento": "1993-08-14T03:00:00.000Z",
+      "estadoCivil": "6",
+      "sexo": "M",
+      "email": "teste5@gmail.com",
+      "situacao": "1",
+      "telFixo": "(11) 2628-6094",
+      "telCel": "(11) 99459-9299",
+      "vinculo": "1",
+      "funcao": "1",
+      "formaPagamento": "1",
+      "coordenadas": "-23.6068026,-46.74581460000002",
+      "latitude": "-23.6068026",
+      "longitude": "-46.74581460000002",
+      "endereco": "Av. Dr. Guilherme Dumont Vilares",
+      "numero": "1136",
+      "complemento": "apt 44",
+      "municipio": "Jardim Londrina",
+      "estado": "São Paulo",
+      "cep": "05640-00_",
+      "pais": "São Paulo",
+      "id": 5
+    },
+    {
+      "cpf": "316.786.818-06",
+      "rg": "1111111",
+      "nome": "Teste6",
+      "dataNascimento": "1993-08-14T03:00:00.000Z",
+      "estadoCivil": "6",
+      "sexo": "M",
+      "email": "teste6@gmail.com",
+      "situacao": "1",
+      "telFixo": "(11) 2628-6094",
+      "telCel": "(11) 99459-9299",
+      "vinculo": "1",
+      "funcao": "1",
+      "formaPagamento": "1",
+      "coordenadas": "-23.6068026,-46.74581460000002",
+      "latitude": "-23.6068026",
+      "longitude": "-46.74581460000002",
+      "endereco": "Av. Dr. Guilherme Dumont Vilares",
+      "numero": "1136",
+      "complemento": "apt 44",
+      "municipio": "Jardim Londrina",
+      "estado": "São Paulo",
+      "cep": "05640-00_",
+      "pais": "São Paulo",
+      "id": 6
+    }
+  ],
+  "contas": [
+    {
+      "id": 1,
+      "titular": "Sim",
+      "nomeTitular": null,
+      "cpfTitular": null,
+      "banco": 1,
+      "bancoDescricao": "Santander",
+      "tipo": 1,
+      "tipoDescricao": "Corrente",
+      "agencia": 1234,
+      "conta": 12345678912,
+      "digito": 9,
+      "operacao": "",
+      "padrao": 1,
+      "situacao": 1,
+      "situacaoDescricao": "Ativa"
+    },
+    {
+      "id": 1,
+      "titular": "Não",
+      "nomeTitular": "Jose Silva Santos",
+      "cpfTitular": "123.456.789-10",
+      "banco": 4,
+      "bancoDescricao": "Caixa Economica Federal",
+      "tipo": 2,
+      "tipoDescricao": "Poupança",
+      "agencia": 9876,
+      "conta": 54321987654,
+      "digito": 3,
+      "operacao": "",
+      "situacao": 2,
+      "padrao": 0,
+      "situacaoDescricao": "Inativa"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 export interface Colaborador {
+  id: number;
   cpf: string;
   rg: string;
   nome: string;
@@ -13,6 +14,8 @@ export interface Colaborador {
   funcao: number;
   formaPagamento: number;
   coordenadas: string;
+  latitude: string;
+  longitude: string;
   endereco: string;
   numero: number;
   complemento: string;

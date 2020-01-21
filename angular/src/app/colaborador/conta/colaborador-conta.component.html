@@ -1,0 +1,215 @@
+<div *ngIf="carregar">
+  <ngx-spinner
+    [fullScreen]="true"
+    type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading" style="color: white"> Carregando... </p>
+  </ngx-spinner>
+</div>
+
+<!-- <div class="py-3"> -->
+  <!-- <h5>Contas Cadastradas</h5> -->
+<!-- </div> -->
+
+<div class="col-md-12 mb-4 py-3">
+  <div class="table-responsive-sm">
+    <p><strong>Contas Cadastradas</strong></p>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" style="width: 15%">Banco</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Titular</th>
+          <th scope="col">Agência</th>
+          <th scope="col">Conta</th>
+          <th scope="col">Op.</th>
+          <th scope="col">Situação</th>
+          <th scope="col">Padrão</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of colaboradorService.colaboradorContas">
+          <td>{{item.bancoDescricao}}</td>
+          <td>{{item.tipoDescricao}}</td>
+          <td>
+            <label *ngIf="item.titular == 'Sim'">
+              {{item.titular}}
+            </label>
+            <button *ngIf="item.titular == 'Não'" (click)="open(titular)" type="button" class="btn btn-sm btn-info btn-s">
+              <i class="fas fa-user"></i> {{item.titular}}
+            </button>
+          </td>
+          <td>{{item.agencia}}</td>
+          <td>{{item.conta}}-{{item.digito}}</td>
+          <td *ngIf="item.operacao != ''">{{item.operacao}}</td>
+          <td *ngIf="item.operacao == ''">-</td>
+          <td>
+            <button *ngIf="item.situacao == 1" (click)="openModal('modalSituacao', item.situacaoDescricao)" type="button" class="btn btn-sm btn-success btn-s">
+              {{item.situacaoDescricao}}
+            </button>
+            <button *ngIf="item.situacao == 2" (click)="openModal('modalSituacao', item.situacaoDescricao)" type="button" class="btn btn-sm btn-danger btn-s">
+              {{item.situacaoDescricao}}
+            </button>
+          </td>
+          <td>
+            <label *ngIf="item.padrao == 1" class="btn-sm btn-success">
+              <i class="far fa-check-square"></i>
+            </label>
+            <button *ngIf="item.padrao == 0" (click)="openModal('modalPadrao', item.conta)" type="button" class="btn btn-sm btn-danger">
+              <i class="far fa-window-close"></i>
+            </button>
+          </td>
+          <td>
+            <button (click)="openModal('modalExclusao', item.conta)" type="button" class="btn btn-sm btn-danger btn-s">
+                <i class="fa fa-trash-alt"></i> Excluir
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="colaboradorService.colaboradorContas == undefined || colaboradorService.colaboradorContas.length == 0">
+          <td colspan="9" style="text-align: center">Nenhuma conta cadastrada</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="col-md-12 mb-4">
+  <p><strong>Cadastrar Novas Contas</strong></p>
+  <hr class="mb-4">
+
+  <form [formGroup]="uploadFormConta" (ngSubmit)="cadastrarConta()">
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label>Colaborador é o Titular da Conta ?</label>
+        <div>
+          <div class="custom-control custom-radio custom-control-inline">
+            <input formControlName="titular"
+                    (change)="alterarTitular()"
+                    type="radio"
+                    class="custom-control-input"
+                    id="titular1"
+                    name="titular"
+                    value="sim">
+            <label class="custom-control-label" for="titular1">Sim</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline mb-3">
+            <input formControlName="titular"
+                    (change)="alterarTitular()"
+                    type="radio"
+                    class="custom-control-input"
+                    id="titular2"
+                    name="titular"
+                    value="nao">
+            <label class="custom-control-label" for="titular2">Não</label>
+            <div class="invalid-feedback">More example invalid feedback text</div>
+          </div>
+        </div>
+        <div *ngIf="submittedConta && form?.titular?.errors?.required" class="invalid-feedback" style="display:block">
+          Titular é obrigatório.
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Banco</label>
+        <select formControlName="banco" class="combobox form-control" name="banco" id="banco">
+          <option value="" [selected]="true">Selecione</option>
+          <option *ngFor="let item of colaboradorService.bancos"
+                  [value]="item.id">
+            {{item.descricao}}
+          </option>
+        </select>
+        <div *ngIf="submittedConta && form?.banco?.errors?.required" class="invalid-feedback" style="display:block">
+          Banco é obrigatório.
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Tipo</label>
+        <select formControlName="tipo" class="combobox form-control" name="tpconta" id="tpconta">
+          <option value="" [selected]="true">Selecione</option>
+          <option value="1">Corrente</option>
+          <option value="2">Poupança</option>
+        </select>
+        <div *ngIf="submittedConta && form?.tipo?.errors?.required" class="invalid-feedback" style="display:block">
+          Tipo é obrigatório.
+        </div>
+      </div>
+
+      <div *ngIf="form.titular.value == 'nao'" class="col-md-8 mb-3">
+        <label>Nome do Titular da Conta</label>
+        <input formControlName="nomeTitular" class="form-control" name="nometitular" id="nometitular" type="text" maxlength="100"/>
+        <div *ngIf="submittedConta && form?.nomeTitular?.errors?.required" class="invalid-feedback" style="display:block">
+          Nome do Titular é obrigatório.
+        </div>
+      </div>
+      <div *ngIf="form.titular.value == 'nao'" class="col-md-4 mb-3">
+        <label>CPF do Titular da Conta</label>
+        <input formControlName="cpfTitular" pattern="[0-9]*" digitOnly [textMask]="{mask: maskCPF}" class="form-control" name="cpftitular" id="cpftitular" type="text"/>
+        <div *ngIf="submittedConta && form?.cpfTitular?.errors" class="invalid-feedback" style="display:block">
+          CPF inválido.
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label>Agência</label>
+        <input formControlName="agencia" pattern="[0-9]*" type="text" digitOnly name="agencia" id="agencia" class="form-control" maxlength="4"/>
+        <div *ngIf="submittedConta && form?.agencia?.errors?.required" class="invalid-feedback" style="display:block">
+          Agência é obrigatória.
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label>Conta</label>
+        <input formControlName="conta" pattern="[0-9]*" type="text" digitOnly name="conta" id="conta" class="form-control" maxlength="11"/>
+        <div *ngIf="submittedConta && form?.conta?.errors?.required" class="invalid-feedback" style="display:block">
+          Conta é obrigatória.
+        </div>
+      </div>
+
+      <div class="col-md-1 mb-3">
+        <label>Dígito</label>
+        <input formControlName="digito" pattern="[0-9]*" type="text" digitOnly name="contadig" id="contadig" class="form-control" maxlength="1"/>
+        <div *ngIf="submittedConta && form?.digito?.errors?.required" class="invalid-feedback" style="display:block">
+          Dígito é obrigatório.
+        </div>
+      </div>
+
+      <div class="col-md-1 mb-3">
+        <label>Operação</label>
+        <input formControlName="operacao" pattern="[0-9]*" type="text" digitOnly name="operacao" id="operacao" class="form-control" maxlength="4"/>
+      </div>
+
+    </div>
+
+    <hr class="mb-4">
+    <button class="btn btn-primary btn-lg btn-block mb-4" type="submit">Cadastrar</button>
+
+  </form>
+</div>
+
+<ng-template #titular let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Informações do Titular da Conta</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group row">
+      <div class="col-md-12">
+        <label><strong>Conta:</strong></label> 123123123-1
+      </div>
+      <div class="col-md-12">
+        <label><strong>Nome:</strong></label> Rafael Cunha Toscano
+      </div>
+      <div class="col-md-12">
+        <label><strong>CPF:</strong></label> 999.999.999-99
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Fechar</button>
+  </div>
+</ng-template>

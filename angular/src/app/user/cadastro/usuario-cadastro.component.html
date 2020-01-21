@@ -1,0 +1,241 @@
+<div class="container" id="header">
+  <div *ngIf="carregar">
+    <ngx-spinner
+      [fullScreen]="true"
+      type="ball-clip-rotate-multiple"
+      size="medium">
+      <p class="loading" style="color: white"> Carregando... </p>
+    </ngx-spinner>
+  </div>
+
+  <div class="py-4 text-center">
+    <h2>{{titulo}} de Usuário</h2>
+  </div>
+
+  <p *ngIf="message">
+    <ngb-alert [type]="messageType" (close)="close(alert)">{{ message }}</ngb-alert>
+  </p>
+
+  <div class="row">
+    <div class="col-md-12">
+      <ngb-tabset>
+        <ngb-tab id="tab-pessoal" title="Dados Pessoais">
+          <ng-template ngbTabContent>
+            <div class="col-md-12" style="padding-top:1rem">
+              <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                  <div class="col-md-2 mb-3">
+                    <label>CPF</label>
+                    <input formControlName="cpf" pattern="[0-9]*" digitOnly [textMask]="{mask: maskCPF}" class="form-control" name="cpf" id="cpf" type="text"/>
+                    <div *ngIf="submitted && form?.cpf?.errors?.required" class="invalid-feedback" style="display:block">
+                      CPF inválido.
+                    </div>
+                  </div>
+
+                  <div class="col-md-2 mb-3">
+                    <label>RG</label>
+                    <input formControlName="rg" class="form-control" name="rg" id="rg" maxlength="20" type="text"/>
+                    <div *ngIf="submitted && form.rg.errors?.required" class="invalid-feedback" style="display:block">
+                      RG é obrigatório.
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="nome">Nome</label>
+                    <input formControlName="nome" class="form-control" name="nome" id="nome" maxlength="100" type="text" />
+                    <div *ngIf="submitted && form.nome.errors?.required" class="invalid-feedback" style="display:block">
+                      Nome é obrigatório.
+                    </div>
+                  </div>
+
+                  <div class="col-md-2 mb-3">
+                    <label for="lastName">Data de Nascimento</label>
+                    <input formControlName="dataNascimento"
+                            pattern="[0-9]*"
+                            digitOnly
+                            [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD/MM/YYYY', locale:'pt-br', language: 'pt-br',  showWeekNumbers:false}"
+                            bsDatepicker
+                            type="text"
+                            class="form-control"
+                            id="dataNascimento">
+                    <div *ngIf="submitted && form.dataNascimento.errors?.required" class="invalid-feedback" style="display:block">
+                      Data Nascimento é obrigatório.
+                    </div>
+                  </div>
+
+                  <div class="col-md-2 mb-3">
+                    <label>Estado Civil</label>
+                    <select formControlName="estadoCivil" class="combobox form-control" name="estcivil" id="estcivil">
+                      <option [value]="null">Selecione</option>
+                      <option *ngFor="let item of parametros?.estadoCivil"
+                              [value]="item.id">
+                        {{item.descricao}}
+                      </option>
+                    </select>
+                    <div *ngIf="submitted && form.estadoCivil.errors?.required" class="invalid-feedback" style="display:block">
+                      Estado Civil é obrigatório.
+                    </div>
+                  </div>
+
+                  <div class="col-md-2 mb-3">
+                    <label>Sexo</label>
+                    <select formControlName="sexo" class="combobox form-control" name="sexo" id="sexo">
+                      <option [value]="null">Selecione</option>
+                      <option *ngFor="let item of parametros?.sexo"
+                              [value]="item.id">
+                        {{item.descricao}}
+                      </option>
+                    </select>
+                    <div *ngIf="submitted && form.sexo.errors?.required" class="invalid-feedback" style="display:block">
+                      Sexo é obrigatório.
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label>E-mail</label>
+                    <input formControlName="email" type="email" class="form-control" name="email" id="email"  maxlength="100"/>
+                    <div *ngIf="submitted && form.email.errors?.required" class="invalid-feedback" style="display:block">
+                      E-mail é obrigatório.
+                    </div>
+                    <div *ngIf="submitted && form.email.errors?.email" class="invalid-feedback" style="display:block">
+                      E-mail inválido.
+                    </div>
+                  </div>
+
+                  <div class="col-md-2 mb-3">
+                    <label>Situação</label>
+                    <select  formControlName="situacao" class="combobox form-control" name="sitcolab" id="sitcolab">
+                      <option  [value]="null">Selecione</option>
+                      <option *ngFor="let item of parametros?.situacao"
+                              [value]="item.id">
+                        {{item.descricao}}
+                      </option>
+                    </select>
+                    <div *ngIf="submitted && form.situacao.errors?.required" class="invalid-feedback" style="display:block">
+                      Situação é obrigatório.
+                    </div>
+                  </div>
+
+                  <div class="col-md-2 mb-3">
+                    <label>Telefone Fixo</label>
+                    <input formControlName="telFixo" pattern="[0-9]*" digitOnly [textMask]="{mask: maskTel}" type="text" class="form-control" name="telFixo" id="telFixo" />
+                    <div *ngIf="submitted && form.telFixo.errors" class="invalid-feedback" style="display:block">
+                      Telefone Fixo inválido.
+                    </div>
+                  </div>
+
+                  <div class="col-md-2 mb-3">
+                    <label>Telefone Celular</label>
+                    <input formControlName="telCel" pattern="[0-9]*" digitOnly [textMask]="{mask: maskCel}" type="text" class="form-control" name="telCel" id="telCel" maxlength="16"/>
+                    <div *ngIf="submitted && form.telCel.errors" class="invalid-feedback" style="display:block">
+                      Telefone Celular inválido.
+                    </div>
+                  </div>
+
+                  <div class="col-md-3 mb-3">
+                    <label>Função</label>
+                    <select formControlName="tpUser" class="combobox form-control" name="tpUser" id="tpUser">
+                      <option [value]="null">Selecione</option>
+                      <option *ngFor="let item of tpUser?.descricao"
+                              [value]="item.id">
+                        {{item.descricao}}
+                      </option>
+                    </select>
+                    <div *ngIf="submitted && form.tpUser.errors?.required" class="invalid-feedback" style="display:block">
+                      Função é obrigatório.
+                    </div>
+                  </div>
+
+                  <div class="col-md-7 mb-3">
+                    <label>Busca de Logradouro no Google</label>
+                    <!-- <input #addresstext id="autocomplete" class="form-control" placeholder="Digite o Endereço ou CEP" onFocus="geolocate()" type="text" size="100"/> -->
+                    <input ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" class="form-control" placeholder="Digite o Endereço ou CEP" size="100"/>
+                  </div>
+
+                  <div class="col-md-5 mb-3">
+                    <label>Coordenadas</label>
+                    <div class="input-group">
+                      <input formControlName="coordenadas" class="form-control" type="text" name="coordenadas" id="coordenadas"  readonly/>
+                      <div class="input-group-append">
+                        <button (click)="abrirMapa()" class="btn btn-outline-info" type="button" id="button-addon2">Mapa <span class="glyphicon glyphicon-map-marker text-danger"></span></button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-7 mb-3">
+                    <label>Endereço</label>
+                    <input formControlName="endereco" class="form-control" type="text" name="endereco" id="route"  maxlength="100"/>
+                    <div *ngIf="submitted && form.endereco.errors?.required" class="invalid-feedback" style="display:block">
+                      Endereço é obrigatório.
+                    </div>
+                  </div>
+
+                  <div class="col-md-2 mb-3">
+                    <label>Número</label>
+                    <input formControlName="numero" class="form-control" pattern="[0-9]*" digitOnly type="text" name="numero" id="street_number" maxlength="6"/>
+                    <div *ngIf="submitted && form.numero.errors?.required" class="invalid-feedback" style="display:block">
+                      Número é obrigatório.
+                    </div>
+                  </div>
+
+                  <div class="col-md-3 mb-3">
+                    <label>Complemento</label>
+                    <input formControlName="complemento" class="form-control" type="text" name="compl" id="compl"  maxlength="50">
+                  </div>
+
+                  <div class="col-md-4 mb-3">
+                    <label>Município</label>
+                    <input formControlName="municipio" class="form-control" type="text" name="municipio" id="locality"  maxlength="100"/>
+                    <div *ngIf="submitted && form.municipio.errors?.required" class="invalid-feedback" style="display:block">
+                      Município é obrigatório.
+                    </div>
+                  </div>
+
+                  <div class="col-md-3 mb-3">
+                    <label>Estado</label>
+                    <input formControlName="estado" class="form-control" type="text" name="estado" id="administrative_area_level_1"  maxlength="50"/>
+                    <div *ngIf="submitted && form.estado.errors?.required" class="invalid-feedback" style="display:block">
+                      Estado é obrigatório.
+                    </div>
+                  </div>
+
+                  <div class="col-md-2 mb-3">
+                    <label>CEP</label>
+                    <input formControlName="cep" pattern="[0-9]*" digitOnly [textMask]="{mask: maskCEP}" class="form-control" type="text" name="cep" id="postal_code" maxlength="10"/>
+                    <div *ngIf="submitted && form.cep.errors" class="invalid-feedback" style="display:block">
+                      CEP inválido.
+                    </div>
+                  </div>
+
+                  <div class="col-md-3 mb-3">
+                    <label>País</label>
+                    <input formControlName="pais" class="form-control" type="text" name="pais" id="country"  maxlength="50"/>
+                    <div *ngIf="submitted && form.pais.errors?.required" class="invalid-feedback" style="display:block">
+                      País é obrigatório.
+                    </div>
+                  </div>
+
+                  <div class="col-sm-7">
+
+                  </div>
+                </div>
+
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block mb-5" type="submit">{{botao}}</button>
+              </form>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab-fotos" title="Mídias" [disabled]="alterar == false">
+          <ng-template ngbTabContent>
+            <div class="col-md-12" style="padding-top:1rem">
+              <!-- <app-colaborador-fotos></app-colaborador-fotos> -->
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+
+    </div>
+  </div>
+
+</div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import '../../../../assets/scripts/cuidadores.js';
-import '../../../../assets/scripts/datatables.js';
-import '../../../../assets/scripts/dataTables.fixedColumns.js';
+import '../../../assets/scripts/cuidadores.js';
+import '../../../assets/scripts/datatables.js';
+import '../../../assets/scripts/dataTables.fixedColumns.js';
 
 @Component({
   selector: 'app-escala-consulta',

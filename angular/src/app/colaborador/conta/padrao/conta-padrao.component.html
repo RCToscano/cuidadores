@@ -1,0 +1,27 @@
+<div *ngIf="carregar">
+  <ngx-spinner
+    [fullScreen]="true"
+    type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading" style="color: white"> Aguarde... </p>
+  </ngx-spinner>
+</div>
+
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Alterar Conta Padrão</h4>
+  <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>
+    <strong>Deseja realmente alterar a conta padrão para
+      <span class="text-primary">"{{conta}}"</span> ?
+    </strong>
+  </p>
+  <p>Você pode repetir essa operação novamente.</p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancelar</button>
+  <button type="button" class="btn btn-danger" (click)="alterar()">Confirmar</button>
+</div>
