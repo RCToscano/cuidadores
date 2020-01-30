@@ -1,0 +1,210 @@
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>Cadastro de Cliente</h2>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+
+          <div class="col-md-2 mb-3">
+            <label>CPF</label>
+            <input formControlName="cpf" [textMask]="{mask: maskCPF}" class="form-control" name="cpf" id="cpf" value="" type="text"/>
+            <div *ngIf="submitted && form.cpf.errors?.required" class="invalid-feedback" style="display:block">
+              CPF inválido.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label>RG</label>
+            <input formControlName="rg" class="form-control" name="rg" id="rg" value="" maxlength="20" type="text"/>
+            <div *ngIf="submitted && form.rg.errors?.required" class="invalid-feedback" style="display:block">
+              RG é obrigatório.
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="nome">Nome do Cliente</label>
+            <input formControlName="nome" class="form-control" name="nome" id="nome" maxlength="100" type="text" value=""/>
+            <div *ngIf="submitted && form.nome.errors?.required" class="invalid-feedback" style="display:block">
+              Nome é obrigatório.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label for="lastName">Data de Nascimento</label>
+            <input formControlName="dtNasc" type="text" class="form-control" name="dtNasc" id="dtNasc" placeholder="" value="" required>
+            <div *ngIf="submitted && form.dtNasc.errors?.required" class="invalid-feedback" style="display:block">
+              Data Nascimento é obrigatório.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label>Sexo</label>
+            <select  formControlName="sexo" class="combobox form-control" name="idGenero" id="idGenero">
+              <option value="0" [selected]="true">Selecione</option>
+              <option value="M">Masculino</option>
+              <option value="F">Feminino</option>
+            </select>
+            <div *ngIf="submitted && form.idGenero.errors?.required" class="invalid-feedback" style="display:block">
+              Sexo é obrigatório.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label>Estado Civil</label>
+            <select formControlName="idEstadoCivil" class="combobox form-control" name="idEstadoCivil" id="idEstadoCivil">
+              <option value="0" [selected]="true">Selecione</option>
+              <option value="1">Casado</option>
+              <option value="2">Solteiro</option>
+              <option value="3">Separado</option>
+              <option value="4">Divorciado</option>
+              <option value="5">União Estável</option>
+              <option value="6">Viúvo</option>
+            </select>
+            <div *ngIf="submitted && form.idEstadoCivil.errors?.required" class="invalid-feedback" style="display:block">
+              Estado Civil é obrigatório.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label>Peso (kg)</label>
+            <input formControlName="peso" type="text" class="form-control" name="peso" id="peso" placeholder="" value="" required>
+            <div *ngIf="submitted && form.peso.errors?.required" class="invalid-feedback" style="display:block">
+              Peso é obrigatório.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label>Altura (m)</label>
+            <input formControlName="altura" type="text" class="form-control" name="altura" id="altura" placeholder="" value="" required>
+            <div *ngIf="submitted && form.altura.errors?.required" class="invalid-feedback" style="display:block">
+              Altura é obrigatória.
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>Situação</label>
+            <select formControlName="idEstadoCivil" class="custom-select d-block w-100" name="idEstadoCivil" id="idEstadoCivil" required>
+              <option value="">Selecione...</option>
+              <option>Ativo</option>
+              <option>Inativo</option>
+            </select>
+            <div *ngIf="submitted && form.idEstadoCivil.errors?.required" class="invalid-feedback" style="display:block">
+              Estado civil é obrigatório.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label>Tel. Fixo</label>
+            <input formControlName="telFixo" type="text" class="form-control" name="telFixo" id="telFixo" placeholder="" value="" required>
+            <div *ngIf="submitted && form.telFixo.errors?.required" class="invalid-feedback" style="display:block">
+              Tel. fixo é obrigatório.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label for="lastName">Celular</label>
+            <input formControlName="telCel" type="text" class="form-control" name="telCel" id="telCel" placeholder="" value="" required>
+            <div *ngIf="submitted && form.telCel.errors?.required" class="invalid-feedback" style="display:block">
+              Celular é obrigatório.
+            </div>
+          </div>
+
+          <div class="col-md-8 mb-3">
+            <label>Nome do Contato</label>
+            <input formControlName="nomeContato" type="text" class="form-control" name="nomeContato" id="nomeContato" placeholder="" value="" required>
+            <div *ngIf="submitted && form.nomeContato.errors?.required" class="invalid-feedback" style="display:block">
+              Nome do contato é obrigatório.
+            </div>
+          </div>
+
+          <div class="col-md-7 mb-3">
+            <label for="lastName">Busca de Logradouro no Google</label>
+            <input type="text" class="form-control" placeholder="Digite o Endereço ou CEP" aria-label="Recipient's username" aria-describedby="basic-addon2">
+          </div>
+
+          <div class="col-md-5 mb-3">
+            <label>Coordenadas</label>
+            <div class="input-group">
+              <input class="form-control" type="text" name="coordenadas" id="coordenadas" value="" readonly/>
+              <input class="form-control" type="hidden" name="latitude" id="latitude" value=""/>
+              <input class="form-control" type="hidden" name="longitude" id="longitude" value=""/>
+              <div class="input-group-append">
+                <button class="btn btn-outline-info" type="button" id="button-addon2">Mapa <span class="glyphicon glyphicon-map-marker text-danger"></span></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-7 mb-3">
+            <label for="lastName">Endereço</label>
+            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label for="lastName">Número</label>
+            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label for="lastName">Complemento</label>
+            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+
+          <div class="col-md-5 mb-3">
+            <label for="lastName">Município</label>
+            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label for="lastName">Estado</label>
+            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label for="lastName">CEP</label>
+            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label for="lastName">País</label>
+            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <label for="lastName">Observações</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+
+        </div>
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Cadastrar</button>
+      </form>
+    </div>
+  </div>
+</div>

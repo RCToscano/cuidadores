@@ -21,6 +21,9 @@ import { AssistidoCadastroComponent } from './assistido/cadastro/assistido-cadas
 import { AssistidoOcorrenciaComponent } from './assistido/ocorrencia/assistido-ocorrencia.component';
 import { VisitaCadastroComponent } from './assistido/visita/cadastro/visita-cadastro.component';
 
+//Cliente
+import { ClienteCadastroComponent } from './cliente/cadastro/cliente-cadastro.component';
+
 // Colaborador
 import { ColaboradorCadastroComponent } from './colaborador/cadastro/colaborador-cadastro.component';
 import { ColaboradorContaCadastroComponent } from './colaborador/conta/cadastro/conta-cadastro.component';
@@ -40,8 +43,6 @@ import { EscalaConsultaComponent } from './colaborador/escala/consulta/escala-co
 // Empresa
 import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +50,7 @@ import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.co
     LoginComponent,
     MenuComponent,
     AssistidoCadastroComponent,
+    ClienteCadastroComponent,
     FooterComponent,
     HeaderComponent,
     ColaboradorCadastroComponent,
@@ -61,7 +63,8 @@ import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.co
     IncompativeisCadastroComponent,
     EmpresaCadastroComponent,
     VisitaCadastroComponent,
-    EscalaConsultaComponent
+    EscalaConsultaComponent,
+    ClienteCadastroComponent
   ],
   imports: [
     BrowserModule,
