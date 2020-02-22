@@ -22,7 +22,8 @@ export class ColaboradorService {
 
   httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
-    'Cache-Control': 'no-cache'
+    'Cache-Control': 'no-cache',
+    'Authentication': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSJ9.Zr5btXBGTotvJdjk2cEe_8KxXP2yoa96Eh3J4rKzRgzrColBx6ka8kf2iJ6wNJQmzygG9idcT9Db56EmDcyq0Q'
   });
 
   options = {
@@ -30,7 +31,7 @@ export class ColaboradorService {
   };
 
   cadastroParametros(): Observable<CadastroParametros> {
-    return this.http.get<CadastroParametros>(`${SC_API}/parametros`, this.options)
+    return this.http.get<CadastroParametros>(`${SC_API_COLABORADOR}/colaboradores/parametros`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
@@ -45,6 +46,20 @@ export class ColaboradorService {
 
   cadastrarColaborador(colaborador: Colaborador): Observable<any> {
     return this.http.post<any>(`${SC_API}/colaboradores`, colaborador, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  uploadImage(file: FormData): Observable<any> {
+    return this.http.post<any>(`${SC_API_COLABORADOR}/colaborador/upload/image`, file,
+      {
+        headers: new HttpHeaders({
+          'Authentication': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSJ9.Zr5btXBGTotvJdjk2cEe_8KxXP2yoa96Eh3J4rKzRgzrColBx6ka8kf2iJ6wNJQmzygG9idcT9Db56EmDcyq0Q'
+        }),
+        observe: 'response'
+      }
+    )
       .pipe(
         catchError(ErrorHandler.handlerError)
       );

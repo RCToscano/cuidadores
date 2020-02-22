@@ -62,4 +62,4 @@ export class ColaboradorContaExclusaoComponent implements OnInit {
       );
     }
 
-  }
+}

@@ -52,8 +52,8 @@
               <span *ngIf="item.isError"><i class="fa fa-times"></i></span>
             </td>
             <td>
-              <button type="button" class="btn btn-success btn-xs"
-                (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+              <button type="button" class="btn btn-success btn-xs" style="margin-right:10px"
+                (click)="upload(item)" [disabled]="item.isReady || item.isUploading || item.isSuccess">
                 <i class="fa fa-cloud-upload-alt"></i> Carregar
               </button>
               <!-- <button type="button" class="btn btn-warning btn-xs"
@@ -80,17 +80,17 @@
       <div class="col d-flex justify-content-center col-md-12" style="text-align:center">
         <div class="col-md-3 mb-3">
           <button type="button" class="btn btn-success btn-s"
-            (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+            (click)="uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
             <i class="fa fa-cloud-upload-alt"></i> Carregar Todos
           </button>
         </div>
-        <!-- <div class="col-md-2 mb-3">
+        <div class="col-md-3 mb-3">
           <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
             <i class="fa fa-ban"></i> Cancelar Todos
           </button>
-        </div> -->
+        </div>
         <div class="col-md-3 mb-3">
-          <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+          <button type="button" class="btn btn-danger btn-s" (click)="removeAll()" [disabled]="!uploader.queue.length">
             <i class="fa fa-trash-alt"></i> Remover Todos
           </button>
         </div>

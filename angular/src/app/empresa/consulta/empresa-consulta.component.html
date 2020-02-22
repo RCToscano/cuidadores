@@ -10,7 +10,7 @@
   </div>
 
   <div class="py-4 text-center">
-    <h2>Consulta de Usuário</h2>
+    <h2>Consulta de Empresas</h2>
   </div>
 
   <div class="row mb-4">
@@ -19,7 +19,7 @@
         <div class="row">
           <div class="col-sm-11 mb-3">
             <ng-multiselect-dropdown
-              [placeholder]="'Selecione o Usuário'"
+              [placeholder]="'Selecione a Empresa'"
               [data]="dropdownList"
               formControlItem="selectedItems"
               [settings]="dropdownSettings"
@@ -37,26 +37,26 @@
     </div>
   </div>
 
-  <div *ngIf="user" class="col-md-12 mb-3">
+  <div *ngIf="empresa" class="col-md-12 mb-3">
     <div class="table-responsive-sm">
       <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">Nº</th>
             <th scope="col">Nome</th>
-            <th scope="col">E-mail</th>
-            <th scope="col">Situação</th>
+            <th scope="col">CNPJ</th>
+            <th scope="col">Endereço</th>
             <th scope="col">Cadastro</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>1</td>
-            <td>{{user.nome}}</td>
-            <td>{{user.email}}</td>
-            <td>{{user.situacao}}</td>
+            <td>{{empresa.nome}}</td>
+            <td>{{empresa.cnpj}}</td>
+            <td>{{empresa.endereco}}, {{empresa.numero}}</td>
             <td>
-              <button [routerLink]="['/usuario/cadastro', user.id]" class="btn btn-sm btn-primary btn-block" type="submit">Alterar</button>
+              <button [routerLink]="['/empresa/cadastro', empresa.id]" class="btn btn-sm btn-primary btn-block" type="submit">Alterar</button>
             </td>
           </tr>
         </tbody>

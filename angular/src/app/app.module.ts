@@ -20,6 +20,7 @@ import { LoginComponent } from './user/login/login.component';
 import { MenuComponent } from './menu/menu.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { HomeComponent } from './home/home.component';
 
 // Usuario
 import { UserService } from './user/user.service';
@@ -39,8 +40,9 @@ import { EscalaInclusaoComponent } from './escala/inclusao/escala-inclusao.compo
 import { EscalaConsultaComponent } from './escala/consulta/escala-consulta.component';
 
 // Empresa
+import { EmpresaService } from './empresa/empresa.service';
+import { EmpresaConsultaComponent } from './empresa/consulta/empresa-consulta.component';
 import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.component';
-import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -55,6 +57,7 @@ import { HomeComponent } from './home/home.component';
     ProspectCadastroComponent,
     AssistidoOcorrenciaComponent,
     EscalaInclusaoComponent,
+    EmpresaConsultaComponent,
     EmpresaCadastroComponent,
     VisitaCadastroComponent,
     EscalaConsultaComponent,
@@ -81,6 +84,7 @@ import { HomeComponent } from './home/home.component';
   ],
   providers: [
     UserService,
+    EmpresaService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: LOCALE_ID, useValue: 'pt-br'}
   ],

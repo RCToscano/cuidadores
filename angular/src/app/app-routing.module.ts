@@ -17,6 +17,7 @@ import { EscalaInclusaoComponent } from './escala/inclusao/escala-inclusao.compo
 import { EscalaConsultaComponent } from './escala/consulta/escala-consulta.component';
 
 // Empresa
+import { EmpresaConsultaComponent } from './empresa/consulta/empresa-consulta.component';
 import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.component';
 
 // Usuario
@@ -38,10 +39,13 @@ const routes: Routes = [
   // { path: 'colaborador/ocorrencia/cadastro', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },
   // { path: 'colaborador/incompativel/cadastro', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },
   { path: 'prospect/cadastro', component: ProspectCadastroComponent },
+  { path: 'empresa/consulta', component: EmpresaConsultaComponent },
+  { path: 'empresa/cadastro/:id', component: EmpresaCadastroComponent },
   { path: 'empresa/cadastro', component: EmpresaCadastroComponent },
   { path: 'escala/inclusao', component: EscalaInclusaoComponent },
   { path: 'escala/consulta', component: EscalaConsultaComponent },
   { path: 'usuario/consulta', component: UsuarioConsultaComponent },
+  { path: 'usuario/cadastro/:id', component: UsuarioCadastroComponent },
   { path: 'usuario/cadastro', component: UsuarioCadastroComponent }
 ];
 

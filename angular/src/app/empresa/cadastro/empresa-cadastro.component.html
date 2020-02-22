@@ -1,85 +1,120 @@
-<div class="container">
-  <div class="py-5 text-center">
-    <h2>Cadastro de Empresa</h2>
+<div class="container" id="header">
+  <div *ngIf="carregar">
+    <ngx-spinner
+      [fullScreen]="true"
+      type="ball-clip-rotate-multiple"
+      size="medium">
+      <p class="loading" style="color: white"> Carregando... </p>
+    </ngx-spinner>
   </div>
 
-  <div class="row justify-content-center">
-    <div class="col d-flex justify-content-center">
-      <form class="needs-validation" novalidate>
-        <div class="row">
+  <div class="py-4 text-center">
+    <h2>{{titulo}} de Empresa</h2>
+  </div>
 
-          <div class="col-md-7 mb-3">
-            <label for="zip">Nome</label>
-            <input type="text" class="form-control" id="data" placeholder="" required>
-            <div class="invalid-feedback">
-              Nome required.
-            </div>
-          </div>
+  <p *ngIf="message">
+    <ngb-alert [type]="messageType" (close)="close(alert)">{{ message }}</ngb-alert>
+  </p>
 
-          <div class="col-md-5 mb-3">
-            <label for="zip">CNPJ</label>
-            <input type="text" class="form-control" id="zip" placeholder="" required>
-            <div class="invalid-feedback">
-              CNPJ required.
-            </div>
-          </div>
-
-          <div class="col-md-7 mb-3">
-            <label>Busca de Logradouro no Google</label>
-            <input id="autocomplete" class="form-control" placeholder="Digite o Endereço ou CEP" onFocus="geolocate()" type="text" size="100"/>
-          </div>
-
-          <div class="col-md-5 mb-3">
-            <label>Coordenadas</label>
-            <div class="input-group">
-              <input class="form-control" type="text" name="coordenadas" id="coordenadas" value="" readonly/>
-              <input class="form-control" type="hidden" name="latitude" id="latitude" value=""/>
-              <input class="form-control" type="hidden" name="longitude" id="longitude" value=""/>
-              <div class="input-group-append">
-                <button class="btn btn-outline-info" type="button" id="button-addon2">Mapa <span class="glyphicon glyphicon-map-marker text-danger"></span></button>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-12" style="padding-top:1rem">
+        <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-7 mb-3">
+              <label for="nome">Nome</label>
+              <input formControlName="nome" class="form-control" name="nome" id="nome" maxlength="100" type="text" />
+              <div *ngIf="submitted && form.nome.errors?.required" class="invalid-feedback" style="display:block">
+                Nome é obrigatório.
               </div>
             </div>
+
+            <div class="col-md-5 mb-3">
+              <label>CNPJ</label>
+              <input formControlName="cnpj" pattern="[0-9]*" digitOnly [textMask]="{mask: maskCNPJ}" class="form-control" name="cpf" id="cpf" type="text"/>
+              <div *ngIf="submitted && form?.cnpj?.errors?.required" class="invalid-feedback" style="display:block">
+                CNPJ inválido.
+              </div>
+            </div>
+
+            <div class="col-md-7 mb-3">
+              <label>Busca de Logradouro no Google</label>
+              <!-- <input #addresstext id="autocomplete" class="form-control" placeholder="Digite o Endereço ou CEP" onFocus="geolocate()" type="text" size="100"/> -->
+              <input ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" class="form-control" placeholder="Digite o Endereço ou CEP" size="100"/>
+            </div>
+
+            <div class="col-md-5 mb-3">
+              <label>Coordenadas</label>
+              <div class="input-group">
+                <input formControlName="coordenadas" class="form-control" type="text" name="coordenadas" id="coordenadas"  readonly/>
+                <div class="input-group-append">
+                  <button (click)="abrirMapa()" class="btn btn-outline-info" type="button" id="button-addon2">Mapa <span class="glyphicon glyphicon-map-marker text-danger"></span></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-7 mb-3">
+              <label>Endereço</label>
+              <input formControlName="endereco" class="form-control" type="text" name="endereco" id="route"  maxlength="100"/>
+              <div *ngIf="submitted && form.endereco.errors?.required" class="invalid-feedback" style="display:block">
+                Endereço é obrigatório.
+              </div>
+            </div>
+
+            <div class="col-md-2 mb-3">
+              <label>Número</label>
+              <input formControlName="numero" class="form-control" pattern="[0-9]*" digitOnly type="text" name="numero" id="street_number"  maxlength="6"/>
+              <div *ngIf="submitted && form.numero.errors?.required" class="invalid-feedback" style="display:block">
+                Número é obrigatório.
+              </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+              <label>Complemento</label>
+              <input formControlName="complemento" class="form-control" type="text" name="compl" id="compl"  maxlength="50">
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <label>Município</label>
+              <input formControlName="municipio" class="form-control" type="text" name="municipio" id="locality"  maxlength="100"/>
+              <div *ngIf="submitted && form.municipio.errors?.required" class="invalid-feedback" style="display:block">
+                Município é obrigatório.
+              </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+              <label>Estado</label>
+              <input formControlName="estado" class="form-control" type="text" name="estado" id="administrative_area_level_1"  maxlength="50"/>
+              <div *ngIf="submitted && form.estado.errors?.required" class="invalid-feedback" style="display:block">
+                Estado é obrigatório.
+              </div>
+            </div>
+
+            <div class="col-md-2 mb-3">
+              <label>CEP</label>
+              <input formControlName="cep" pattern="[0-9]*" digitOnly [textMask]="{mask: maskCEP}" class="form-control" type="text" name="cep" id="postal_code" maxlength="10"/>
+              <div *ngIf="submitted && form.cep.errors" class="invalid-feedback" style="display:block">
+                CEP inválido.
+              </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+              <label>País</label>
+              <input formControlName="pais" class="form-control" type="text" name="pais" id="country"  maxlength="50"/>
+              <div *ngIf="submitted && form.pais.errors?.required" class="invalid-feedback" style="display:block">
+                País é obrigatório.
+              </div>
+            </div>
+
+            <div class="col-sm-7">
+
+            </div>
           </div>
 
-          <div class="col-md-7 mb-3">
-            <label>Endereço</label>
-            <input class="form-control" type="text" name="endereco" id="route" value="" maxlength="100"/>
-          </div>
-
-          <div class="col-md-2 mb-3">
-            <label>Número</label>
-            <input class="form-control" type="text" name="numero" id="street_number" value="" maxlength="6"/>
-          </div>
-
-          <div class="col-md-3 mb-3">
-            <label>Complemento</label>
-            <input class="form-control" type="text" name="compl" id="compl" value="" placeholder="" maxlength="50">
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <label>Município</label>
-            <input class="form-control" type="text" name="municipio" id="locality" value="" maxlength="100"/>
-          </div>
-
-          <div class="col-md-3 mb-3">
-            <label>Estado</label>
-            <input class="form-control" type="text" name="estado" id="administrative_area_level_1" value="" maxlength="50"/>
-          </div>
-
-          <div class="col-md-2 mb-3">
-            <label>CEP</label>
-            <input class="form-control" type="text" name="cep" id="postal_code" value="" maxlength="9"/>
-          </div>
-
-          <div class="col-md-3 mb-3">
-            <label>País</label>
-            <input class="form-control" type="text" name="pais" id="country" value="" maxlength="50"/>
-          </div>
-
-        </div>
-        <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block mb-5" type="submit">Cadastrar</button>
-      </form>
+          <hr class="mb-4">
+          <button class="btn btn-primary btn-lg btn-block mb-5" type="submit">{{botao}}</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>
