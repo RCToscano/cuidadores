@@ -32,6 +32,9 @@ import { AssistidoCadastroComponent } from './assistido/cadastro/assistido-cadas
 import { AssistidoOcorrenciaComponent } from './assistido/ocorrencia/assistido-ocorrencia.component';
 import { VisitaCadastroComponent } from './assistido/visita/cadastro/visita-cadastro.component';
 
+//Cliente
+import { ClienteCadastroComponent } from './cliente/cadastro/cliente-cadastro.component';
+
 // Prospect
 import { ProspectCadastroComponent } from './prospect/cadastro/prospect-cadastro.component';
 
@@ -52,6 +55,7 @@ import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.co
     LoginComponent,
     MenuComponent,
     AssistidoCadastroComponent,
+    ClienteCadastroComponent,
     FooterComponent,
     HeaderComponent,
     ProspectCadastroComponent,
@@ -63,7 +67,9 @@ import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.co
     EscalaConsultaComponent,
     HomeComponent,
     UsuarioCadastroComponent,
-    UsuarioConsultaComponent
+    UsuarioConsultaComponent,
+    EscalaConsultaComponent,
+    ClienteCadastroComponent
   ],
   imports: [
     HttpClientModule,
