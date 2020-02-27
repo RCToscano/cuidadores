@@ -35,8 +35,6 @@ export class ColaboradorCadastroComponent implements OnInit {
   maskCel = ['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   maskCEP = [/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
 
-
-
   @ViewChild("placesRef")
   placesRef: GooglePlaceDirective;
   link = '';
