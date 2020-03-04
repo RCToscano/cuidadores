@@ -1,12 +1,14 @@
 export interface ColaboradorConta {
-  id: number;
+  idColaborador: number;
+  idConta: number;
   titular: string;
   nomeTitular: string;
   cpfTitular: string;
-  banco: number;
+  idBanco: number;
   bancoDescricao: string;
+  idSituacao: number;
+  situacaoDescricao: string;
   tipo: number;
-  tipoDescricao: string;
   agencia: number;
   conta: number;
   digito: number;

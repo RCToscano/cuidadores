@@ -10,7 +10,16 @@
           <div class="col-md-2 mb-3">
             <label>Data da Entrevista</label>
             <div class="input-group date" id="dpdtentrevista">
-              <input formControlName="dtEntrevista" type="text" class="form-control" name="dtentrevista" id="dtentrevista" value="" maxlength="10"/>
+              <input formControlName="dtEntrevista"
+                      pattern="[0-9]*"
+                      digitOnly
+                      [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD/MM/YYYY', locale:'pt-br', language: 'pt-br',  showWeekNumbers:false}"
+                      bsDatepicker
+                      type="text"
+                      class="form-control"
+                      name="dtentrevista"
+                      id="dtentrevista"
+                      maxlength="10"/>
               <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
               </span>
@@ -185,112 +194,133 @@
           </div>
 
           <div class="col-md-2">
-            <div class="form-check mb-2">
-              <label class="form-check-label" for="check1">
-                <input type="checkbox" class="form-check-input" id="check1" name="option1" value="something">Segunda Dia
-              </label>
-            </div>
-            <div class="form-check mb-2">
-              <label class="form-check-label" for="check2">
-                <input type="checkbox" class="form-check-input" id="check2" name="option2" value="something">Segunda Noite
-              </label>
+            <div class="form-check">
+              <div class="custom-control custom-checkbox">
+                <input formControlName="segundaDia" type="checkbox" class="custom-control-input" id="segundaDia">
+                <label class="custom-control-label" for="segundaDia">Segunda Dia</label>
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input formControlName="segundaNoite" type="checkbox" class="custom-control-input" id="segundaNoite">
+                <label class="custom-control-label" for="segundaNoite">Segunda Noite</label>
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input formControlName="domingoDia" type="checkbox" class="custom-control-input" id="domingoDia">
+                <label class="custom-control-label" for="domingoDia">Domingo Dia</label>
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input formControlName="domingoNoite" type="checkbox" class="custom-control-input" id="domingoNoite">
+                <label class="custom-control-label" for="domingoNoite">Domingo Noite</label>
+              </div>
             </div>
           </div>
+
           <div class="col-md-2">
-            <div class="form-check mb-2">
-              <label class="form-check-label" for="check1">
-                <input type="checkbox" class="form-check-input" id="check1" name="option1" value="something">Terça Dia
-              </label>
-            </div>
-            <div class="form-check mb-2">
-              <label class="form-check-label" for="check2">
-                <input type="checkbox" class="form-check-input" id="check2" name="option2" value="something">Terça Noite
-              </label>
+            <div class="form-check">
+              <div class="custom-control custom-checkbox">
+                <input formControlName="tercaDia" type="checkbox" class="custom-control-input" id="tercaDia">
+                <label class="custom-control-label" for="tercaDia">Terça Dia</label>
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input formControlName="tercaNoite" type="checkbox" class="custom-control-input" id="tercaNoite">
+                <label class="custom-control-label" for="tercaNoite">Terça Noite</label>
+              </div>
             </div>
           </div>
+
           <div class="col-md-2">
-            <div class="form-check mb-2">
-              <label class="form-check-label" for="check1">
-                <input type="checkbox" class="form-check-input" id="check1" name="option1" value="something">Quarta Dia
-              </label>
-            </div>
-            <div class="form-check mb-2">
-              <label class="form-check-label" for="check2">
-                <input type="checkbox" class="form-check-input" id="check2" name="option2" value="something">Quarta Noite
-              </label>
+            <div class="form-check">
+              <div class="custom-control custom-checkbox">
+                <input formControlName="quartaDia" type="checkbox" class="custom-control-input" id="quartaDia">
+                <label class="custom-control-label" for="quartaDia">Quarta Dia</label>
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input formControlName="quartaNoite" type="checkbox" class="custom-control-input" id="quartaNoite">
+                <label class="custom-control-label" for="quartaNoite">Quarta Noite</label>
+              </div>
             </div>
           </div>
+
           <div class="col-md-2">
-            <div class="form-check mb-2">
-              <label class="form-check-label" for="check1">
-                <input type="checkbox" class="form-check-input" id="check1" name="option1" value="something">Quinta Dia
-              </label>
-            </div>
-            <div class="form-check mb-2">
-              <label class="form-check-label" for="check2">
-                <input type="checkbox" class="form-check-input" id="check2" name="option2" value="something">Quinta Noite
-              </label>
+            <div class="form-check">
+              <div class="custom-control custom-checkbox">
+                <input formControlName="quintaDia" type="checkbox" class="custom-control-input" id="quintaDia">
+                <label class="custom-control-label" for="quintaDia">Quinta Dia</label>
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input formControlName="quintaNoite" type="checkbox" class="custom-control-input" id="quintaNoite">
+                <label class="custom-control-label" for="quintaNoite">Quinta Noite</label>
+              </div>
             </div>
           </div>
+
           <div class="col-md-2">
-            <div class="form-check mb-2">
-              <label class="form-check-label" for="check1">
-                <input type="checkbox" class="form-check-input" id="check1" name="option1" value="something">Sexta Dia
-              </label>
-            </div>
-            <div class="form-check mb-2">
-              <label class="form-check-label" for="check2">
-                <input type="checkbox" class="form-check-input" id="check2" name="option2" value="something">Sexta Noite
-              </label>
+            <div class="form-check">
+              <div class="custom-control custom-checkbox">
+                <input formControlName="sextaDia" type="checkbox" class="custom-control-input" id="sextaDia">
+                <label class="custom-control-label" for="sextaDia">Sexta Dia</label>
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input formControlName="sextaNoite" type="checkbox" class="custom-control-input" id="sextaNoite">
+                <label class="custom-control-label" for="sextaNoite">Sexta Noite</label>
+              </div>
             </div>
           </div>
+
           <div class="col-md-2">
-            <div class="form-check mb-2">
-              <label class="form-check-label" for="check1">
-                <input type="checkbox" class="form-check-input" id="check1" name="option1" value="something">Sábado Dia
-              </label>
-            </div>
-            <div class="form-check mb-2">
-              <label class="form-check-label" for="check2">
-                <input type="checkbox" class="form-check-input" id="check2" name="option2" value="something">Sábado Noite
-              </label>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="form-check mb-2">
-              <label class="form-check-label" for="check1">
-                <input type="checkbox" class="form-check-input" id="check1" name="option1" value="something">Domingo Dia
-              </label>
-            </div>
-            <div class="form-check mb-3">
-              <label class="form-check-label" for="check2">
-                <input type="checkbox" class="form-check-input" id="check2" name="option2" value="something">Domingo Noite
-              </label>
+            <div class="form-check">
+              <div class="custom-control custom-checkbox">
+                <input formControlName="sabadoDia" type="checkbox" class="custom-control-input" id="sabadoDia">
+                <label class="custom-control-label" for="sabadoDia">Sábado Dia</label>
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input formControlName="sabadoNoite" type="checkbox" class="custom-control-input" id="sabadoNoite">
+                <label class="custom-control-label" for="sabadoNoite">Sábado Noite</label>
+              </div>
             </div>
           </div>
+
+          <div class="col-md-12 mb-3"></div>
 
           <div class="col-md-12 mb-3">
             <h6>Experiência Anterior</h6>
-            <div class="form-check form-check-inline">
-              <label class="form-check-label" for="check2">
-                <input type="radio" class="form-check-input" id="check2" name="option2" value="something">Sim
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <label class="form-check-label" for="check2">
-                <input type="radio" class="form-check-input" id="check2" name="option2" value="something">Não
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <label class="form-check-label" for="check2">
-                <input type="radio" class="form-check-input" id="check2" name="option2" value="something" checked>Não Informado
-              </label>
+            <div class="form-check">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input formControlName="experiencia"
+                        type="radio"
+                        class="custom-control-input"
+                        id="experiencia1"
+                        name="experiencia"
+                        value="sim">
+                <label class="custom-control-label" for="experiencia1">Sim</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline mb-3">
+                <input formControlName="experiencia"
+                        type="radio"
+                        class="custom-control-input"
+                        id="experiencia2"
+                        name="experiencia"
+                        value="nao">
+                <label class="custom-control-label" for="experiencia2">Não</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline mb-3">
+                <input formControlName="experiencia"
+                        checked
+                        type="radio"
+                        class="custom-control-input"
+                        id="experiencia3"
+                        name="experiencia"
+                        value="naoInfo">
+                <label class="custom-control-label" for="experiencia3">Não Informado</label>
+                <div class="invalid-feedback">More example invalid feedback text</div>
+              </div>
             </div>
           </div>
 
           <div class="col-md-12 mb-3">
-            <label for="comment">Observações</label>
-            <textarea class="form-control" rows="5"  name="obs" id="obs" maxlength="500"></textarea>
+            <h6>Observações</h6>
+            <div class="form-check">
+              <textarea class="form-control" rows="5"  name="obs" id="obs" maxlength="500"></textarea>
+            </div>
           </div>
 
         </div>

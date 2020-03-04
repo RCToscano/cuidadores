@@ -14,16 +14,16 @@
   </button>
 </div>
 <div class="modal-body">
-  <p *ngIf="situacao == 'Ativa'">
+  <p *ngIf="colaborador.situacaoDescricao == 'Ativa'">
     <strong>Deseja realmente alterar a situação
-      <span class="text-primary">"{{situacao}}"</span>
+      <span class="text-primary">"{{colaborador.situacaoDescricao}}"</span>
       para
       <span class="text-primary">"Inativa"</span> ?
     </strong>
   </p>
-  <p *ngIf="situacao == 'Inativa'">
+  <p *ngIf="colaborador.situacaoDescricao == 'Inativa'">
     <strong>Deseja realmente alterar a situação
-      <span class="text-primary">"{{situacao}}"</span>
+      <span class="text-primary">"{{colaborador.situacaoDescricao}}"</span>
       para
       <span class="text-primary">"Ativa"</span> ?
     </strong>

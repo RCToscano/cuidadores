@@ -25,8 +25,7 @@
               [settings]="dropdownSettings"
               (onSelect)="onItemSelect($event)"
               (onDeSelect)="onDeSelect($event)"
-              (onSelectAll)="onSelectAll($event)"
-            >
+              (onSelectAll)="onSelectAll($event)">
             </ng-multiselect-dropdown>
           </div>
           <div class="col-sm-1 mb-3">
@@ -37,7 +36,7 @@
     </div>
   </div>
 
-  <div *ngIf="colaborador" class="col-md-12 mb-3">
+  <div *ngIf="colaboradores?.length > 0" class="col-md-12 mb-3">
     <div class="table-responsive-sm">
       <table class="table table-striped">
         <thead>
@@ -54,13 +53,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr *ngFor="let item of colaboradores">
             <td>1</td>
-            <td>{{colaborador.nome}}</td>
-            <td>{{colaborador.situacao}}</td>
+            <td>{{item.nome}}</td>
+            <td>{{item.situacaoDesc}}</td>
             <td>foto</td>
             <td>rota</td>
-            <td>{{colaborador.dataNascimento}}</td>
+            <td>{{item.dataNascimento}}</td>
             <td>
               <button class="btn btn-sm btn-primary btn-block" type="submit">Alterar</button>
             </td>
@@ -68,7 +67,7 @@
               <button class="btn btn-sm btn-primary btn-block" type="submit">Alterar</button>
             </td>
             <td>
-              <button [routerLink]="['/colaborador/cadastro', colaborador.id]" class="btn btn-sm btn-primary btn-block" type="submit">Alterar</button>
+              <button [routerLink]="['/colaborador/cadastro', item.id]" class="btn btn-sm btn-primary btn-block" type="submit">Alterar</button>
             </td>
           </tr>
         </tbody>

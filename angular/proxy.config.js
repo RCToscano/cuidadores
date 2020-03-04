@@ -8,7 +8,11 @@ const proxy = [
       target: 'http://localhost:3000'
     },
     {
-      context: '/sicds-colaborador-api/web',
+      context: '/sicds-colaborador-api/',
+      target: 'http://localhost:8081'
+    },
+    {
+      context: '/sicds-generic-api',
       target: 'http://localhost:8081'
     }
   ];

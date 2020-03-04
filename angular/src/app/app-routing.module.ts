@@ -33,7 +33,7 @@ const routes: Routes = [
   { path: 'assistido/visita/cadastro', component: VisitaCadastroComponent },
   { path: 'colaborador', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },
   // { path: 'colaborador/cadastro/:id', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },
-  // { path: 'colaborador/cadastro', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },
+  { path: 'colaborador/cadastro', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },
   // { path: 'colaborador/conta/cadastro', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },
   // { path: 'colaborador/entrevista/cadastro', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },
   // { path: 'colaborador/ocorrencia/cadastro', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },

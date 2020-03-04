@@ -26,8 +26,11 @@
                 <div class="row">
                   <div class="col-md-2 mb-3">
                     <label>CPF</label>
-                    <input formControlName="cpf" pattern="[0-9]*" digitOnly [textMask]="{mask: maskCPF}" class="form-control" name="cpf" id="cpf" type="text"/>
+                    <input formControlName="cpf" pattern="[0-9]{3}[.]{1}[0-9]{3}[.]{1}[0-9]{3}[-]{1}[0-9]{2}" digitOnly [textMask]="{mask: maskCPF}" class="form-control" name="cpf" id="cpf" type="text"/>
                     <div *ngIf="submitted && form?.cpf?.errors?.required" class="invalid-feedback" style="display:block">
+                      CPF é obrigatório.
+                    </div>
+                    <div *ngIf="submitted && !form?.cpf?.errors?.required && form?.cpf?.errors" class="invalid-feedback" style="display:block">
                       CPF inválido.
                     </div>
                   </div>
@@ -51,7 +54,7 @@
                   <div class="col-md-2 mb-3">
                     <label for="lastName">Data de Nascimento</label>
                     <input formControlName="dataNascimento"
-                            pattern="[0-9]*"
+                            pattern="[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}"
                             digitOnly
                             [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD/MM/YYYY', locale:'pt-br', language: 'pt-br',  showWeekNumbers:false}"
                             bsDatepicker
@@ -59,7 +62,10 @@
                             class="form-control"
                             id="dataNascimento">
                     <div *ngIf="submitted && form.dataNascimento.errors?.required" class="invalid-feedback" style="display:block">
-                      Data Nascimento é obrigatório.
+                      Data de Nascimento é obrigatória.
+                    </div>
+                    <div *ngIf="!form.dataNascimento.errors?.required && submitted && form.dataNascimento.errors" class="invalid-feedback" style="display:block">
+                      Data de Nascimento inválida.
                     </div>
                   </div>
 
@@ -68,8 +74,8 @@
                     <select formControlName="estadoCivil" class="combobox form-control" name="estcivil" id="estcivil">
                       <option [value]="null">Selecione</option>
                       <option *ngFor="let item of parametros?.estadoCivil"
-                              [value]="item.id">
-                        {{item.descricao}}
+                              [value]="item.idEstadoCivil">
+                        {{item.estadoCivil}}
                       </option>
                     </select>
                     <div *ngIf="submitted && form.estadoCivil.errors?.required" class="invalid-feedback" style="display:block">
@@ -82,8 +88,8 @@
                     <select formControlName="sexo" class="combobox form-control" name="sexo" id="sexo">
                       <option [value]="null">Selecione</option>
                       <option *ngFor="let item of parametros?.sexo"
-                              [value]="item.id">
-                        {{item.descricao}}
+                              [value]="item.idGenero">
+                        {{item.genero}}
                       </option>
                     </select>
                     <div *ngIf="submitted && form.sexo.errors?.required" class="invalid-feedback" style="display:block">
@@ -107,8 +113,8 @@
                     <select  formControlName="situacao" class="combobox form-control" name="sitcolab" id="sitcolab">
                       <option  [value]="null">Selecione</option>
                       <option *ngFor="let item of parametros?.situacao"
-                              [value]="item.id">
-                        {{item.descricao}}
+                              [value]="item.idColaboradorSituacao">
+                        {{item.colaboradorSituacao}}
                       </option>
                     </select>
                     <div *ngIf="submitted && form.situacao.errors?.required" class="invalid-feedback" style="display:block">
@@ -118,7 +124,7 @@
 
                   <div class="col-md-2 mb-3">
                     <label>Telefone Fixo</label>
-                    <input formControlName="telFixo" pattern="[0-9]*" digitOnly [textMask]="{mask: maskTel}" type="text" class="form-control" name="telFixo" id="telFixo" />
+                    <input formControlName="telFixo" pattern="[(][0-9]{2}[)][\s]{1}[0-9]{4}[-]{1}[0-9]{4}" digitOnly [textMask]="{mask: maskTel}" type="text" class="form-control" name="telFixo" id="telFixo" />
                     <div *ngIf="submitted && form.telFixo.errors" class="invalid-feedback" style="display:block">
                       Telefone Fixo inválido.
                     </div>
@@ -126,7 +132,7 @@
 
                   <div class="col-md-2 mb-3">
                     <label>Telefone Celular</label>
-                    <input formControlName="telCel" pattern="[0-9]*" digitOnly [textMask]="{mask: maskCel}" type="text" class="form-control" name="telCel" id="telCel" maxlength="16"/>
+                    <input formControlName="telCel" pattern="[(][0-9]{2}[)][\s]{1}[0-9]{5}[-]{1}[0-9]{4}" digitOnly [textMask]="{mask: maskCel}" type="text" class="form-control" name="telCel" id="telCel" maxlength="16"/>
                     <div *ngIf="submitted && form.telCel.errors" class="invalid-feedback" style="display:block">
                       Telefone Celular inválido.
                     </div>
@@ -137,8 +143,8 @@
                     <select formControlName="vinculo" class="combobox form-control" name="tpvinculo" id="tpvinculo">
                       <option [value]="null">Selecione</option>
                       <option *ngFor="let item of parametros?.vinculo"
-                              [value]="item.id">
-                        {{item.descricao}}
+                              [value]="item.idColaboradorVinculo">
+                        {{item.colaboradorVinculo}}
                       </option>
                     </select>
                     <div *ngIf="submitted && form.vinculo.errors?.required" class="invalid-feedback" style="display:block">
@@ -151,8 +157,8 @@
                     <select formControlName="funcao" class="combobox form-control" name="funcao" id="funcao">
                       <option [value]="null">Selecione</option>
                       <option *ngFor="let item of parametros?.funcao"
-                              [value]="item.id">
-                        {{item.descricao}}
+                              [value]="item.idColaboradorFuncao">
+                        {{item.colaboradorFuncao}}
                       </option>
                     </select>
                     <div *ngIf="submitted && form.funcao.errors?.required" class="invalid-feedback" style="display:block">
@@ -165,8 +171,8 @@
                     <select formControlName="formaPagamento" class="combobox form-control" name="formaPagamento" id="formaPagamento">
                       <option [value]="null">Selecione</option>
                       <option *ngFor="let item of parametros?.formaPagamento"
-                              [value]="item.id">
-                        {{item.descricao}}
+                              [value]="item.idColaboradorFormaPagto">
+                        {{item.colaboradorFormaPagto}}
                       </option>
                     </select>
                     <div *ngIf="submitted && form.formaPagamento.errors?.required" class="invalid-feedback" style="display:block">
@@ -231,7 +237,7 @@
 
                   <div class="col-md-2 mb-3">
                     <label>CEP</label>
-                    <input formControlName="cep" pattern="[0-9]*" digitOnly [textMask]="{mask: maskCEP}" class="form-control" type="text" name="cep" id="postal_code" maxlength="10"/>
+                    <input formControlName="cep" pattern="[0-9]{5}[-]{1}[0-9]{3}" digitOnly [textMask]="{mask: maskCEP}" class="form-control" type="text" name="cep" id="postal_code" maxlength="10"/>
                     <div *ngIf="submitted && form.cep.errors" class="invalid-feedback" style="display:block">
                       CEP inválido.
                     </div>

@@ -1,13 +1,3 @@
-import { Injectable } from '@angular/core';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class ClienteServiceService {
-
-  constructor() { }
-}
-
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';

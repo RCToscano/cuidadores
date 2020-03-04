@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColaboradorService } from '../../colaborador.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ActivatedRoute } from '@angular/router';
+import { ColaboradorConta } from '../../models/colaborador-conta.model';
 
 @Component({
   selector: 'app-colaborador-conta-situacao',
@@ -10,17 +12,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class ColaboradorContaSituacaoComponent implements OnInit {
 
   @Input()
-  situacao: string;
-  @Input()
-  colabadorId: number;
-  @Input()
-  contaId: number;
-
+  colaborador: ColaboradorConta;
   carregar = false;
 
   constructor(private colaboradorService: ColaboradorService,
               private spinner: NgxSpinnerService,
-              public modal: NgbActiveModal) { }
+              public modal: NgbActiveModal,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
   }
@@ -50,7 +48,7 @@ export class ColaboradorContaSituacaoComponent implements OnInit {
   }
 
   carregarContas() {
-    this.colaboradorService.colaboradoresContas()
+    this.colaboradorService.colaboradoresContas(this.activatedRoute.snapshot.params['id'])
       .subscribe(
         res => {
           console.log(res);

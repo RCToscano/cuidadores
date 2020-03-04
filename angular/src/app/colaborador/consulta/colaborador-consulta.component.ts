@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ColaboradorService } from '../colaborador.service';
 import { Colaborador } from '../models/colaborador.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-colaborador-consulta',
@@ -11,17 +12,15 @@ export class ColaboradorConsultaComponent implements OnInit {
 
   colaborador: Colaborador;
   colaboradores: Colaborador[];
-  dropdownList = [];
-  selectedItems = [];
+  dropdownList: Array<Colaborador> = [];
+  selectedItems: Array<Colaborador> = [];
   dropdownSettings = {};
   carregar = false;
 
   constructor(private colaboradorService: ColaboradorService,
-              private spinner: NgxSpinnerService) {
-    // this.selectedItems = [
-    //   { item_id: 3, item_text: 'Pune' },
-    //   { item_id: 4, item_text: 'Navsari' }
-    // ];
+              private spinner: NgxSpinnerService,
+              private router: Router) {
+
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -39,18 +38,11 @@ export class ColaboradorConsultaComponent implements OnInit {
     this.carregar = true;
     this.spinner.show();
 
-    this.colaboradorService.colaboradores()
+    this.colaboradorService.buscarColaboradores()
       .subscribe(
         res => {
           console.log(res);
-          this.colaboradores = res;
-
-          const temp = [];
-          for (let variable of this.colaboradores) {
-              const obj = {"id":variable.id,"nome":variable.nome}
-              temp.push(obj);
-          }
-          this.dropdownList = temp;
+          this.dropdownList = res;
           this.carregar = false;
           this.spinner.hide();
         },
@@ -66,20 +58,21 @@ export class ColaboradorConsultaComponent implements OnInit {
     this.carregar = true;
     this.spinner.show();
 
-    this.colaboradorService.consultaColaborador(1)
-      .subscribe(
-        res => {
-          this.colaborador = res;
-
-          this.carregar = false;
-          this.spinner.hide();
-        },
-        error => {
-          console.log(error);
-          this.carregar = false;
-          this.spinner.hide();
-        }
-      );
+    if(this.selectedItems.length == 1) {
+      this.spinner.hide();
+      this.carregar = false;
+      this.router.navigate(['/colaborador/cadastro', this.selectedItems[0].id]);
+    }
+    else if(this.selectedItems.length > 1) {
+        this.colaboradores = this.selectedItems;
+        this.spinner.hide();
+        this.carregar = false;
+    }
+    else {
+      this.spinner.hide();
+      this.carregar = false;
+      this.colaboradores = this.dropdownList;
+    }
   }
 
   onItemSelect(item: any) {

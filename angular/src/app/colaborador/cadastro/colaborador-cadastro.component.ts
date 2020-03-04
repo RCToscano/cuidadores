@@ -68,9 +68,6 @@ export class ColaboradorCadastroComponent implements OnInit {
 
   ngOnInit() {
     window.scroll(0,0);
-    // $(document).on('click',function(){
-    // 	$('.collapse').collapse('hide');
-    // });
 
     this.carregar = true;
     this.spinner.show();
@@ -137,7 +134,7 @@ export class ColaboradorCadastroComponent implements OnInit {
       vinculo: [this.colaborador.vinculo, [Validators.required]],
       funcao: [this.colaborador.funcao, [Validators.required]],
       formaPagamento: [this.colaborador.formaPagamento, [Validators.required]],
-      coordenadas: [this.colaborador.coordenadas, [Validators.required]],
+      coordenadas: [this.colaborador.coordenadas],
       latitude: [''],
       longitude: [''],
       endereco: [this.colaborador.endereco, [Validators.required, Validators.maxLength(100)]],
@@ -158,6 +155,7 @@ export class ColaboradorCadastroComponent implements OnInit {
         this.checkField(controls[name].value, name);
         if (controls[name].invalid) {
             console.log('invalido: ' + name);
+            console.log(controls[name].errors);
         }
     }
 
@@ -171,27 +169,50 @@ export class ColaboradorCadastroComponent implements OnInit {
       this.spinner.show();
 
       this.colaborador = this.uploadForm.value;
-      this.colaborador.id = 6;
-      this.colaboradorService.cadastrarColaborador(this.colaborador)
-        .subscribe(
-          res => {
-            console.log(res);
-            this.uploadForm.reset();
-            this.messageType = 'success';
-            this.message = 'Cadastro realizado com sucesso';
-            this.scrollService.scrollTo('#header');
-            this.carregar = false;
-            this.spinner.hide();
-          },
-          error => {
-            console.log(error);
-            this.messageType = 'danger';
-            this.message = 'erro';
-            this.scrollService.scrollTo('#header', 350, -100);
-            this.carregar = false;
-            this.spinner.hide();
-          }
-      );
+
+      if(this.alterar) {
+        this.colaboradorService.alterarColaborador(this.colaborador)
+          .subscribe(
+            res => {
+              console.log(res);
+              this.messageType = 'success';
+              this.message = 'Alteração realizada com sucesso';
+              this.scrollService.scrollTo('#header');
+              this.carregar = false;
+              this.spinner.hide();
+            },
+            error => {
+              console.log(error);
+              this.messageType = 'danger';
+              this.message = error;
+              this.scrollService.scrollTo('#header', 350, -100);
+              this.carregar = false;
+              this.spinner.hide();
+            }
+        );
+      }
+      else {
+        this.colaboradorService.cadastrarColaborador(this.colaborador)
+          .subscribe(
+            res => {
+              console.log(res);
+              this.uploadForm.reset();
+              this.messageType = 'success';
+              this.message = 'Cadastro realizado com sucesso';
+              this.scrollService.scrollTo('#header');
+              this.carregar = false;
+              this.spinner.hide();
+            },
+            error => {
+              console.log(error);
+              this.messageType = 'danger';
+              this.message = error;
+              this.scrollService.scrollTo('#header', 350, -100);
+              this.carregar = false;
+              this.spinner.hide();
+            }
+        );
+      }
     }
   }
 

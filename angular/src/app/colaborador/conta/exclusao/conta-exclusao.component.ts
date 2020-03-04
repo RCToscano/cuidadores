@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ColaboradorService } from '../../colaborador.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute } from '@angular/router';
+import { ColaboradorConta } from '../../models/colaborador-conta.model';
 
 @Component({
   selector: 'app-colaborador-conta-exclusao',
@@ -10,16 +12,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class ColaboradorContaExclusaoComponent implements OnInit {
 
   @Input()
-  colaboradorId: number;
-
-  @Input()
-  conta: number;
-
+  colaborador: ColaboradorConta;
   carregar = false;
 
   constructor(public colaboradorService: ColaboradorService,
               private spinner: NgxSpinnerService,
-              public modal: NgbActiveModal) { }
+              public modal: NgbActiveModal,
+              private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
     }
@@ -50,7 +49,7 @@ export class ColaboradorContaExclusaoComponent implements OnInit {
     }
 
     carregarContas() {
-      this.colaboradorService.colaboradoresContas()
+      this.colaboradorService.colaboradoresContas(this.activatedRoute.snapshot.params['id'])
       .subscribe(
         res => {
           console.log(res);
