@@ -2,11 +2,11 @@ export interface Cliente {
   idCliente: number;
   idGenero: number;
   idEstadoCivil: number;
-  idClienteSituacao;
+  idClienteSituacao: number;
   cpf: string;
   rg: string;
   nome: string;
-  dtNasc: string;
+  dataNascimento: string;
   peso: number;
   altura: number;
   telFixo: string;
@@ -14,12 +14,14 @@ export interface Cliente {
   nomeContato: string;
   endereco: string;
   numero: number;
-  compl: string;
+  complemento: string;
   municipio: string;
+  estado: string;
   uf: string;
   cep: string;
   pais: string;
-  coordX: string;
-  coordY: string;
+  coordenadas: string;
+  latitude: string;
+  longitude: string;
   dtInsert: string;
 }

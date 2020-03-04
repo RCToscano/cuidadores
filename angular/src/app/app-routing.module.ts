@@ -9,6 +9,9 @@ import { AssistidoCadastroComponent } from './assistido/cadastro/assistido-cadas
 import { AssistidoOcorrenciaComponent } from './assistido/ocorrencia/assistido-ocorrencia.component';
 import { VisitaCadastroComponent } from './assistido/visita/cadastro/visita-cadastro.component';
 
+//Cliente
+import { ClienteCadastroComponent } from './cliente/cadastro/cliente-cadastro.component';
+
 // Prospect
 import { ProspectCadastroComponent } from './prospect/cadastro/prospect-cadastro.component';
 
@@ -32,6 +35,7 @@ const routes: Routes = [
   { path: 'assistido/ocorrencia/cadastro', component: AssistidoOcorrenciaComponent },
   { path: 'assistido/visita/cadastro', component: VisitaCadastroComponent },
   { path: 'colaborador', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },
+  { path: 'cliente/cadastro', component: ClienteCadastroComponent },
   // { path: 'colaborador/cadastro/:id', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },
   { path: 'colaborador/cadastro', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },
   // { path: 'colaborador/conta/cadastro', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },

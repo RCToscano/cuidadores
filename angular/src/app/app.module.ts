@@ -33,6 +33,7 @@ import { AssistidoOcorrenciaComponent } from './assistido/ocorrencia/assistido-o
 import { VisitaCadastroComponent } from './assistido/visita/cadastro/visita-cadastro.component';
 
 //Cliente
+import { ClienteService } from './cliente/cliente.service';
 import { ClienteCadastroComponent } from './cliente/cadastro/cliente-cadastro.component';
 
 // Prospect
@@ -91,6 +92,7 @@ import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.co
   providers: [
     UserService,
     EmpresaService,
+    ClienteService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: LOCALE_ID, useValue: 'pt-br'}
   ],
