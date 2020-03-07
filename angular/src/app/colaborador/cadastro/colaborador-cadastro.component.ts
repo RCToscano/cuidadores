@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Colaborador } from '../models/colaborador.model';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { defineLocale } from 'ngx-bootstrap/chronos';
+import { defineLocale, formatDate } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 import '../../../assets/scripts/endereco.js';
 import { ColaboradorService } from '../colaborador.service';
@@ -11,8 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CadastroParametros } from '../models/cadastro-parametros-model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ScrollToService } from 'ng2-scroll-to-el';
-
-defineLocale('pt-br', ptBrLocale);
+import { BsDatepickerConfig } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-colaborador-cadastro',
@@ -54,6 +53,7 @@ export class ColaboradorCadastroComponent implements OnInit {
     //   this.router.navigate(['']);
     // }
     // else {
+      defineLocale('pt-br', ptBrLocale);
 
       if(this.activatedRoute.snapshot.params['id'] != undefined) {
         this.titulo = 'Alteração';
@@ -61,6 +61,7 @@ export class ColaboradorCadastroComponent implements OnInit {
         this.alterar = true;
       }
       this.colaboradorService.colaboradorContas = undefined;
+
     // }
   }
 
@@ -119,6 +120,7 @@ export class ColaboradorCadastroComponent implements OnInit {
 
   criarForm() {
     this.uploadForm = this.formBuilder.group({
+      id: [this.colaborador.id],
       cpf: [this.colaborador.cpf, [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
       rg: [this.colaborador.rg, [Validators.required, Validators.maxLength(15)]],
       nome: [this.colaborador.nome, [Validators.required, Validators.maxLength(100)]],
@@ -167,12 +169,11 @@ export class ColaboradorCadastroComponent implements OnInit {
       this.spinner.show();
 
       this.colaborador = this.uploadForm.value;
-
+      this.colaborador.dataNascimento = formatDate(controls.dataNascimento.value, 'DD/MM/YYYY').trim();
       if(this.alterar) {
         this.colaboradorService.alterarColaborador(this.colaborador)
           .subscribe(
             res => {
-              console.log(res);
               this.messageType = 'success';
               this.message = 'Alteração realizada com sucesso';
               this.scrollService.scrollTo('#header');
@@ -281,6 +282,11 @@ export class ColaboradorCadastroComponent implements OnInit {
     if(this.link != '') {
       window.open(this.link, "_blank");
     }
+  }
+
+  onValueChange(value: Date): void {
+    console.log('aqui');
+    this.uploadForm.controls.dataNascimento.setValue(formatDate(value, 'YYYY-MM-DD').trim());
   }
 
 }

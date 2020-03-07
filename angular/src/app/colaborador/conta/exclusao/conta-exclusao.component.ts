@@ -14,6 +14,8 @@ export class ColaboradorContaExclusaoComponent implements OnInit {
   @Input()
   colaborador: ColaboradorConta;
   carregar = false;
+  message: string;
+  messageType: string;
 
   constructor(public colaboradorService: ColaboradorService,
               private spinner: NgxSpinnerService,
@@ -27,25 +29,25 @@ export class ColaboradorContaExclusaoComponent implements OnInit {
       this.carregar = true;
       this.spinner.show();
       setTimeout(() => {
-
-        // this.colaboradorService.colaboradoresContas()
-        //   .subscribe(
-        //     res => {
-        //       console.log(res);
-        //       this.colaboradorService.colaboradorContas = res;
-        this.carregarContas();
-        this.modal.close();
-        //       this.carregar = false;
-        //       this.spinner.hide();
-        //     },
-        //     error => {
-        //       console.log(error);
-        this.modal.close();
-        this.carregar = false;
-        this.spinner.hide();
-        //     }
-        // );
-      }, 3000);
+        console.log(this.colaborador);
+        this.colaboradorService.deletarConta(this.colaborador.idConta, this.colaborador.idColaborador)
+          .subscribe(
+            res => {
+              console.log(res);
+              this.colaboradorService.setColaboradorConta(res);
+              this.modal.close();
+              this.carregar = false;
+              this.spinner.hide();
+            },
+            error => {
+              console.log(error);
+              this.messageType = 'danger';
+              this.message = error;
+              this.carregar = false;
+              this.spinner.hide();
+            }
+        );
+      }, 0);
     }
 
     carregarContas() {

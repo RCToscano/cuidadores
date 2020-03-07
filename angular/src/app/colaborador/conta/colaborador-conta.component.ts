@@ -46,7 +46,7 @@ export class ColaboradorContaCadastroComponent implements OnInit {
 
   ngOnInit() {
     this.carregarBancos();
-    this.carregarDadosConta();
+    this.carregarDadosConta(false);
   }
 
   criarForm() {
@@ -77,15 +77,15 @@ export class ColaboradorContaCadastroComponent implements OnInit {
     }
   }
 
-  carregarDadosConta() {
-    if(this.colaboradorService.colaboradorContas == undefined) {
+  carregarDadosConta(carregar: boolean) {
+    if(this.colaboradorService.colaboradorContas == undefined || carregar) {
       this.carregar = true;
       this.spinner.show();
       setTimeout(() => {
         this.colaboradorService.colaboradoresContas(this.activatedRoute.snapshot.params['id'])
           .subscribe(
             res => {
-              this.colaboradorContas = res;
+              this.colaboradorService.setColaboradorConta(res);
               this.carregar = false;
               this.spinner.hide();
             },
@@ -133,7 +133,7 @@ export class ColaboradorContaCadastroComponent implements OnInit {
 
       let colaboradorConta = {} as ColaboradorConta;
       colaboradorConta = this.uploadFormConta.value;
-      colaboradorConta.idColaborador = this.colaboradorContas[0].idColaborador;
+      colaboradorConta.idColaborador = this.colaboradorService.colaboradorContas[0].idColaborador;
 
       setTimeout(() => {
         this.colaboradorService.cadastrarContas(colaboradorConta)
@@ -142,7 +142,7 @@ export class ColaboradorContaCadastroComponent implements OnInit {
               console.log(res);
               this.uploadFormConta.reset();
               this.uploadFormConta.controls.titular.setValue('sim');
-              this.carregarDadosConta();
+              this.carregarDadosConta(true);
               this.messageType = 'success';
               this.message = 'Conta cadastrada com sucesso';
               this.scrollService.scrollTo('#header');

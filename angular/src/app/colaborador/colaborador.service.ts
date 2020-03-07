@@ -9,14 +9,15 @@ import { Colaborador } from './models/colaborador.model';
 import { ColaboradorConta } from './models/colaborador-conta.model';
 import { Banco } from './models/bancos.model';
 import { UserService } from '../user/user.service';
+import { ColaboradorImagem } from './models/colaborador-imagem.model';
 
 @Injectable()
 export class ColaboradorService {
 
   messageEvent = new EventEmitter();
   colaborador: Colaborador;
-  @Input()
   colaboradorContas: ColaboradorConta[];
+  colaboradorImagens: ColaboradorImagem[];
   bancos: Banco[];
   colaboradorEntrevista: any;
 
@@ -33,6 +34,11 @@ export class ColaboradorService {
   options = {
     headers: this.httpHeaders
   };
+
+  setColaboradorConta(colaboradorContas: ColaboradorConta[]) {
+    this.colaboradorContas = colaboradorContas;
+    this.messageEvent.emit(this.colaboradorContas);
+  }
 
   cadastroParametros(): Observable<CadastroParametros> {
     return this.http.get<CadastroParametros>(`${SC_API_COLABORADOR}/parametros`, this.options)
@@ -62,12 +68,19 @@ export class ColaboradorService {
       );
   }
 
+  buscarColaboradorImagens(id: number): Observable<ColaboradorImagem[]> {
+    return this.http.get<ColaboradorImagem[]>(`${SC_API_COLABORADOR}/imagens/${id}`, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
   uploadImage(file: FormData): Observable<any> {
     return this.http.post<any>(`${SC_API_COLABORADOR}/imagens`, file,
       {
         headers: new HttpHeaders({
-          'Authorization': this.userService.user.token
-          // 'Authentication': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSJ9.Zr5btXBGTotvJdjk2cEe_8KxXP2yoa96Eh3J4rKzRgzrColBx6ka8kf2iJ6wNJQmzygG9idcT9Db56EmDcyq0Q'
+          // 'Authorization': this.userService.user.token
+          'Authorization': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSJ9.Zr5btXBGTotvJdjk2cEe_8KxXP2yoa96Eh3J4rKzRgzrColBx6ka8kf2iJ6wNJQmzygG9idcT9Db56EmDcyq0Q'
         }),
         observe: 'response'
       }
@@ -100,6 +113,20 @@ export class ColaboradorService {
 
   cadastrarContas(colaboradorConta: ColaboradorConta): Observable<any> {
     return this.http.post<any>(`${SC_API_COLABORADOR}/contas`, colaboradorConta, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  alterarSituacaoConta(colaboradorConta: ColaboradorConta): Observable<any> {
+    return this.http.post<any>(`${SC_API_COLABORADOR}/contas/alterar`, colaboradorConta, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  deletarConta(idConta: number, idColaborador: number): Observable<any> {
+    return this.http.delete<any>(`${SC_API_COLABORADOR}/contas/${idConta}/${idColaborador}`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );

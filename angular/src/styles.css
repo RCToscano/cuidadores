@@ -105,3 +105,21 @@ input[type="file"] {
   text-align: right;
   top: 0;
 }
+
+.prev-slide {
+    background: url("src/assets/images/arrow_left.png") -10px no-repeat;
+    left: -22px;
+}
+
+.next-slide {
+    background: url("src/assets/images/arrow_right.png") -24px -10px no-repeat;
+    right: -22px;
+}
+
+.nav-btn {
+    height: 60px;
+    position: absolute;
+    width: 21px;
+    cursor: pointer;
+    top: 100px!important;
+}

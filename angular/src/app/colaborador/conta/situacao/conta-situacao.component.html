@@ -27,10 +27,16 @@
       para
       <span class="text-primary">"Ativa"</span> ?
     </strong>
+    <strong>
+      <span class="text-danger">Isso inativará a Conta atualmente Ativa.</span>
+    </strong>
   </p>
   <p>Você pode repetir essa operação novamente.</p>
 </div>
 <div class="modal-footer">
+  <p *ngIf="message">
+    <ngb-alert [type]="messageType">{{ message }}</ngb-alert>
+  </p>
   <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancelar</button>
   <button type="button" class="btn btn-danger" (click)="alterar()">Confirmar</button>
 </div>

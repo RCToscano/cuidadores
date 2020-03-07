@@ -3,4 +3,3 @@ export const SC_API_COLABORADOR = '/sicds-colaborador-api/colaboradores';
 export const SC_API_GENERICO = '/sicds-generic-api';
 export const SC_API_CLIENTE = '/sicds-cliente-api/';
 export const SC_API = 'http://localhost:3000';
-export const SC_API_CLIENTE = '/sicds-cliente-api';

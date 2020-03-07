@@ -138,7 +138,7 @@ export class ClienteCadastroComponent implements OnInit {
       municipio: ['', [Validators.required, Validators.maxLength(100)]],
       //uf: ['', [Validators.required, Validators.maxLength(50)]],
       //esse vou substituir
-      estado: [this.cliente.estado, [Validators.required, Validators.maxLength(50)]],
+      estado: [this.cliente.idEstadoCivil, [Validators.required, Validators.maxLength(50)]],
       cep: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
       pais: ['', [Validators.required, Validators.maxLength(50)]]
     });

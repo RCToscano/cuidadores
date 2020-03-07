@@ -24,6 +24,9 @@
   </p>
 </div>
 <div class="modal-footer">
+  <p *ngIf="message">
+    <ngb-alert [type]="messageType" (close)="close(alert)">{{ message }}</ngb-alert>
+  </p>
   <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancelar</button>
   <button type="button" class="btn btn-danger" (click)="excluir()">Confirmar</button>
 </div>

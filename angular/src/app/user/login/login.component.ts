@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from '../models/user.model';
+import { Login } from '../models/login.model';
 
 @Component({
   selector: 'app-login',
@@ -41,12 +42,12 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
     this.error = '';
 
-    // const controls = this.uploadForm.controls;
-    // for (const name in controls) {
-    //     if (controls[name].invalid) {
-    //         console.log('invalido: ' + name);
-    //     }
-    // }
+    const controls = this.uploadForm.controls;
+    for (const name in controls) {
+        if (controls[name].invalid) {
+            console.log('invalido: ' + name);
+        }
+    }
 
     if(this.uploadForm.invalid) {
       const invalidElements = this.el.nativeElement.querySelectorAll('.ng-invalid');
@@ -57,26 +58,26 @@ export class LoginComponent implements OnInit {
       this.carregar = true;
       this.spinner.show();
 
-      this.user.id = 1;
-      this.user.token = '*AS(*&AHAOHNLFHALK)';
-      this.userService.setUser(this.user);
+      const login = {} as Login;
+      login.usuario = this.uploadForm.controls.email.value;
+      login.senha = this.uploadForm.controls.password.value;
 
-      // setTimeout(() => {
-      //   this.userService.login(this.uploadForm.controls.email.value, this.uploadForm.controls.password.value)
-      //     .subscribe(
-      //     res => {
-      //       this.userService.setUser(res);
+      setTimeout(() => {
+        this.userService.login(login)
+          .subscribe(
+          res => {
+            this.userService.setUser(res);
             this.carregar = false;
             this.spinner.hide();
             this.router.navigate(['/home']);
-      //     },
-      //     error =>  {
-      //       this.error = error;
-      //       this.carregar = false;
-      //       this.spinner.hide();
-      //     }
-      //   );
-      // }, 100);
+          },
+          error =>  {
+            this.error = error;
+            this.carregar = false;
+            this.spinner.hide();
+          }
+        );
+      }, 100);
     }
   }
 

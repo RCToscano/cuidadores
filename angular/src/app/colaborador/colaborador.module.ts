@@ -11,6 +11,7 @@ import { ScrollToModule } from 'ng2-scroll-to-el';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { FileUploadModule } from 'ng2-file-upload';
 import { DigitOnlyDirective } from './../common/directives/digitonly/digit-only.directive';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 import { ColaboradorService } from './colaborador.service';
 import { ColaboradorRoutingModule } from './colaborador-routing.module';
@@ -52,7 +53,8 @@ import { ColaboradorContaExclusaoComponent } from './conta/exclusao/conta-exclus
     BsDatepickerModule.forRoot(),
     ScrollToModule.forRoot(),
     NgxSpinnerModule,
-    FileUploadModule
+    FileUploadModule,
+    SlickCarouselModule
   ],
   entryComponents: [
     ColaboradorContaSituacaoComponent,
