@@ -269,6 +269,13 @@
             </div>
           </ng-template>
         </ngb-tab>
+        <ngb-tab id="tab-ocorrencia" title="Ocorrências" [disabled]="alterar == false">
+          <ng-template ngbTabContent>
+            <div class="col-md-12" style="padding-top:1rem">
+              <app-lista-ocorrencia></app-lista-ocorrencia>
+            </div>
+          </ng-template>
+        </ngb-tab>
         <ngb-tab id="tab-fotos" title="Mídias" [disabled]="alterar == false">
           <ng-template ngbTabContent>
             <div class="col-md-12" style="padding-top:1rem">

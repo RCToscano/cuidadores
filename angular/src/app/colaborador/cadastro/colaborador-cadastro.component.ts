@@ -61,6 +61,8 @@ export class ColaboradorCadastroComponent implements OnInit {
         this.alterar = true;
       }
       this.colaboradorService.colaboradorContas = undefined;
+      this.colaboradorService.colaboradorImagens = undefined;
+      this.colaboradorService.colaboradorOcorrencias = undefined;
 
     // }
   }
@@ -77,6 +79,7 @@ export class ColaboradorCadastroComponent implements OnInit {
         .subscribe(
         (res : Colaborador) => {
           this.colaborador = res;
+          this.colaboradorService.colaborador = res;
           console.log(res);
           setTimeout(() => {
             this.buscarParametros();
@@ -124,7 +127,7 @@ export class ColaboradorCadastroComponent implements OnInit {
       cpf: [this.colaborador.cpf, [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
       rg: [this.colaborador.rg, [Validators.required, Validators.maxLength(15)]],
       nome: [this.colaborador.nome, [Validators.required, Validators.maxLength(100)]],
-      dataNascimento: [this.colaborador.dataNascimento, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      dataNascimento: [new Date(this.colaborador.dataNascimento), [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       estadoCivil: [this.colaborador.estadoCivil, [Validators.required]],
       sexo: [this.colaborador.sexo, [Validators.required]],
       email: [this.colaborador.email, [Validators.required, Validators.email, Validators.maxLength(100)]],
@@ -167,9 +170,10 @@ export class ColaboradorCadastroComponent implements OnInit {
     else {
       this.carregar = true;
       this.spinner.show();
-
+      console.log(this.uploadForm.value);
       this.colaborador = this.uploadForm.value;
       this.colaborador.dataNascimento = formatDate(controls.dataNascimento.value, 'DD/MM/YYYY').trim();
+
       if(this.alterar) {
         this.colaboradorService.alterarColaborador(this.colaborador)
           .subscribe(
@@ -177,6 +181,7 @@ export class ColaboradorCadastroComponent implements OnInit {
               this.messageType = 'success';
               this.message = 'Alteração realizada com sucesso';
               this.scrollService.scrollTo('#header');
+              this.submitted = false;
               this.carregar = false;
               this.spinner.hide();
             },
@@ -199,6 +204,7 @@ export class ColaboradorCadastroComponent implements OnInit {
               this.messageType = 'success';
               this.message = 'Cadastro realizado com sucesso';
               this.scrollService.scrollTo('#header');
+              this.submitted = false;
               this.carregar = false;
               this.spinner.hide();
             },

@@ -15,7 +15,6 @@ export class LoginComponent implements OnInit {
   user: User = {} as User;
   uploadForm: FormGroup;
   submitted = false;
-  error: string;
   carregar = false;
 
   constructor(public userService: UserService,
@@ -40,7 +39,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    this.error = '';
+    this.userService.error = '';
 
     const controls = this.uploadForm.controls;
     for (const name in controls) {
@@ -62,22 +61,20 @@ export class LoginComponent implements OnInit {
       login.usuario = this.uploadForm.controls.email.value;
       login.senha = this.uploadForm.controls.password.value;
 
-      setTimeout(() => {
-        this.userService.login(login)
-          .subscribe(
-          res => {
-            this.userService.setUser(res);
-            this.carregar = false;
-            this.spinner.hide();
-            this.router.navigate(['/home']);
-          },
-          error =>  {
-            this.error = error;
-            this.carregar = false;
-            this.spinner.hide();
-          }
-        );
-      }, 100);
+      this.userService.login(login)
+        .subscribe(
+        res => {
+          this.userService.setUser(res);
+          this.carregar = false;
+          this.spinner.hide();
+          this.router.navigate(['/home']);
+        },
+        error =>  {
+          this.userService.error = error;
+          this.carregar = false;
+          this.spinner.hide();
+        }
+      );
     }
   }
 

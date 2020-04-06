@@ -3,9 +3,9 @@ import { throwError } from 'rxjs';
 export class ErrorHandler {
 
   static handlerError(error: any) {
+    debugger;
     let errorMessage = 'Servidor Indisponível';
     if (error.error instanceof ErrorEvent) {
-      // client-side error
       // console.log('errorHandler0' + JSON.stringify(error));
       errorMessage = error.error.message;
     }
@@ -14,10 +14,8 @@ export class ErrorHandler {
       errorMessage = error.text.toString();
     }
     else if (error != undefined) {
-      // debugger;
-      // server-side error
       // console.log('errorHandler2' + JSON.stringify(error));
-      if (error.status == 0 || error.status == 400 || error.status == 504) {
+      if (error.status == 0 || error.status == 404 || error.status == 504) {
         errorMessage = 'Servidor Indisponível';
       }
       else if (error.error.message != undefined && error.error.message != '') {

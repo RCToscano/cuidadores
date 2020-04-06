@@ -31,8 +31,8 @@
                   <h1 class="h4 text-gray-900 mb-3">Cuidadores</h1>
                 </div>
                 <div class="invalid-feedback mb-3" style="min-height:30px; text-align: center; font-size: 17px; display:block">
-                  <div *ngIf="submitted && error">
-                    {{ error }}
+                  <div *ngIf="userService?.error">
+                    {{ userService?.error }}
                   </div>
                 </div>
                 <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">

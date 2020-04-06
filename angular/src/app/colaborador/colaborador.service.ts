@@ -10,6 +10,7 @@ import { ColaboradorConta } from './models/colaborador-conta.model';
 import { Banco } from './models/bancos.model';
 import { UserService } from '../user/user.service';
 import { ColaboradorImagem } from './models/colaborador-imagem.model';
+import { ColaboradorOcorrencia } from './models/colaborador-ocorrencia.model';
 
 @Injectable()
 export class ColaboradorService {
@@ -18,6 +19,7 @@ export class ColaboradorService {
   colaborador: Colaborador;
   colaboradorContas: ColaboradorConta[];
   colaboradorImagens: ColaboradorImagem[];
+  colaboradorOcorrencias: ColaboradorOcorrencia[];
   bancos: Banco[];
   colaboradorEntrevista: any;
 
@@ -27,8 +29,8 @@ export class ColaboradorService {
   httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
     'Cache-Control': 'no-cache',
-    // 'Authorization': this.userService.user.token
-    'Authorization': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSJ9.Zr5btXBGTotvJdjk2cEe_8KxXP2yoa96Eh3J4rKzRgzrColBx6ka8kf2iJ6wNJQmzygG9idcT9Db56EmDcyq0Q'
+    'Authorization': this.userService.user.token
+    // 'Authorization': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSJ9.Zr5btXBGTotvJdjk2cEe_8KxXP2yoa96Eh3J4rKzRgzrColBx6ka8kf2iJ6wNJQmzygG9idcT9Db56EmDcyq0Q'
   });
 
   options = {
@@ -79,8 +81,7 @@ export class ColaboradorService {
     return this.http.post<any>(`${SC_API_COLABORADOR}/imagens`, file,
       {
         headers: new HttpHeaders({
-          // 'Authorization': this.userService.user.token
-          'Authorization': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSJ9.Zr5btXBGTotvJdjk2cEe_8KxXP2yoa96Eh3J4rKzRgzrColBx6ka8kf2iJ6wNJQmzygG9idcT9Db56EmDcyq0Q'
+          'Authorization': this.userService.user.token
         }),
         observe: 'response'
       }
@@ -90,8 +91,29 @@ export class ColaboradorService {
       );
   }
 
-  buscarColaboradores(): Observable<Colaborador[]> {
+  deletarImagem(idImagem: number, idColaborador: number): Observable<any> {
+    return this.http.delete(`${SC_API_COLABORADOR}/imagens/${idImagem}/${idColaborador}`,
+      {
+        headers: new HttpHeaders({
+          'Authorization': this.userService.user.token
+        }),
+        observe: 'response'
+      }
+    )
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  buscarTodosColaboradores(): Observable<Colaborador[]> {
     return this.http.get<Colaborador[]>(`${SC_API_COLABORADOR}`, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  buscarColaboradores(valor: string): Observable<Colaborador[]> {
+    return this.http.get<Colaborador[]>(`${SC_API_COLABORADOR}/nome/${valor}`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
@@ -127,6 +149,21 @@ export class ColaboradorService {
 
   deletarConta(idConta: number, idColaborador: number): Observable<any> {
     return this.http.delete<any>(`${SC_API_COLABORADOR}/contas/${idConta}/${idColaborador}`, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  cadastrarOcorrencia(ocorrencia: ColaboradorOcorrencia): Observable<any> {
+    return this.http.post<any>(`${SC_API_COLABORADOR}/ocorrencia`, ocorrencia, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  colaboradoresOcorrencias(id: number): Observable<ColaboradorOcorrencia[]> {
+    return this.http.get<ColaboradorOcorrencia[]>(`${SC_API_COLABORADOR}/ocorrencia/colaborador/${id}`,
+      this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );

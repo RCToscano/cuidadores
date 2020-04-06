@@ -45,4 +45,12 @@ export class ClienteService {
         catchError(ErrorHandler.handlerError)
       );
   }
+
+  buscarClientesPorNome(valor: string): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(`${SC_API_CLIENTE}/web/cliente/nome/${valor}`, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
 }

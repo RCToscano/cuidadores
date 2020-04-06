@@ -17,17 +17,23 @@ export class UserService {
   user: User;
   navigateTo: string;
   token = localStorage.getItem('tokenCuidadores');
+  error: string;
 
   constructor(private http: HttpClient, private router: Router) {
     if (this.token != null && this.token != 'null') {
       this.consultaUsuarioToken(this.token).subscribe(
         res => {
-            this.user = res;
+            this.user = res.body;
             this.user.token = this.token;
             this.setUser(this.user);
         },
         error => {
           console.log(error);
+          this.error = error;
+          this.user = undefined;
+          localStorage.clear();
+          this.messageEvent.emit(this.user);
+          this.router.navigate(['']);
         }
       );
     }
@@ -84,7 +90,14 @@ export class UserService {
   }
 
   consultaUsuarioToken(token: string): Observable<any> {
-    return this.http.get(`${SC_API_GENERICO}/users/token/${token}`, this.options)
+    return this.http.get(`${SC_API_GENERICO}/users/token`,
+      {
+        headers: new HttpHeaders({
+          'Authorization': token
+        }),
+        observe: 'response'
+      }
+    )
       .pipe(
         catchError(ErrorHandler.handlerError)
       );

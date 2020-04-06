@@ -8,10 +8,10 @@
 </div>
 
 <p *ngIf="message">
-  <ngb-alert [type]="messageType" (close)="close(alert)">{{ message }}</ngb-alert>
+  <ngb-alert [type]="messageType" [dismissible]="false">{{ message }}</ngb-alert>
 </p>
 
-<div class="py-3">
+<div class="py-1">
   <p><strong>Mídias Cadastradas</strong></p>
 </div>
 
@@ -19,7 +19,7 @@
   <p>Nenhuma mídia cadastrada</p>
 </div>
 
-<div class="col-md-12 mb-4 py-3" *ngIf="colaboradorService?.colaboradorImagens != undefined && colaboradorService?.colaboradorImagens.length > 0">
+<div class="col-md-12 mb-4 py-3 slide-default" *ngIf="colaboradorService?.colaboradorImagens != undefined && colaboradorService?.colaboradorImagens.length > 0">
   <ngx-slick-carousel class="carousel"
     #slickModal="slick-carousel"
     [config]="slideConfigDesktop"
@@ -28,17 +28,37 @@
     (afterChange)="afterChange($event)"
     (beforeChange)="beforeChange($event)">
     <div ngxSlickItem *ngFor="let img of colaboradorService.colaboradorImagens" class="slide" style="padding: 10px">
-      <div class="mb-4" style="width: 95%; object-fit: contain; min-height:300px; max-height:300px">
-        <img [src]="getImage(img.imagem)" style="width: 95%; object-fit: contain;" class="rounded float-left" />
+      <div class="mb-4 imagens-colaborador-desk">
+        <img [src]="getImage(img.imagem)" class="imagens-colaborador-desk rounded float-left" />
       </div>
-      <button type="button" class="btn btn-danger btn-xs"
-        (click)="upload(item)">
+      <button type="button" class="btn btn-danger"
+        (click)="delete(img)">
         <i class="fa fa-trash-alt"></i> Deletar
       </button>
     </div>
   </ngx-slick-carousel>
 </div>
 
+
+<div class="col-md-12 mb-4 py-3 slide-mobile" *ngIf="colaboradorService?.colaboradorImagens != undefined && colaboradorService?.colaboradorImagens.length > 0">
+  <ngx-slick-carousel class="carousel"
+    #slickModal="slick-carousel"
+    [config]="slideConfigMobile"
+    (init)="slickInit($event)"
+    (breakpoint)="breakpoint($event)"
+    (afterChange)="afterChange($event)"
+    (beforeChange)="beforeChange($event)">
+    <div ngxSlickItem *ngFor="let img of colaboradorService.colaboradorImagens" class="slide" style="padding: 10px">
+      <div class="mb-4 imagens-colaborador-mob">
+        <img [src]="getImage(img.imagem)" class="imagens-colaborador-mob rounded float-left" />
+      </div>
+      <button type="button" class="btn btn-danger btn-sm"
+        (click)="delete(img)">
+        <i class="fa fa-trash-alt"></i> Deletar
+      </button>
+    </div>
+  </ngx-slick-carousel>
+</div>
 
 <div class="py-3">
   <p><strong>Cadastrar novas mídias</strong></p>

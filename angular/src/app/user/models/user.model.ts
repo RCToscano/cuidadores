@@ -1,5 +1,5 @@
 export interface User {
-  id: number;
+  idUser: number;
   tpUser: number;
   cpf: string;
   rg: string;

@@ -1,0 +1,37 @@
+<div *ngIf="carregar">
+  <ngx-spinner
+    [fullScreen]="true"
+    type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading" style="color: white"> Carregando... </p>
+  </ngx-spinner>
+</div>
+
+<p *ngIf="message">
+  <ngb-alert [type]="messageType" [dismissible]="false">{{ message }}</ngb-alert>
+</p>
+
+<div class="col-md-12 mb-3 py-3">
+  <div class="table-responsive-sm">
+    <p><strong>Ocorrências Cadastradas</strong></p>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" style="width: 15%">Data</th>
+          <th scope="col" style="width: 20%">Autor</th>
+          <th scope="col">Ocorrência</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of colaboradorService?.colaboradorOcorrencias">
+          <td>{{item.dtInsert}}</td>
+          <td>{{item.nomeUsuario}}</td>
+          <td>{{item.ocorrencia}}</td>
+        </tr>
+        <tr *ngIf="colaboradorService?.colaboradorOcorrencias == undefined || colaboradorService?.colaboradorOcorrencias.length == 0">
+          <td colspan="9" style="text-align: center">Nenhuma ocorrência cadastrada</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

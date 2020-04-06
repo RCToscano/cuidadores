@@ -15,28 +15,44 @@
 
   <div class="row mb-4">
     <div class="col-md-12">
-      <form (ngSubmit)="onSubmit()">
-        <div class="row">
-          <div class="col-sm-11 mb-3">
-            <ng-multiselect-dropdown
-              [placeholder]="'Selecione o Colaborador'"
-              [data]="dropdownList"
-              formControlItem="selectedItems"
-              [settings]="dropdownSettings"
-              (onSelect)="onItemSelect($event)"
-              (onDeSelect)="onDeSelect($event)"
-              (onSelectAll)="onSelectAll($event)">
-            </ng-multiselect-dropdown>
-          </div>
-          <div class="col-sm-1 mb-3">
-            <button type="submit" class="btn btn-primary">Buscar</button>
+      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+        <div class="col d-flex justify-content-center">
+          <div class="row">
+            <ng-autocomplete
+              #auto
+              [data]="colaboradores"
+              formControlName="colaborador"
+              [placeHolder]="placeholder"
+              [searchKeyword]="keyword"
+              notFoundText="Não encontrado"
+              [itemTemplate]="itemTemplateStatic"
+              [notFoundTemplate]="notFoundTemplate"
+              (selected)="selected()"
+              (inputCleared)="inputCleared()"
+              [isLoading]="isLoading">
+            </ng-autocomplete>
+
+            <ng-template #itemTemplateStatic let-item>
+              <div>&nbsp;
+                <span [innerHTML]="item.nome"></span> -
+                <span>{{item.cpf}}</span>
+              </div>
+            </ng-template>
+
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+
+            <div class="col-sm-1 mb-3">
+              <button type="submit" [disabled]="!colaboradorSelected" class="btn btn-primary">Buscar</button>
+            </div>
           </div>
         </div>
       </form>
     </div>
   </div>
 
-  <div *ngIf="colaboradores?.length > 0" class="col-md-12 mb-3">
+  <div *ngIf="submitted" class="col-md-12 mb-3">
     <div class="table-responsive-sm">
       <table class="table table-striped">
         <thead>
@@ -44,30 +60,22 @@
             <th scope="col">Nº</th>
             <th scope="col">Nome</th>
             <th scope="col">Situação</th>
-            <th scope="col">Foto</th>
-            <th scope="col">Rota</th>
-            <th scope="col">Idade</th>
+            <th scope="col">Data de Nascimento</th>
             <th scope="col">Escalas</th>
-            <th scope="col">Entrev.</th>
             <th scope="col">Cadastro</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of colaboradores">
+          <tr>
             <td>1</td>
-            <td>{{item.nome}}</td>
-            <td>{{item.situacaoDesc}}</td>
-            <td>foto</td>
-            <td>rota</td>
-            <td>{{item.dataNascimento}}</td>
+            <td>{{form.colaborador.value.nome}}</td>
+            <td>{{form.colaborador.value.situacaoDesc}}</td>
+            <td>{{form.colaborador.value.dataNascimento | slice:0:10}}</td>
             <td>
-              <button class="btn btn-sm btn-primary btn-block" type="submit">Alterar</button>
+              <button class="btn btn-sm btn-primary btn-block" type="submit">Consultar</button>
             </td>
             <td>
-              <button class="btn btn-sm btn-primary btn-block" type="submit">Alterar</button>
-            </td>
-            <td>
-              <button [routerLink]="['/colaborador/cadastro', item.id]" class="btn btn-sm btn-primary btn-block" type="submit">Alterar</button>
+              <button [routerLink]="['/colaborador/cadastro', form.colaborador.value.id]" class="btn btn-sm btn-primary btn-block" type="submit">Consultar</button>
             </td>
           </tr>
         </tbody>

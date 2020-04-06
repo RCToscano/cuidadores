@@ -1,56 +1,47 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Colaborador } from '../../models/colaborador.model';
 import { ColaboradorService } from '../../colaborador.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { UserService } from 'src/app/user/user.service';
+import { switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ScrollToService } from 'ng2-scroll-to-el';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { ColaboradorOcorrencia } from '../../models/colaborador-ocorrencia.model';
-import { ClienteService } from 'src/app/cliente/cliente.service';
-import { Cliente } from 'src/app/cliente/models/cliente.model';
+import { UserService } from 'src/app/user/user.service';
 
 @Component({
-  selector: 'app-colaborador-incompativeis-cadastro',
-  templateUrl: './incompativeis-cadastro.component.html'
+  selector: 'app-colaborador-cadastro-ocorrencia',
+  templateUrl: './cadastro-ocorrencia.component.html'
 })
-export class IncompativeisCadastroComponent implements OnInit {
+export class ColaboradorCadastroOcorrenciaComponent implements OnInit {
 
-  @ViewChild('auto1') auto1;
-  @ViewChild('auto2') auto2;
+  @ViewChild('auto') auto;
 
   submitted = false;
   carregar = false;
   keyword = 'nome';
-  placeholderCli = 'Digite o nome do Cliente';
-  placeholderColab = 'Digite o nome do Colaborador';
   uploadForm: FormGroup;
-  searchControlColab: FormControl;
-  searchControlCliente: FormControl;
+  searchControl: FormControl;
   colaboradores: Colaborador[];
-  clientes: Cliente[];
   isLoading = false;
   message: string;
   messageType: string;
 
   constructor(private formBuilder: FormBuilder,
               private colaboradorService: ColaboradorService,
-              private clienteService: ClienteService,
               private userService: UserService,
               private spinner: NgxSpinnerService,
               private scrollService: ScrollToService,
               private el: ElementRef) { }
 
   ngOnInit() {
-    this.searchControlColab = this.formBuilder.control('', Validators.required);
-    this.searchControlCliente = this.formBuilder.control('', Validators.required);
+    this.searchControl = this.formBuilder.control('', Validators.required);
     this.uploadForm = this.formBuilder.group({
-      colaborador: this.searchControlColab,
-      cliente: this.searchControlCliente,
-      obs: ['', Validators.required]
+      colaborador: this.searchControl,
+      data: ['', Validators.required],
+      ocorrencia: ['', Validators.required]
     });
 
-    this.searchControlColab.valueChanges
+    this.searchControl.valueChanges
       .pipe(
         debounceTime(500),
         distinctUntilChanged(),
@@ -71,29 +62,6 @@ export class IncompativeisCadastroComponent implements OnInit {
         error => {
           this.isLoading = false;
         });
-
-    this.searchControlCliente.valueChanges
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        switchMap(valor => {
-          this.isLoading = true;
-          if (valor != '') {
-            return this.clienteService.buscarClientesPorNome(valor);
-          }
-          else {
-            return this.clienteService.buscarClientesPorNome('1');
-          }
-        })
-      ).subscribe(
-        res => {
-          this.clientes = res
-          this.isLoading = false;
-        },
-        error => {
-          this.isLoading = false;
-        });
-
   }
 
   get form() {

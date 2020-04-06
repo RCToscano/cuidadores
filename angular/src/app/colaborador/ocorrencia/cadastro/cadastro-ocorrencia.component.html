@@ -1,0 +1,83 @@
+<div class="row justify-content-center">
+  <div class="col d-flex justify-content-center">
+    <div class="row">
+      <div class="col-md-12 mb-3">
+        <p *ngIf="message">
+          <ngb-alert [type]="messageType" [dismissible]="false">{{ message }}</ngb-alert>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row justify-content-center mb-4">
+  <div class="col d-flex justify-content-center">
+    <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+
+        <div class="col-md-3 mb-3">
+          <label for="zip">Data</label>
+          <input formControlName="data"
+                  digitOnly
+                  [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD/MM/YYYY', locale:'pt-br', language: 'pt-br',  showWeekNumbers:false}"
+                  bsDatepicker
+                  type="text"
+                  class="form-control"
+                  id="data">
+          <div *ngIf="submitted && form.data.errors?.required" class="invalid-feedback" style="display:block">
+            Data é obrigatória.
+          </div>
+          <div *ngIf="!form.data.errors?.required && submitted && form.data.errors" class="invalid-feedback" style="display:block">
+            Data inválida.
+          </div>
+        </div>
+
+        <div class="col-md-9 mb-3">
+          <label for="zip">Colaborador</label>
+          <!-- <div class="ng-autocomplete"> -->
+            <ng-autocomplete
+              #auto
+              [data]="colaboradores"
+              formControlName="colaborador"
+              [placeHolder]="placeholder"
+              [searchKeyword]="keyword"
+              notFoundText="Não encontrado"
+              [itemTemplate]="itemTemplateStatic"
+              [notFoundTemplate]="notFoundTemplate"
+              (selected)="selected()"
+              (inputCleared)="inputCleared()"
+              [isLoading]="isLoading">
+            </ng-autocomplete>
+
+            <ng-template #itemTemplateStatic let-item>
+              <div>&nbsp;
+                <span [innerHTML]="item.nome"></span> -
+                <span>{{item.cpf}}</span>
+              </div>
+              <!-- <a [innerHTML]="item.nome"></a>
+              <span> - {{item.cpf}}</span> -->
+            </ng-template>
+
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+          <!-- </div> -->
+          <div *ngIf="submitted && form.colaborador.errors?.required" class="invalid-feedback" style="display:block">
+            Colaborador é obrigatório.
+          </div>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label for="lastName">Ocorrência</label>
+          <textarea formControlName="ocorrencia" class="form-control" id="ocorrencia" rows="4" style="resize: none;"></textarea>
+          <div *ngIf="submitted && form.ocorrencia.errors?.required" class="invalid-feedback" style="display:block">
+            Ocorrência é obrigatória.
+          </div>
+        </div>
+
+      </div>
+      <hr class="mb-4">
+      <button class="btn btn-primary btn-lg btn-block" type="submit">Cadastrar</button>
+    </form>
+  </div>
+</div>

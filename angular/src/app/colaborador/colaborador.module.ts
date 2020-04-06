@@ -12,6 +12,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { FileUploadModule } from 'ng2-file-upload';
 import { DigitOnlyDirective } from './../common/directives/digitonly/digit-only.directive';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 import { ColaboradorService } from './colaborador.service';
 import { ColaboradorRoutingModule } from './colaborador-routing.module';
@@ -25,6 +26,8 @@ import { ColaboradorFotosComponent } from './fotos/colaborador-fotos.component';
 import { ColaboradorContaSituacaoComponent } from './conta/situacao/conta-situacao.component';
 import { ColaboradorContaPadraoComponent } from './conta/padrao/conta-padrao.component';
 import { ColaboradorContaExclusaoComponent } from './conta/exclusao/conta-exclusao.component';
+import { ColaboradorCadastroOcorrenciaComponent } from './ocorrencia/cadastro/cadastro-ocorrencia.component';
+import { ListaOcorrenciaComponent } from './ocorrencia/lista/lista-ocorrencia.component';
 
 
 @NgModule({
@@ -39,7 +42,9 @@ import { ColaboradorContaExclusaoComponent } from './conta/exclusao/conta-exclus
     DigitOnlyDirective,
     ColaboradorContaSituacaoComponent,
     ColaboradorContaPadraoComponent,
-    ColaboradorContaExclusaoComponent
+    ColaboradorContaExclusaoComponent,
+    ColaboradorCadastroOcorrenciaComponent,
+    ListaOcorrenciaComponent
   ],
   imports: [
     ColaboradorRoutingModule,
@@ -54,7 +59,8 @@ import { ColaboradorContaExclusaoComponent } from './conta/exclusao/conta-exclus
     ScrollToModule.forRoot(),
     NgxSpinnerModule,
     FileUploadModule,
-    SlickCarouselModule
+    SlickCarouselModule,
+    AutocompleteLibModule
   ],
   entryComponents: [
     ColaboradorContaSituacaoComponent,
