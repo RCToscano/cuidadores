@@ -1,6 +1,71 @@
+<div *ngIf="carregar">
+  <ngx-spinner
+    [fullScreen]="true"
+    type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading" style="color: white"> Carregando... </p>
+  </ngx-spinner>
+</div>
+
+<p *ngIf="message">
+  <ngb-alert [type]="messageType" [dismissible]="false">{{ message }}</ngb-alert>
+</p>
+
+<div class="py-1">
+  <p><strong>Mídias Cadastradas</strong></p>
+</div>
+
+<div class="col-md-12 mb-4" *ngIf="colaboradorService?.colaboradorImagens == undefined || colaboradorService?.colaboradorImagens.length == 0">
+  <p>Nenhuma mídia cadastrada</p>
+</div>
+
+<div class="col-md-12 mb-4 py-3 slide-default" *ngIf="colaboradorService?.colaboradorImagens != undefined && colaboradorService?.colaboradorImagens.length > 0">
+  <ngx-slick-carousel class="carousel"
+    #slickModal="slick-carousel"
+    [config]="slideConfigDesktop"
+    (init)="slickInit($event)"
+    (breakpoint)="breakpoint($event)"
+    (afterChange)="afterChange($event)"
+    (beforeChange)="beforeChange($event)">
+    <div ngxSlickItem *ngFor="let img of colaboradorService.colaboradorImagens" class="slide" style="padding: 10px">
+      <div class="mb-4 imagens-colaborador-desk">
+        <img [src]="getImage(img.imagem)" class="imagens-colaborador-desk rounded float-left" />
+      </div>
+      <button type="button" class="btn btn-danger"
+        (click)="delete(img)">
+        <i class="fa fa-trash-alt"></i> Deletar
+      </button>
+    </div>
+  </ngx-slick-carousel>
+</div>
+
+
+<div class="col-md-12 mb-4 py-3 slide-mobile" *ngIf="colaboradorService?.colaboradorImagens != undefined && colaboradorService?.colaboradorImagens.length > 0">
+  <ngx-slick-carousel class="carousel"
+    #slickModal="slick-carousel"
+    [config]="slideConfigMobile"
+    (init)="slickInit($event)"
+    (breakpoint)="breakpoint($event)"
+    (afterChange)="afterChange($event)"
+    (beforeChange)="beforeChange($event)">
+    <div ngxSlickItem *ngFor="let img of colaboradorService.colaboradorImagens" class="slide" style="padding: 10px">
+      <div class="mb-4 imagens-colaborador-mob">
+        <img [src]="getImage(img.imagem)" class="imagens-colaborador-mob rounded float-left" />
+      </div>
+      <button type="button" class="btn btn-danger btn-sm"
+        (click)="delete(img)">
+        <i class="fa fa-trash-alt"></i> Deletar
+      </button>
+    </div>
+  </ngx-slick-carousel>
+</div>
+
+<div class="py-3">
+  <p><strong>Cadastrar novas mídias</strong></p>
+</div>
+
 <div class="row">
   <div class="col-md-12 mb-3">
-
     <div ng2FileDrop
       [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
       (fileOver)="fileOverBase($event)"
@@ -84,11 +149,11 @@
             <i class="fa fa-cloud-upload-alt"></i> Carregar Todos
           </button>
         </div>
-        <div class="col-md-3 mb-3">
+        <!-- <div class="col-md-3 mb-3">
           <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
             <i class="fa fa-ban"></i> Cancelar Todos
           </button>
-        </div>
+        </div> -->
         <div class="col-md-3 mb-3">
           <button type="button" class="btn btn-danger btn-s" (click)="removeAll()" [disabled]="!uploader.queue.length">
             <i class="fa fa-trash-alt"></i> Remover Todos

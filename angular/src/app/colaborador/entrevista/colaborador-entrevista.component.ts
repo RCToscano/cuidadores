@@ -112,7 +112,7 @@ export class ColaboradorEntrevistaComponent implements OnInit {
       sabadoNoite: [''],
       domingoDia: [''],
       domingoNoite: [''],
-      experienciaAnterior: [''],
+      experiencia: [''],
       observacoes: ['', [Validators.maxLength(500)]],
     });
   }

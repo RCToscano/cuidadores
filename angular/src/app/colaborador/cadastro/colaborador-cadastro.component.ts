@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Colaborador } from '../models/colaborador.model';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { defineLocale } from 'ngx-bootstrap/chronos';
+import { defineLocale, formatDate } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 import '../../../assets/scripts/endereco.js';
 import { ColaboradorService } from '../colaborador.service';
@@ -11,8 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CadastroParametros } from '../models/cadastro-parametros-model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ScrollToService } from 'ng2-scroll-to-el';
-
-defineLocale('pt-br', ptBrLocale);
+import { BsDatepickerConfig } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-colaborador-cadastro',
@@ -54,6 +53,7 @@ export class ColaboradorCadastroComponent implements OnInit {
     //   this.router.navigate(['']);
     // }
     // else {
+      defineLocale('pt-br', ptBrLocale);
 
       if(this.activatedRoute.snapshot.params['id'] != undefined) {
         this.titulo = 'Alteração';
@@ -61,14 +61,14 @@ export class ColaboradorCadastroComponent implements OnInit {
         this.alterar = true;
       }
       this.colaboradorService.colaboradorContas = undefined;
+      this.colaboradorService.colaboradorImagens = undefined;
+      this.colaboradorService.colaboradorOcorrencias = undefined;
+
     // }
   }
 
   ngOnInit() {
     window.scroll(0,0);
-    // $(document).on('click',function(){
-    // 	$('.collapse').collapse('hide');
-    // });
 
     this.carregar = true;
     this.spinner.show();
@@ -79,6 +79,7 @@ export class ColaboradorCadastroComponent implements OnInit {
         .subscribe(
         (res : Colaborador) => {
           this.colaborador = res;
+          this.colaboradorService.colaborador = res;
           console.log(res);
           setTimeout(() => {
             this.buscarParametros();
@@ -122,10 +123,11 @@ export class ColaboradorCadastroComponent implements OnInit {
 
   criarForm() {
     this.uploadForm = this.formBuilder.group({
+      id: [this.colaborador.id],
       cpf: [this.colaborador.cpf, [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
       rg: [this.colaborador.rg, [Validators.required, Validators.maxLength(15)]],
       nome: [this.colaborador.nome, [Validators.required, Validators.maxLength(100)]],
-      dataNascimento: [this.colaborador.dataNascimento, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      dataNascimento: [new Date(this.colaborador.dataNascimento), [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       estadoCivil: [this.colaborador.estadoCivil, [Validators.required]],
       sexo: [this.colaborador.sexo, [Validators.required]],
       email: [this.colaborador.email, [Validators.required, Validators.email, Validators.maxLength(100)]],
@@ -135,7 +137,7 @@ export class ColaboradorCadastroComponent implements OnInit {
       vinculo: [this.colaborador.vinculo, [Validators.required]],
       funcao: [this.colaborador.funcao, [Validators.required]],
       formaPagamento: [this.colaborador.formaPagamento, [Validators.required]],
-      coordenadas: [this.colaborador.coordenadas, [Validators.required]],
+      coordenadas: [this.colaborador.coordenadas],
       latitude: [''],
       longitude: [''],
       endereco: [this.colaborador.endereco, [Validators.required, Validators.maxLength(100)]],
@@ -156,6 +158,7 @@ export class ColaboradorCadastroComponent implements OnInit {
         this.checkField(controls[name].value, name);
         if (controls[name].invalid) {
             console.log('invalido: ' + name);
+            console.log(controls[name].errors);
         }
     }
 
@@ -167,29 +170,54 @@ export class ColaboradorCadastroComponent implements OnInit {
     else {
       this.carregar = true;
       this.spinner.show();
-
+      console.log(this.uploadForm.value);
       this.colaborador = this.uploadForm.value;
-      this.colaborador.id = 6;
-      this.colaboradorService.cadastrarColaborador(this.colaborador)
-        .subscribe(
-          res => {
-            console.log(res);
-            this.uploadForm.reset();
-            this.messageType = 'success';
-            this.message = 'Cadastro realizado com sucesso';
-            this.scrollService.scrollTo('#header');
-            this.carregar = false;
-            this.spinner.hide();
-          },
-          error => {
-            console.log(error);
-            this.messageType = 'danger';
-            this.message = 'erro';
-            this.scrollService.scrollTo('#header', 350, -100);
-            this.carregar = false;
-            this.spinner.hide();
-          }
-      );
+      this.colaborador.dataNascimento = formatDate(controls.dataNascimento.value, 'DD/MM/YYYY').trim();
+
+      if(this.alterar) {
+        this.colaboradorService.alterarColaborador(this.colaborador)
+          .subscribe(
+            res => {
+              this.messageType = 'success';
+              this.message = 'Alteração realizada com sucesso';
+              this.scrollService.scrollTo('#header');
+              this.submitted = false;
+              this.carregar = false;
+              this.spinner.hide();
+            },
+            error => {
+              console.log(error);
+              this.messageType = 'danger';
+              this.message = error;
+              this.scrollService.scrollTo('#header', 350, -100);
+              this.carregar = false;
+              this.spinner.hide();
+            }
+        );
+      }
+      else {
+        this.colaboradorService.cadastrarColaborador(this.colaborador)
+          .subscribe(
+            res => {
+              console.log(res);
+              this.uploadForm.reset();
+              this.messageType = 'success';
+              this.message = 'Cadastro realizado com sucesso';
+              this.scrollService.scrollTo('#header');
+              this.submitted = false;
+              this.carregar = false;
+              this.spinner.hide();
+            },
+            error => {
+              console.log(error);
+              this.messageType = 'danger';
+              this.message = error;
+              this.scrollService.scrollTo('#header', 350, -100);
+              this.carregar = false;
+              this.spinner.hide();
+            }
+        );
+      }
     }
   }
 
@@ -260,6 +288,11 @@ export class ColaboradorCadastroComponent implements OnInit {
     if(this.link != '') {
       window.open(this.link, "_blank");
     }
+  }
+
+  onValueChange(value: Date): void {
+    console.log('aqui');
+    this.uploadForm.controls.dataNascimento.setValue(formatDate(value, 'YYYY-MM-DD').trim());
   }
 
 }

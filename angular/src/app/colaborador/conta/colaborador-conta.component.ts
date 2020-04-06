@@ -1,11 +1,14 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ColaboradorService } from '../colaborador.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ColaboradorContaSituacaoComponent } from './situacao/conta-situacao.component';
 import { ColaboradorContaPadraoComponent } from './padrao/conta-padrao.component';
 import { ColaboradorContaExclusaoComponent } from './exclusao/conta-exclusao.component';
+import { ActivatedRoute } from '@angular/router';
+import { ScrollToService } from 'ng2-scroll-to-el';
+import { ColaboradorConta } from '../models/colaborador-conta.model';
 
 
 const MODALS = {
@@ -26,6 +29,7 @@ export class ColaboradorContaCadastroComponent implements OnInit {
   message: string;
   messageType: string;
   closeResult: string;
+  colaboradorContas: ColaboradorConta[];
 
   maskCPF = [/[0-9]/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
 
@@ -33,20 +37,23 @@ export class ColaboradorContaCadastroComponent implements OnInit {
               private formBuilder: FormBuilder,
               private spinner: NgxSpinnerService,
               private el: ElementRef,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private activatedRoute: ActivatedRoute,
+              private scrollService: ScrollToService) {
+
     this.criarForm();
-    console.log('conta');
   }
 
   ngOnInit() {
     this.carregarBancos();
-    this.carregarDadosConta();
+    this.carregarDadosConta(false);
   }
 
   criarForm() {
     this.uploadFormConta = this.formBuilder.group({
-      titular: ['', [Validators.required]],
-      banco: ['', [Validators.required]],
+      idColaborador: [this.colaboradorService.colaborador.id],
+      titular: ['sim', [Validators.required]],
+      idBanco: ['', [Validators.required]],
       tipo: ['', [Validators.required]],
       nomeTitular: ['', [Validators.maxLength(100)]],
       cpfTitular: ['', [Validators.minLength(14), Validators.maxLength(14)]],
@@ -62,7 +69,6 @@ export class ColaboradorContaCadastroComponent implements OnInit {
       this.colaboradorService.getBancos()
         .subscribe(
           res => {
-            console.log(res);
             this.colaboradorService.bancos = res;
           },
           error => {
@@ -72,24 +78,23 @@ export class ColaboradorContaCadastroComponent implements OnInit {
     }
   }
 
-  carregarDadosConta() {
-    if(this.colaboradorService.colaboradorContas == undefined) {
+  carregarDadosConta(carregar: boolean) {
+    if(this.colaboradorService.colaboradorContas == undefined || carregar) {
       this.carregar = true;
       this.spinner.show();
       setTimeout(() => {
-
-        this.colaboradorService.colaboradoresContas()
+        this.colaboradorService.colaboradoresContas(this.activatedRoute.snapshot.params['id'])
           .subscribe(
             res => {
-              console.log(res);
-              this.colaboradorService.colaboradorContas = res;
+              this.colaboradorService.setColaboradorConta(res);
               this.carregar = false;
               this.spinner.hide();
             },
             error => {
               console.log(error);
               this.messageType = 'danger';
-              this.message = 'erro';
+              this.message = error;
+              this.scrollService.scrollTo('#header');
               this.carregar = false;
               this.spinner.hide();
             }
@@ -105,7 +110,6 @@ export class ColaboradorContaCadastroComponent implements OnInit {
 
   cadastrarConta() {
     console.log(this.uploadFormConta.value);
-
     this.submittedConta = true;
 
     const controls = this.uploadFormConta.controls;
@@ -113,6 +117,7 @@ export class ColaboradorContaCadastroComponent implements OnInit {
         this.checkField(controls[name].value, name);
         if (controls[name].invalid) {
             console.log('invalido: ' + name);
+            console.log(controls[name].errors);
         }
     }
 
@@ -124,25 +129,59 @@ export class ColaboradorContaCadastroComponent implements OnInit {
     }
     else {
       console.log('ok');
-      // this.carregar = true;
-      // this.spinner.show();
+      this.carregar = true;
+      this.spinner.show();
 
+      let colaboradorConta = {} as ColaboradorConta;
+      colaboradorConta = this.uploadFormConta.value;
+      colaboradorConta.idColaborador = this.colaboradorService.colaborador.id;
+
+      setTimeout(() => {
+        this.colaboradorService.cadastrarContas(colaboradorConta)
+          .subscribe(
+            res => {
+              console.log(res);
+              this.uploadFormConta.reset();
+              this.uploadFormConta.controls.titular.setValue('sim');
+              this.carregarDadosConta(true);
+              this.messageType = 'success';
+              this.message = 'Conta cadastrada com sucesso';
+              this.scrollService.scrollTo('#header');
+              this.submittedConta = false;
+              this.carregar = false;
+              this.spinner.hide();
+            },
+            error => {
+              console.log(error);
+              this.messageType = 'danger';
+              this.message = error;
+              this.scrollService.scrollTo('#header');
+              this.submittedConta = false;
+              this.carregar = false;
+              this.spinner.hide();
+            }
+        );
+      }, 0);
     }
-
   }
 
   alterarTitular() {
     if(this.uploadFormConta.controls.titular.value == 'nao') {
       this.uploadFormConta.controls.nomeTitular.setValidators([Validators.required, Validators.maxLength(100)]);
+      this.uploadFormConta.controls.nomeTitular.updateValueAndValidity();
       this.uploadFormConta.controls.cpfTitular.setValidators([Validators.required, Validators.maxLength(15)]);
+      this.uploadFormConta.controls.cpfTitular.updateValueAndValidity();
     }
     else {
       this.uploadFormConta.controls.nomeTitular.clearValidators();
+      this.uploadFormConta.controls.nomeTitular.updateValueAndValidity();
       this.uploadFormConta.controls.cpfTitular.clearValidators();
+      this.uploadFormConta.controls.cpfTitular.updateValueAndValidity();
     }
   }
 
   open(content: any) {
+    this.message = '';
     this.modalService.open(content, {centered: true, ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -150,10 +189,10 @@ export class ColaboradorContaCadastroComponent implements OnInit {
     });
   }
 
-  openModal(name: string, informacao: string) {
+  openModal(name: string, informacao: any) {
+    this.message = '';
     const ref = this.modalService.open(MODALS[name], {centered: true});
-    ref.componentInstance.situacao = informacao;
-    ref.componentInstance.conta = informacao;
+    ref.componentInstance.colaborador = informacao;
   }
 
   private getDismissReason(reason: any): string {

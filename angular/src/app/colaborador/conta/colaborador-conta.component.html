@@ -11,6 +11,10 @@
   <!-- <h5>Contas Cadastradas</h5> -->
 <!-- </div> -->
 
+<p *ngIf="message">
+  <ngb-alert [type]="messageType" [dismissible]="false">{{ message }}</ngb-alert>
+</p>
+
 <div class="col-md-12 mb-4 py-3">
   <div class="table-responsive-sm">
     <p><strong>Contas Cadastradas</strong></p>
@@ -24,19 +28,18 @@
           <th scope="col">Conta</th>
           <th scope="col">Op.</th>
           <th scope="col">Situação</th>
-          <th scope="col">Padrão</th>
-          <th scope="col"></th>
+          <th scope="col">Ação</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of colaboradorService.colaboradorContas">
+        <tr *ngFor="let item of colaboradorService?.colaboradorContas">
           <td>{{item.bancoDescricao}}</td>
-          <td>{{item.tipoDescricao}}</td>
+          <td>{{item.tipo}}</td>
           <td>
             <label *ngIf="item.titular == 'Sim'">
               {{item.titular}}
             </label>
-            <button *ngIf="item.titular == 'Não'" (click)="open(titular)" type="button" class="btn btn-sm btn-info btn-s">
+            <button *ngIf="item.titular == 'Nao'" (click)="open(titular)" type="button" class="btn btn-sm btn-info btn-s">
               <i class="fas fa-user"></i> {{item.titular}}
             </button>
           </td>
@@ -45,28 +48,20 @@
           <td *ngIf="item.operacao != ''">{{item.operacao}}</td>
           <td *ngIf="item.operacao == ''">-</td>
           <td>
-            <button *ngIf="item.situacao == 1" (click)="openModal('modalSituacao', item.situacaoDescricao)" type="button" class="btn btn-sm btn-success btn-s">
+            <button *ngIf="item.idSituacao == 1" (click)="openModal('modalSituacao', item)" type="button" class="btn btn-sm btn-success btn-s">
               {{item.situacaoDescricao}}
             </button>
-            <button *ngIf="item.situacao == 2" (click)="openModal('modalSituacao', item.situacaoDescricao)" type="button" class="btn btn-sm btn-danger btn-s">
+            <button *ngIf="item.idSituacao == 2" (click)="openModal('modalSituacao', item)" type="button" class="btn btn-sm btn-danger btn-s">
               {{item.situacaoDescricao}}
             </button>
           </td>
           <td>
-            <label *ngIf="item.padrao == 1" class="btn-sm btn-success">
-              <i class="far fa-check-square"></i>
-            </label>
-            <button *ngIf="item.padrao == 0" (click)="openModal('modalPadrao', item.conta)" type="button" class="btn btn-sm btn-danger">
-              <i class="far fa-window-close"></i>
-            </button>
-          </td>
-          <td>
-            <button (click)="openModal('modalExclusao', item.conta)" type="button" class="btn btn-sm btn-danger btn-s">
+            <button (click)="openModal('modalExclusao', item)" type="button" class="btn btn-sm btn-danger btn-s">
                 <i class="fa fa-trash-alt"></i> Excluir
             </button>
           </td>
         </tr>
-        <tr *ngIf="colaboradorService.colaboradorContas == undefined || colaboradorService.colaboradorContas.length == 0">
+        <tr *ngIf="colaboradorService?.colaboradorContas == undefined || colaboradorService?.colaboradorContas.length == 0">
           <td colspan="9" style="text-align: center">Nenhuma conta cadastrada</td>
         </tr>
       </tbody>
@@ -87,6 +82,7 @@
           <div class="custom-control custom-radio custom-control-inline">
             <input formControlName="titular"
                     (change)="alterarTitular()"
+                    [checked]="true"
                     type="radio"
                     class="custom-control-input"
                     id="titular1"
@@ -113,14 +109,14 @@
 
       <div class="col-md-4 mb-3">
         <label>Banco</label>
-        <select formControlName="banco" class="combobox form-control" name="banco" id="banco">
+        <select formControlName="idBanco" class="combobox form-control" name="banco" id="banco">
           <option value="" [selected]="true">Selecione</option>
           <option *ngFor="let item of colaboradorService.bancos"
-                  [value]="item.id">
-            {{item.descricao}}
+                  [value]="item.idBanco">
+            {{item.banco}}
           </option>
         </select>
-        <div *ngIf="submittedConta && form?.banco?.errors?.required" class="invalid-feedback" style="display:block">
+        <div *ngIf="submittedConta && form?.idBanco?.errors?.required" class="invalid-feedback" style="display:block">
           Banco é obrigatório.
         </div>
       </div>
@@ -129,8 +125,8 @@
         <label>Tipo</label>
         <select formControlName="tipo" class="combobox form-control" name="tpconta" id="tpconta">
           <option value="" [selected]="true">Selecione</option>
-          <option value="1">Corrente</option>
-          <option value="2">Poupança</option>
+          <option value="Corrente">Corrente</option>
+          <option value="Poupança">Poupança</option>
         </select>
         <div *ngIf="submittedConta && form?.tipo?.errors?.required" class="invalid-feedback" style="display:block">
           Tipo é obrigatório.

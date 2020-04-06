@@ -1,3 +1,3 @@
-<app-menu></app-menu>
+<app-menu *ngIf="userService?.user != undefined"></app-menu>
 <router-outlet></router-outlet>
 <!-- <app-footer ></app-footer> -->

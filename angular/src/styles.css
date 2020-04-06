@@ -105,3 +105,173 @@ input[type="file"] {
   text-align: right;
   top: 0;
 }
+
+/* Slide */
+.slide-default {
+  display: block;
+  width: 100%;
+  float: left;
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.slide-mobile {
+  display: none;
+}
+
+.prev-slide {
+    background: url("src/assets/images/arrow_left.png") -10px no-repeat;
+    left: -22px;
+}
+
+.next-slide {
+    background: url("src/assets/images/arrow_right.png") -24px -10px no-repeat;
+    right: -22px;
+}
+
+.nav-btn {
+    height: 60px;
+    position: absolute;
+    width: 21px;
+    cursor: pointer;
+    top: 100px!important;
+}
+
+.imagens-colaborador-desk {
+  width: 95%;
+  object-fit: contain;
+  height:300px;
+}
+
+.imagens-colaborador-mob {
+  width: 95%;
+  height: 150px;
+  object-fit: contain;
+  padding-bottom: 1%;
+}
+
+@media (max-width: 992px) {
+  .slide-default {
+    display: block;
+    width: 100%;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .slide-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 821px) {
+  .slide-default {
+    display: block;
+    width: 100%;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .slide-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .slide-default {
+    display: block;
+    width: 100%;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .slide-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .slide-default {
+    display: none;
+  }
+  .slide-mobile {
+    display: block;
+    width: 100%;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slide-default {
+    display: none;
+  }
+  .slide-mobile {
+    display: block;
+    width: 100%;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+@media (max-width: 375px) {
+  .slide-default {
+    display: none;
+  }
+  .slide-mobile {
+    display: block;
+    width: 100%;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .slide-default {
+    display: none;
+  }
+  .slide-mobile {
+    display: block;
+    width: 100%;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+@media (max-width: 320px) {
+  .slide-default {
+    display: none;
+  }
+  .slide-mobile {
+    display: block;
+    width: 100%;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+.ng-autocomplete {
+  width: 100%;
+}

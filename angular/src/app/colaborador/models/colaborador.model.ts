@@ -8,6 +8,7 @@ export interface Colaborador {
   sexo: string;
   email: string;
   situacao: number;
+  situacaoDesc: string;
   telFixo: string;
   telCel: string;
   vinculo: number;

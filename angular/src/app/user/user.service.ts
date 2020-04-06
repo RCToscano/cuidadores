@@ -5,8 +5,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User } from './models/user.model';
 import { ErrorHandler } from '../app.error-handler';
-import { SC_API } from '../app.api';
+import { SC_API_GENERICO } from '../app.api';
 import { CadastroParametros } from './models/cadastro-parametros-model';
+import { Login } from './models/login.model';
 
 
 @Injectable()
@@ -16,17 +17,23 @@ export class UserService {
   user: User;
   navigateTo: string;
   token = localStorage.getItem('tokenCuidadores');
+  error: string;
 
   constructor(private http: HttpClient, private router: Router) {
     if (this.token != null && this.token != 'null') {
       this.consultaUsuarioToken(this.token).subscribe(
         res => {
-            this.user = res;
+            this.user = res.body;
             this.user.token = this.token;
             this.setUser(this.user);
         },
         error => {
           console.log(error);
+          this.error = error;
+          this.user = undefined;
+          localStorage.clear();
+          this.messageEvent.emit(this.user);
+          this.router.navigate(['']);
         }
       );
     }
@@ -39,8 +46,9 @@ export class UserService {
   }
 
   httpHeaders = new HttpHeaders(
-    { 'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache' 
+    {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache'
     }
   );
 
@@ -60,49 +68,57 @@ export class UserService {
     this.router.navigate(['/user/register']);
   }
 
-  login(email: string, password: string): Observable<User> {
-    return this.http.post<any>(`${SC_API}/users/login`, { emailAdress: email, password: password }, this.options)
+  login(login: Login): Observable<User> {
+    return this.http.post<any>(`${SC_API_GENERICO}/login/autenticar`, login, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
   }
 
   logout() {
-    this.user = null;
+    this.user = undefined;
     localStorage.clear();
     this.messageEvent.emit(this.user);
+    this.router.navigate(['']);
   }
 
   cadastroParametros(): Observable<CadastroParametros> {
-    return this.http.get<CadastroParametros>(`${SC_API}/parametros`, this.options)
+    return this.http.get<CadastroParametros>(`${SC_API_GENERICO}/parametros`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
   }
 
   consultaUsuarioToken(token: string): Observable<any> {
-    return this.http.get(`${SC_API}/users/token/${token}`, this.options)
+    return this.http.get(`${SC_API_GENERICO}/users/token`,
+      {
+        headers: new HttpHeaders({
+          'Authorization': token
+        }),
+        observe: 'response'
+      }
+    )
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
   }
 
   consultaUsuarioId(id: number): Observable<any> {
-    return this.http.get(`${SC_API}/users/${id}`, this.options)
+    return this.http.get(`${SC_API_GENERICO}/users/${id}`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
   }
 
   cadastrarUsuario(user: User): Observable<any> {
-    return this.http.post<any>(`${SC_API}/users`, user, this.options)
+    return this.http.post<any>(`${SC_API_GENERICO}/users`, user, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
   }
 
   usuarios(): Observable<User[]> {
-    return this.http.get<User[]>(`${SC_API}/users`, this.options)
+    return this.http.get<User[]>(`${SC_API_GENERICO}/users`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );

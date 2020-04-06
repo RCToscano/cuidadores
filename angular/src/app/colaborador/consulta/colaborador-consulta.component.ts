@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ColaboradorService } from '../colaborador.service';
 import { Colaborador } from '../models/colaborador.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-colaborador-consulta',
@@ -9,95 +12,80 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class ColaboradorConsultaComponent implements OnInit {
 
-  colaborador: Colaborador;
-  colaboradores: Colaborador[];
-  dropdownList = [];
-  selectedItems = [];
-  dropdownSettings = {};
+  @ViewChild('auto') auto;
+
+  submitted = false;
   carregar = false;
+  keyword = 'nome';
+  placeholder = 'Digite o nome do Colaborador';
+  uploadForm: FormGroup;
+  searchControl: FormControl;
+  colaboradores: Colaborador[];
+  isLoading = false;
+  message: string;
+  messageType: string;
+  colaboradorSelected = false;
 
   constructor(private colaboradorService: ColaboradorService,
-              private spinner: NgxSpinnerService) {
-    // this.selectedItems = [
-    //   { item_id: 3, item_text: 'Pune' },
-    //   { item_id: 4, item_text: 'Navsari' }
-    // ];
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'nome',
-      selectAllText: 'Marcar Todos',
-      unSelectAllText: 'Desmarcar Todos',
-      searchPlaceholderText: "Digite para procurar ...",
-      noDataAvailablePlaceholderText: "Nenhum colaborador encontrado",
-      itemsShowLimit: 5,
-      allowSearchFilter: true
-    };
+              private spinner: NgxSpinnerService,
+              private router: Router,
+              private formBuilder: FormBuilder) {
+
+    this.searchControl = this.formBuilder.control('', Validators.required);
+    this.uploadForm = this.formBuilder.group({
+      colaborador: this.searchControl
+    });
+
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap(valor => {
+          this.submitted = false;
+          this.isLoading = true;
+          if (valor != '') {
+            return this.colaboradorService.buscarColaboradores(valor);
+          }
+          else {
+            return this.colaboradorService.buscarColaboradores('1');
+          }
+        })
+      ).subscribe(
+        res => {
+          this.colaboradores = res
+          this.submitted = false;
+          this.isLoading = false;
+        },
+        error => {
+          this.submitted = false;
+          this.isLoading = false;
+        }
+      );
   }
 
   ngOnInit() {
-    this.carregar = true;
-    this.spinner.show();
 
-    this.colaboradorService.colaboradores()
-      .subscribe(
-        res => {
-          console.log(res);
-          this.colaboradores = res;
-
-          const temp = [];
-          for (let variable of this.colaboradores) {
-              const obj = {"id":variable.id,"nome":variable.nome}
-              temp.push(obj);
-          }
-          this.dropdownList = temp;
-          this.carregar = false;
-          this.spinner.hide();
-        },
-        error => {
-          console.log(error);
-          this.carregar = false;
-          this.spinner.hide();
-        }
-      );
   }
 
   onSubmit() {
-    this.carregar = true;
-    this.spinner.show();
-
-    this.colaboradorService.consultaColaborador(1)
-      .subscribe(
-        res => {
-          this.colaborador = res;
-
-          this.carregar = false;
-          this.spinner.hide();
-        },
-        error => {
-          console.log(error);
-          this.carregar = false;
-          this.spinner.hide();
-        }
-      );
+    this.submitted = true;
   }
 
-  onItemSelect(item: any) {
-    console.log(item);
-    this.selectedItems.push(item);
-    console.log(this.selectedItems);
+  get form() {
+    if(this.uploadForm != null)
+      return this.uploadForm.controls;
   }
 
-  onDeSelect(item: any) {
-    console.log(item);
-    const index: number = this.selectedItems.indexOf(item.id);
-    if (index !== -1) {
-      this.selectedItems.splice(index, 1);
-    }
+  selected() {
+    console.log('selected');
+    this.colaboradorSelected = true;
+    this.isLoading = false;
   }
 
-  onSelectAll(items: any) {
-    console.log(items);
+  inputCleared() {
+    console.log('inputCleared');
+    this.colaboradorSelected = false;
+    this.isLoading = false;
   }
 
 }
