@@ -12,7 +12,7 @@
 <!-- </div> -->
 
 <p *ngIf="message">
-  <ngb-alert [type]="messageType" (close)="close(alert)">{{ message }}</ngb-alert>
+  <ngb-alert [type]="messageType" [dismissible]="false">{{ message }}</ngb-alert>
 </p>
 
 <div class="col-md-12 mb-4 py-3">

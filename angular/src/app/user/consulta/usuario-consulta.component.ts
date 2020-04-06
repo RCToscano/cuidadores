@@ -47,7 +47,7 @@ export class UsuarioConsultaComponent implements OnInit {
 
           const temp = [];
           for (let variable of this.users) {
-              const obj = {"id":variable.id,"nome":variable.nome}
+              const obj = {"id":variable.idUser,"nome":variable.nome}
               temp.push(obj);
           }
           this.dropdownList = temp;

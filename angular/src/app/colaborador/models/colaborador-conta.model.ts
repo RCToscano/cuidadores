@@ -1,5 +1,6 @@
 export interface ColaboradorConta {
   idColaborador: number;
+  primeiraConta: boolean;
   idConta: number;
   titular: string;
   nomeTitular: string;

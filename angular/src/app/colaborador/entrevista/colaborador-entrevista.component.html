@@ -20,9 +20,9 @@
                       name="dtentrevista"
                       id="dtentrevista"
                       maxlength="10"/>
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-              </span>
+              <div *ngIf="submitted && form.dtEntrevista.errors?.required" class="invalid-feedback" style="display:block">
+                RG é obrigatório.
+              </div>
             </div>
           </div>
 

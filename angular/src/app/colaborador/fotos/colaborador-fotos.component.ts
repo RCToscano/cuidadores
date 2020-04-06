@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { ScrollToService } from 'ng2-scroll-to-el';
+import { ColaboradorImagem } from '../models/colaborador-imagem.model';
 
 
 const URL = '/sicds-colaborador-api/web/colaborador/upload/image';
@@ -100,7 +101,7 @@ export class ColaboradorFotosComponent implements OnInit {
   }
 
   carregarImagens(carregar: boolean) {
-    if(this.colaboradorService.colaboradorContas == undefined || carregar) {
+    if(this.colaboradorService.colaboradorImagens == undefined || carregar) {
       this.carregar = true;
       this.spinner.show();
       setTimeout(() => {
@@ -144,7 +145,11 @@ export class ColaboradorFotosComponent implements OnInit {
         item.isSuccess = true;
         item.isError = false;
         item.isUploading = false;
-        this.carregarImagens(true);
+
+        this.scrollService.scrollTo('#header');
+        this.colaboradorService.colaboradorImagens = res;
+        this.carregar = false;
+        this.spinner.hide();
       },
       error => {
         item.progress = 0;
@@ -152,6 +157,32 @@ export class ColaboradorFotosComponent implements OnInit {
         item.isError = true;
         item.isUploading = false;
         console.log(error);
+      }
+    );
+  }
+
+  delete(item: ColaboradorImagem) {
+    this.carregar = true;
+    this.spinner.show();
+    this.message = '';
+
+    this.colaboradorService.deletarImagem(item.idImagem, item.idColaborador).subscribe(
+      res => {
+        console.log(res);
+        this.colaboradorService.colaboradorImagens = res.body;
+        this.messageType = 'success';
+        this.message = 'Imagem deletada com sucesso';
+        this.scrollService.scrollTo('#header');
+        this.carregar = false;
+        this.spinner.hide();
+      },
+      error => {
+        console.log(error);
+        this.messageType = 'danger';
+        this.message = error;
+        this.scrollService.scrollTo('#header');
+        this.carregar = false;
+        this.spinner.hide();
       }
     );
   }
@@ -185,7 +216,9 @@ export class ColaboradorFotosComponent implements OnInit {
   }
 
   removeAll() {
+    console.log('remove all')
     this.uploader.queue.forEach(item => {
+      console.log('removeu');
       item.remove();
     });
   }

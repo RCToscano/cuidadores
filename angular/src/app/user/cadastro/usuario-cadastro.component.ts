@@ -166,7 +166,7 @@ export class UsuarioCadastroComponent implements OnInit {
       this.spinner.show();
 
       this.user = this.uploadForm.value;
-      this.user.id = 6;
+      this.user.idUser = 6;
       this.userService.cadastrarUsuario(this.user)
         .subscribe(
           res => {

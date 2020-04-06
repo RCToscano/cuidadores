@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ColaboradorService } from '../colaborador.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -51,6 +51,7 @@ export class ColaboradorContaCadastroComponent implements OnInit {
 
   criarForm() {
     this.uploadFormConta = this.formBuilder.group({
+      idColaborador: [this.colaboradorService.colaborador.id],
       titular: ['sim', [Validators.required]],
       idBanco: ['', [Validators.required]],
       tipo: ['', [Validators.required]],
@@ -133,7 +134,7 @@ export class ColaboradorContaCadastroComponent implements OnInit {
 
       let colaboradorConta = {} as ColaboradorConta;
       colaboradorConta = this.uploadFormConta.value;
-      colaboradorConta.idColaborador = this.colaboradorService.colaboradorContas[0].idColaborador;
+      colaboradorConta.idColaborador = this.colaboradorService.colaborador.id;
 
       setTimeout(() => {
         this.colaboradorService.cadastrarContas(colaboradorConta)
@@ -146,6 +147,7 @@ export class ColaboradorContaCadastroComponent implements OnInit {
               this.messageType = 'success';
               this.message = 'Conta cadastrada com sucesso';
               this.scrollService.scrollTo('#header');
+              this.submittedConta = false;
               this.carregar = false;
               this.spinner.hide();
             },
@@ -154,6 +156,7 @@ export class ColaboradorContaCadastroComponent implements OnInit {
               this.messageType = 'danger';
               this.message = error;
               this.scrollService.scrollTo('#header');
+              this.submittedConta = false;
               this.carregar = false;
               this.spinner.hide();
             }
@@ -178,6 +181,7 @@ export class ColaboradorContaCadastroComponent implements OnInit {
   }
 
   open(content: any) {
+    this.message = '';
     this.modalService.open(content, {centered: true, ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -186,6 +190,7 @@ export class ColaboradorContaCadastroComponent implements OnInit {
   }
 
   openModal(name: string, informacao: any) {
+    this.message = '';
     const ref = this.modalService.open(MODALS[name], {centered: true});
     ref.componentInstance.colaborador = informacao;
   }

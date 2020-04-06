@@ -1,3 +1,22 @@
+<div *ngIf="carregar">
+  <ngx-spinner
+    [fullScreen]="true"
+    type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading" style="color: white"> Saindo... </p>
+  </ngx-spinner>
+  <!-- <ngx-spinner
+    bdOpacity = 0.9
+    bdColor = "#ef8282"
+    size = "default"
+    color = "#3d3b3b"
+    type = "ball-clip-rotate"
+    [fullScreen] = "true"
+  >
+  <p style="color: #3d3b3b" > See You ;) </p>
+  </ngx-spinner> -->
+</div>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" [routerLink]="['home']">Cuidadores</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,7 +25,7 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Cliente
         </a>
@@ -15,7 +34,7 @@
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" [routerLink]="['assistido/ocorrencia/cadastro']">Cadastrar Ocorrência</a>
         </div>
-      </li>
+      </li> -->
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Cliente
@@ -90,7 +109,7 @@
         <li class="nav-item dropdown no-arrow">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown">
             <i class="fas fa-users-cog mr-2 text-gray-400"></i>
-            UsuárioTeste
+            <!-- {{ userService?.user.nome }} -->
           </a>
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
             <a class="dropdown-item">

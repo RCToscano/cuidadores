@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ColaboradorService } from '../colaborador.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ScrollToService } from 'ng2-scroll-to-el';
+import { defineLocale, formatDate } from 'ngx-bootstrap/chronos';
+import { ptBrLocale } from 'ngx-bootstrap/locale';
 import { ColaboradorEntrevista } from '../models/colaborador-entrevista.model';
 
 @Component({
@@ -18,7 +20,7 @@ export class ColaboradorEntrevistaComponent implements OnInit {
   alterar = false;
   message: string;
   messageType: string;
-  uploadFormEntrevista: FormGroup;
+  uploadForm: FormGroup;
   submitted = false;
   carregar = false;
   maskCPF = [/[0-9]/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
@@ -30,8 +32,9 @@ export class ColaboradorEntrevistaComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private colaboradorService: ColaboradorService,
               private spinner: NgxSpinnerService,
-              private scrollService: ScrollToService) {
-
+              private scrollService: ScrollToService,
+              private el: ElementRef) {
+    defineLocale('pt-br', ptBrLocale);
   }
 
   ngOnInit() {
@@ -70,7 +73,7 @@ export class ColaboradorEntrevistaComponent implements OnInit {
   }
 
   criarForm() {
-    this.uploadFormEntrevista = this.formBuilder.group({
+    this.uploadForm = this.formBuilder.group({
       dtEntrevista: ['', [Validators.required]],
       aparencia: ['', [Validators.required]],
       postura: ['', [Validators.required]],
@@ -115,6 +118,103 @@ export class ColaboradorEntrevistaComponent implements OnInit {
       experiencia: [''],
       observacoes: ['', [Validators.maxLength(500)]],
     });
+  }
+
+  formartDate(data: string): Date {
+    if(data != null && data != '') {
+      return new Date(data);
+    }
+    return null;
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
+    const controls = this.uploadForm.controls;
+    for (const name in controls) {
+        this.checkField(controls[name].value, name);
+        if (controls[name].invalid) {
+            console.log('invalido: ' + name);
+            console.log(controls[name].errors);
+        }
+    }
+
+    if(this.uploadForm.invalid) {
+      const invalidElements = this.el.nativeElement.querySelectorAll('.ng-invalid');
+      invalidElements[1].focus();
+      return;
+    }
+    else {
+      this.carregar = true;
+      this.spinner.show();
+      console.log(this.uploadForm.value);
+      this.colaboradorEntrevista = this.uploadForm.value;
+      this.colaboradorEntrevista.dtEntrevista = formatDate(controls.dtEntrevista.value, 'DD/MM/YYYY').trim();
+
+      if(this.alterar) {
+        this.colaboradorService.alterarEntrevista(this.colaboradorEntrevista)
+          .subscribe(
+            res => {
+              this.messageType = 'success';
+              this.message = 'Alteração realizada com sucesso';
+              this.scrollService.scrollTo('#header');
+              this.submitted = false;
+              this.carregar = false;
+              this.spinner.hide();
+            },
+            error => {
+              console.log(error);
+              this.messageType = 'danger';
+              this.message = error;
+              this.scrollService.scrollTo('#header', 350, -100);
+              this.carregar = false;
+              this.spinner.hide();
+            }
+        );
+      }
+      else {
+        this.colaboradorService.cadastrarEntrevista(this.colaboradorEntrevista)
+          .subscribe(
+            res => {
+              console.log(res);
+              this.uploadForm.reset();
+              this.messageType = 'success';
+              this.message = 'Cadastro realizado com sucesso';
+              this.scrollService.scrollTo('#header');
+              this.submitted = false;
+              this.carregar = false;
+              this.spinner.hide();
+            },
+            error => {
+              console.log(error);
+              this.messageType = 'danger';
+              this.message = error;
+              this.scrollService.scrollTo('#header', 350, -100);
+              this.carregar = false;
+              this.spinner.hide();
+            }
+        );
+      }
+    }
+  }
+
+  get form() {
+    if(this.uploadForm != null)
+      return this.uploadForm.controls;
+  }
+
+  checkField(value: string, field: string) {
+    // console.log('valor: ' + value);
+    try {
+      if (value != null && value.indexOf('_') !== -1 ) {
+        console.log(field + ' ' + value);
+        let aux = this.uploadForm.get(field);
+        aux.setErrors({ required: true });
+      }
+    }
+    catch(error) {
+
+    }
   }
 
 }

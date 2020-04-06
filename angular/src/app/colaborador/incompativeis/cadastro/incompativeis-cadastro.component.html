@@ -1,36 +1,96 @@
 <div class="container">
-  <div class="py-5 text-center">
-    <h2>Cadastro de Cuidadores Incompatíveis</h2>
+  <div *ngIf="carregar">
+    <ngx-spinner
+      [fullScreen]="true"
+      type="ball-clip-rotate-multiple"
+      size="medium">
+      <p class="loading" style="color: white"> Carregando... </p>
+    </ngx-spinner>
   </div>
 
-  <div class="row justify-content-center">
-    <div class="col d-flex justify-content-center">
-      <form class="needs-validation" novalidate>
+  <div class="py-5 text-center">
+    <h2>Cadastro de Colaborador Incompatível</h2>
+  </div>
+
+  <p *ngIf="message">
+    <ngb-alert [type]="messageType" (close)="close(alert)">{{ message }}</ngb-alert>
+  </p>
+
+  <div class="col-md-12">
+      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
         <div class="row">
 
           <div class="col-md-6 mb-3">
-            <label>Assistido</label>
-            <select class="combobox form-control" name="contrato" id="contrato">
-              <option value="0">Assistido 1</option>
-              <option value="1">Assistido 2</option>
-              <option value="2">Assistido 3</option>
-            </select>
+            <label>Cliente</label>
+            <ng-autocomplete
+              #auto1
+              [data]="clientes"
+              formControlName="cliente"
+              [placeHolder]="placeholderCli"
+              [searchKeyword]="keyword"
+              notFoundText="Não encontrado"
+              [itemTemplate]="itemTemplateStatic"
+              [notFoundTemplate]="notFoundTemplate"
+              (selected)="selected()"
+              (inputCleared)="inputCleared()"
+              [isLoading]="isLoading">
+            </ng-autocomplete>
+
+            <ng-template #itemTemplateStatic let-item>
+              <div>&nbsp;
+                <span [innerHTML]="item.nome"></span> -
+                <span>{{item.cpf}}</span>
+              </div>
+              <!-- <a [innerHTML]="item.nome"></a>
+              <span> - {{item.cpf}}</span> -->
+            </ng-template>
+
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <div *ngIf="submitted && form.cliente.errors?.required" class="invalid-feedback" style="display:block">
+              Cliente é obrigatório.
+            </div>
           </div>
 
           <div class="col-md-6 mb-3">
-            <label>Cuidador</label>
-            <select class="combobox form-control" name="contrato" id="contrato">
-              <option value="0">Cuidador 1</option>
-              <option value="1">Cuidador 2</option>
-              <option value="2">Cuidador 3</option>
-            </select>
+            <label>Colaborador</label>
+            <ng-autocomplete
+              #auto2
+              [data]="colaboradores"
+              formControlName="colaborador"
+              [placeHolder]="placeholderColab"
+              [searchKeyword]="keyword"
+              notFoundText="Não encontrado"
+              [itemTemplate]="itemTemplateStatic"
+              [notFoundTemplate]="notFoundTemplate"
+              (selected)="selected()"
+              (inputCleared)="inputCleared()"
+              [isLoading]="isLoading">
+            </ng-autocomplete>
+
+            <ng-template #itemTemplateStatic let-item>
+              <div>&nbsp;
+                <span [innerHTML]="item.nome"></span> -
+                <span>{{item.cpf}}</span>
+              </div>
+              <!-- <a [innerHTML]="item.nome"></a>
+              <span> - {{item.cpf}}</span> -->
+            </ng-template>
+
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <div *ngIf="submitted && form.colaborador.errors?.required" class="invalid-feedback" style="display:block">
+              Colaborador é obrigatório.
+            </div>
           </div>
 
           <div class="col-md-12 mb-3">
             <label for="lastName">Observação</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" style="resize: none;"></textarea>
-            <div class="invalid-feedback">
-              Valid last name is required.
+            <textarea formControlName="obs" class="form-control" id="exampleFormControlTextarea1" rows="4" style="resize: none;"></textarea>
+            <div *ngIf="submitted && form.obs.errors?.required" class="invalid-feedback" style="display:block">
+              Observação é obrigatório.
             </div>
           </div>
 
@@ -38,6 +98,5 @@
         <hr class="mb-4">
         <button class="btn btn-primary btn-lg btn-block" type="submit">Cadastrar</button>
       </form>
-    </div>
   </div>
 </div>
