@@ -35,6 +35,7 @@ import { VisitaCadastroComponent } from './assistido/visita/cadastro/visita-cada
 //Cliente
 import { ClienteService } from './cliente/cliente.service';
 import { ClienteCadastroComponent } from './cliente/cadastro/cliente-cadastro.component';
+import { ClienteConsultaComponent } from './cliente/consulta/cliente-consulta.component';
 
 // Prospect
 import { ProspectCadastroComponent } from './prospect/cadastro/prospect-cadastro.component';
@@ -48,6 +49,9 @@ import { EmpresaService } from './empresa/empresa.service';
 import { EmpresaConsultaComponent } from './empresa/consulta/empresa-consulta.component';
 import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.component';
 
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+registerLocaleData(localePt);
 
 @NgModule({
   declarations: [
@@ -70,7 +74,8 @@ import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.co
     UsuarioCadastroComponent,
     UsuarioConsultaComponent,
     EscalaConsultaComponent,
-    ClienteCadastroComponent
+    ClienteCadastroComponent,
+    ClienteConsultaComponent
   ],
   imports: [
     HttpClientModule,
@@ -94,7 +99,7 @@ import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.co
     EmpresaService,
     ClienteService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
-    {provide: LOCALE_ID, useValue: 'pt-br'}
+    {provide: LOCALE_ID, useValue: 'pt-BR'}
   ],
   bootstrap: [AppComponent]
 })

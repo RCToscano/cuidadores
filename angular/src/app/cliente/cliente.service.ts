@@ -40,8 +40,22 @@ export class ClienteService {
       );
   }
 
-  consultaCliente(id: number): Observable<Cliente> {
-    return this.http.get<Cliente>(`${SC_API_CLIENTE}/web/cliente/${id}`, this.options)
+  alterarCliente(cliente: Cliente): Observable<any> {
+    return this.http.post<any>(`${SC_API_CLIENTE}/web/cliente/alterar`, cliente, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  buscarPorIdCliente(idCliente: number): Observable<Cliente> {
+    return this.http.get<Cliente>(`${SC_API_CLIENTE}/web/cliente/buscar/idCliente/${idCliente}`, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  listarCliente(): Observable<any> {
+    return this.http.get<any>(`${SC_API_CLIENTE}/web/cliente/listar`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );

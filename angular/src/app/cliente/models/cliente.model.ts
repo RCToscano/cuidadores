@@ -20,6 +20,7 @@ export interface Cliente {
   uf: string;
   cep: string;
   pais: string;
+  obs: string;
   coordenadas: string;
   latitude: string;
   longitude: string;
