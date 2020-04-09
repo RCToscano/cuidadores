@@ -3,6 +3,7 @@ import { throwError } from 'rxjs';
 export class ErrorHandler {
 
   static handlerError(error: any) {
+    debugger;
     let errorMessage = 'Servidor Indisponível';
     if (error.error instanceof ErrorEvent) {
       // console.log('errorHandler0' + JSON.stringify(error));
