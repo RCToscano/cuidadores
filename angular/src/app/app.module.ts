@@ -14,6 +14,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
 import { ScrollToModule } from 'ng2-scroll-to-el';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { FileUploadModule } from 'ng2-file-upload';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 // import { DigitOnlyDirective } from './common/directives/digitonly/digit-only.directive';
 
 import { LoginComponent } from './user/login/login.component';
@@ -34,10 +35,12 @@ import { VisitaCadastroComponent } from './assistido/visita/cadastro/visita-cada
 
 //Cliente
 import { ClienteService } from './cliente/cliente.service';
+import { ProspectService } from './prospect/prospect.service';
 import { ClienteCadastroComponent } from './cliente/cadastro/cliente-cadastro.component';
 
 // Prospect
 import { ProspectCadastroComponent } from './prospect/cadastro/prospect-cadastro.component';
+import { ProspectConsultaComponent } from './prospect/consulta/prospect-consulta.component';
 
 // Escala
 import { EscalaInclusaoComponent } from './escala/inclusao/escala-inclusao.component';
@@ -47,6 +50,7 @@ import { EscalaConsultaComponent } from './escala/consulta/escala-consulta.compo
 import { EmpresaService } from './empresa/empresa.service';
 import { EmpresaConsultaComponent } from './empresa/consulta/empresa-consulta.component';
 import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.component';
+
 
 
 @NgModule({
@@ -70,7 +74,8 @@ import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.co
     UsuarioCadastroComponent,
     UsuarioConsultaComponent,
     EscalaConsultaComponent,
-    ClienteCadastroComponent
+    ClienteCadastroComponent,
+    ProspectConsultaComponent
   ],
   imports: [
     HttpClientModule,
@@ -87,12 +92,14 @@ import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.co
     BsDatepickerModule.forRoot(),
     ScrollToModule.forRoot(),
     NgxSpinnerModule,
-    FileUploadModule
+    FileUploadModule,
+    AutocompleteLibModule
   ],
   providers: [
     UserService,
     EmpresaService,
     ClienteService,
+    ProspectService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: LOCALE_ID, useValue: 'pt-br'}
   ],

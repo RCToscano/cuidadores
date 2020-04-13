@@ -24,7 +24,7 @@ export class ColaboradorService {
   colaboradorOcorrencias: ColaboradorOcorrencia[];
   colaboradorIncompativeis: ColaboradorIncompativel[];
   bancos: Banco[];
-  colaboradorEntrevista: any;
+  colaboradorEntrevista: ColaboradorEntrevista;
 
   constructor(private http: HttpClient,
               private userService: UserService) {}
@@ -196,6 +196,14 @@ export class ColaboradorService {
 
   alterarEntrevista(entrevista: ColaboradorEntrevista): Observable<any> {
     return this.http.post<any>(`${SC_API_COLABORADOR}/entrevista/alterar`, entrevista, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  consultaEntrevista(id: number): Observable<ColaboradorEntrevista> {
+    return this.http.get<ColaboradorEntrevista>(`${SC_API_COLABORADOR}/entrevista/${id}`,
+      this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );

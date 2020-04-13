@@ -26,6 +26,7 @@ import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.co
 // Usuario
 import { UsuarioConsultaComponent } from './user/consulta/usuario-consulta.component';
 import { UsuarioCadastroComponent } from './user/cadastro/usuario-cadastro.component';
+import { ProspectConsultaComponent } from './prospect/consulta/prospect-consulta.component';
 
 
 const routes: Routes = [
@@ -43,6 +44,8 @@ const routes: Routes = [
   // { path: 'colaborador/ocorrencia/cadastro', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },
   // { path: 'colaborador/incompativel/cadastro', loadChildren: './colaborador/colaborador.module#ColaboradorModule' },
   { path: 'prospect/cadastro', component: ProspectCadastroComponent },
+  { path: 'prospect/cadastro/:id', component: ProspectCadastroComponent },
+  { path: 'prospect/consulta', component: ProspectConsultaComponent },
   { path: 'empresa/consulta', component: EmpresaConsultaComponent },
   { path: 'empresa/cadastro/:id', component: EmpresaCadastroComponent },
   { path: 'empresa/cadastro', component: EmpresaCadastroComponent },

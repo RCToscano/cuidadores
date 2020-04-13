@@ -7,11 +7,11 @@ import { defineLocale, formatDate } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 import '../../../assets/scripts/endereco.js';
 import { ColaboradorService } from '../colaborador.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CadastroParametros } from '../models/cadastro-parametros-model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ScrollToService } from 'ng2-scroll-to-el';
-import { BsDatepickerConfig } from 'ngx-bootstrap';
+import { UserService } from 'src/app/user/user.service';
 
 @Component({
   selector: 'app-colaborador-cadastro',
@@ -47,12 +47,15 @@ export class ColaboradorCadastroComponent implements OnInit {
               private el: ElementRef,
               private activatedRoute: ActivatedRoute,
               private colaboradorService: ColaboradorService,
+              private userService: UserService,
+              private router: Router,
               private spinner: NgxSpinnerService,
               private scrollService: ScrollToService) {
-    // if(!this.userService.isLogged()) {
-    //   this.router.navigate(['']);
-    // }
-    // else {
+
+    if(!this.userService.isLogged()) {
+      this.router.navigate(['']);
+    }
+    else {
       defineLocale('pt-br', ptBrLocale);
 
       if(this.activatedRoute.snapshot.params['id'] != undefined) {
@@ -63,8 +66,9 @@ export class ColaboradorCadastroComponent implements OnInit {
       this.colaboradorService.colaboradorContas = undefined;
       this.colaboradorService.colaboradorImagens = undefined;
       this.colaboradorService.colaboradorOcorrencias = undefined;
-
-    // }
+      this.colaboradorService.colaboradorIncompativeis = undefined;
+      this.colaboradorService.colaboradorEntrevista = undefined;
+    }
   }
 
   ngOnInit() {

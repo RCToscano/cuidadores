@@ -1,4 +1,4 @@
-<div *ngIf="userService.user == undefined" class="container">
+<div *ngIf="userService?.user.token == null" class="container">
   <div *ngIf="carregar">
     <ngx-spinner
       [fullScreen]="true"

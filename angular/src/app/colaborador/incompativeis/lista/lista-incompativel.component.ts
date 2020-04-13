@@ -24,7 +24,9 @@ export class ListaIncompativelComponent implements OnInit {
   }
 
   carregarIncompativeis(carregar: boolean) {
+    console.log('incomp');
     if(this.colaboradorService.colaboradorIncompativeis == undefined || carregar) {
+      console.log('incomp carrega');
       this.carregar = true;
       this.spinner.show();
       setTimeout(() => {

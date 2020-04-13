@@ -1,39 +1,39 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ColaboradorService } from '../colaborador.service';
-import { Colaborador } from '../models/colaborador.model';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { Prospect } from '../models/prospect.model';
+import { ProspectService } from '../prospect.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-colaborador-consulta',
-  templateUrl: './colaborador-consulta.component.html'
+  selector: 'app-prospect-consulta',
+  templateUrl: './prospect-consulta.component.html'
 })
-export class ColaboradorConsultaComponent implements OnInit {
+export class ProspectConsultaComponent implements OnInit {
 
   @ViewChild('auto') auto;
 
   submitted = false;
   carregar = false;
-  keyword = 'nome';
-  placeholder = 'Digite o nome do Colaborador';
+  keyword = 'nomeCliente';
+  placeholder = 'Digite o nome do Prospect';
   uploadForm: FormGroup;
   searchControl: FormControl;
-  colaboradores: Colaborador[];
+  prospects: Prospect[];
   isLoading = false;
   message: string;
   messageType: string;
-  colaboradorSelected = false;
+  prospectSelected = false;
 
-  constructor(private colaboradorService: ColaboradorService,
+  constructor(private prospectService: ProspectService,
               private spinner: NgxSpinnerService,
               private router: Router,
               private formBuilder: FormBuilder) {
 
     this.searchControl = this.formBuilder.control('', Validators.required);
     this.uploadForm = this.formBuilder.group({
-      colaborador: this.searchControl
+      prospect: this.searchControl
     });
 
     this.searchControl.valueChanges
@@ -44,15 +44,15 @@ export class ColaboradorConsultaComponent implements OnInit {
           this.submitted = false;
           this.isLoading = true;
           if (valor != '') {
-            return this.colaboradorService.buscarColaboradores(valor);
+            return this.prospectService.buscarProspects(valor);
           }
           else {
-            return this.colaboradorService.buscarColaboradores('1');
+            return this.prospectService.buscarProspects('1');
           }
         })
       ).subscribe(
         res => {
-          this.colaboradores = res
+          this.prospects = res
           this.submitted = false;
           this.isLoading = false;
         },
@@ -77,12 +77,12 @@ export class ColaboradorConsultaComponent implements OnInit {
   }
 
   selected() {
-    this.colaboradorSelected = true;
+    this.prospectSelected = true;
     this.isLoading = false;
   }
 
   inputCleared() {
-    this.colaboradorSelected = false;
+    this.prospectSelected = false;
     this.isLoading = false;
   }
 

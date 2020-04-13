@@ -122,7 +122,7 @@ export class ColaboradorFotosComponent implements OnInit {
               this.spinner.hide();
             }
         );
-      }, 1000);
+      }, 0);
     }
   }
 

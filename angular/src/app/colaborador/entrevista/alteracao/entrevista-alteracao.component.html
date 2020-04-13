@@ -1,0 +1,350 @@
+<div *ngIf="carregar">
+  <ngx-spinner
+    [fullScreen]="true"
+    type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading" style="color: white"> Carregando... </p>
+  </ngx-spinner>
+</div>
+
+<p *ngIf="message">
+  <ngb-alert [type]="messageType" (close)="close(alert)">{{ message }}</ngb-alert>
+</p>
+
+<div class="row">
+  <div class="col-md-12">
+    <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-2 mb-3">
+          <label>Data da Entrevista</label>
+          <div class="input-group date" id="dpdtentrevista">
+            <input formControlName="dtEntrevista"
+                    digitOnly
+                    [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD/MM/YYYY', locale:'pt-br', language: 'pt-br',  showWeekNumbers:false}"
+                    bsDatepicker
+                    type="text"
+                    class="form-control"
+                    name="dtentrevista"
+                    id="dtentrevista"
+                    maxlength="10"/>
+            <div *ngIf="submitted && form.dtEntrevista.errors?.required" class="invalid-feedback" style="display:block">
+              Data da Entrevista é obrigatória.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label>Aparência</label>
+          <select formControlName="aparencia" class="combobox form-control" name="aparencia" id="aparencia">
+            <option value="" selected>Selecione</option>
+            <option value="B">B</option>
+            <option value="N">N</option>
+            <option value="R">R</option>
+          </select>
+          <div *ngIf="submitted && form.aparencia.errors?.required" class="invalid-feedback" style="display:block">
+            Aparência é obrigatória.
+          </div>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label>Postura</label>
+          <select formControlName="postura" class="combobox form-control" name="postura" id="postura">
+            <option value="" selected>Selecione</option>
+            <option value="B">B</option>
+            <option value="N">N</option>
+            <option value="R">R</option>
+          </select>
+          <div *ngIf="submitted && form.postura.errors?.required" class="invalid-feedback" style="display:block">
+            Postura é obrigatória.
+          </div>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label>Interesse</label>
+          <select formControlName="interesse" class="combobox form-control" name="interesse" id="interesse">
+            <option value="" selected>Selecione</option>
+            <option value="B">B</option>
+            <option value="N">N</option>
+            <option value="R">R</option>
+          </select>
+          <div *ngIf="submitted && form.interesse.errors?.required" class="invalid-feedback" style="display:block">
+            Interesse é obrigatório.
+          </div>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label>Potencial</label>
+          <select formControlName="potencial" class="combobox form-control" name="potencial" id="potencial">
+            <option value="" selected>Selecione</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+          </select>
+          <div *ngIf="submitted && form.potencial.errors?.required" class="invalid-feedback" style="display:block">
+            Potencial é obrigatório.
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <h6>Conhecimento Técnico</h6>
+        </div>
+        <div class="col-md-3">
+          <div class="form-check">
+            <div class="custom-control custom-checkbox">
+              <input formControlName="demencia" type="checkbox" class="custom-control-input" id="demencia">
+              <label class="custom-control-label" for="demencia">Demência / Alzheimer</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="alzheimer" type="checkbox" class="custom-control-input" id="alzheimer">
+              <label class="custom-control-label" for="alzheimer">Alzheimer Agressivo</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input formControlName="parkinson" type="checkbox" class="custom-control-input" id="parkinson">
+              <label class="custom-control-label" for="parkinson">Parkinson</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="cadeirante" type="checkbox" class="custom-control-input" id="cadeirante">
+              <label class="custom-control-label" for="cadeirante">Cadeirante</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="grande" type="checkbox" class="custom-control-input" id="grande">
+              <label class="custom-control-label" for="grande">Cliente  Grande / Gordo</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-check">
+            <div class="custom-control custom-checkbox">
+              <input formControlName="acamado" type="checkbox" class="custom-control-input" id="acamado">
+              <label class="custom-control-label" for="acamado">Acamado</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="necessidadeTransferencia" type="checkbox" class="custom-control-input" id="necessidadeTransferencia">
+              <label class="custom-control-label" for="necessidadeTransferencia">Necessidade de Transferência</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="trocaFralda" type="checkbox" class="custom-control-input" id="trocaFralda">
+              <label class="custom-control-label" for="trocaFralda">Troca de Fralda</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="banhoCama" type="checkbox" class="custom-control-input" id="banhoCama">
+              <label class="custom-control-label" for="banhoCama">Banho na Cama</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="banhoCadeira" type="checkbox" class="custom-control-input" id="banhoCadeira">
+              <label class="custom-control-label" for="banhoCadeira">Banho Cadeira de Banho</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-check">
+            <div class="custom-control custom-checkbox">
+              <input formControlName="dextro" type="checkbox" class="custom-control-input" id="dextro">
+              <label class="custom-control-label" for="dextro">Dextro</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="insulinaCaneta" type="checkbox" class="custom-control-input" id="insulinaCaneta">
+              <label class="custom-control-label" for="insulinaCaneta">Aplicação de Insulina Caneta</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="insulinaSeringa" type="checkbox" class="custom-control-input" id="insulinaSeringa">
+              <label class="custom-control-label" for="insulinaSeringa">Aplicação de Insulina Seringa</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="paAparelho" type="checkbox" class="custom-control-input" id="paAparelho">
+              <label class="custom-control-label" for="paAparelho">PA aparelho</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="paDigital" type="checkbox" class="custom-control-input" id="paDigital">
+              <label class="custom-control-label" for="paDigital">PA digital</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-check">
+            <div class="custom-control custom-checkbox">
+              <input formControlName="sneGTT" type="checkbox" class="custom-control-input" id="sneGTT">
+              <label class="custom-control-label" for="sneGTT">SNE / GTT</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="colostomia" type="checkbox" class="custom-control-input" id="colostomia">
+              <label class="custom-control-label" for="colostomia">Colostomia</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="sondaVesical" type="checkbox" class="custom-control-input" id="sondaVesical">
+              <label class="custom-control-label" for="sondaVesical">Sonda Vesical Alivio / Demora</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="oxigenio" type="checkbox" class="custom-control-input" id="oxigenio">
+              <label class="custom-control-label" for="oxigenio">Oxigênio / Cpap / Bipap</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="enema" type="checkbox" class="custom-control-input" id="enema">
+              <label class="custom-control-label" for="enema">Enema</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-check">
+            <div class="custom-control custom-checkbox">
+              <input formControlName="posOperatorio" type="checkbox" class="custom-control-input" id="posOperatorio">
+              <label class="custom-control-label" for="posOperatorio">Pós-operatório</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <input formControlName="operacao"
+                  type="text"
+                  name="operacao"
+                  id="operacao"
+                  class="form-control"
+                  placeholder="Operação"
+                  type="text"
+                  maxlength="50"/>
+        </div>
+
+        <div class="col-md-12">
+          <h6>Disponibilidade</h6>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-check">
+            <div class="custom-control custom-checkbox">
+              <input formControlName="segundaDia" type="checkbox" class="custom-control-input" id="segundaDia">
+              <label class="custom-control-label" for="segundaDia">Segunda Dia</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="segundaNoite" type="checkbox" class="custom-control-input" id="segundaNoite">
+              <label class="custom-control-label" for="segundaNoite">Segunda Noite</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="domingoDia" type="checkbox" class="custom-control-input" id="domingoDia">
+              <label class="custom-control-label" for="domingoDia">Domingo Dia</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="domingoNoite" type="checkbox" class="custom-control-input" id="domingoNoite">
+              <label class="custom-control-label" for="domingoNoite">Domingo Noite</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-check">
+            <div class="custom-control custom-checkbox">
+              <input formControlName="tercaDia" type="checkbox" class="custom-control-input" id="tercaDia">
+              <label class="custom-control-label" for="tercaDia">Terça Dia</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="tercaNoite" type="checkbox" class="custom-control-input" id="tercaNoite">
+              <label class="custom-control-label" for="tercaNoite">Terça Noite</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-check">
+            <div class="custom-control custom-checkbox">
+              <input formControlName="quartaDia" type="checkbox" class="custom-control-input" id="quartaDia">
+              <label class="custom-control-label" for="quartaDia">Quarta Dia</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="quartaNoite" type="checkbox" class="custom-control-input" id="quartaNoite">
+              <label class="custom-control-label" for="quartaNoite">Quarta Noite</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-check">
+            <div class="custom-control custom-checkbox">
+              <input formControlName="quintaDia" type="checkbox" class="custom-control-input" id="quintaDia">
+              <label class="custom-control-label" for="quintaDia">Quinta Dia</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="quintaNoite" type="checkbox" class="custom-control-input" id="quintaNoite">
+              <label class="custom-control-label" for="quintaNoite">Quinta Noite</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-check">
+            <div class="custom-control custom-checkbox">
+              <input formControlName="sextaDia" type="checkbox" class="custom-control-input" id="sextaDia">
+              <label class="custom-control-label" for="sextaDia">Sexta Dia</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="sextaNoite" type="checkbox" class="custom-control-input" id="sextaNoite">
+              <label class="custom-control-label" for="sextaNoite">Sexta Noite</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-check">
+            <div class="custom-control custom-checkbox">
+              <input formControlName="sabadoDia" type="checkbox" class="custom-control-input" id="sabadoDia">
+              <label class="custom-control-label" for="sabadoDia">Sábado Dia</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input formControlName="sabadoNoite" type="checkbox" class="custom-control-input" id="sabadoNoite">
+              <label class="custom-control-label" for="sabadoNoite">Sábado Noite</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 mb-3"></div>
+
+        <div class="col-md-12 mb-3">
+          <h6>Experiência Anterior</h6>
+          <div class="form-check">
+            <div class="custom-control custom-radio custom-control-inline">
+              <input formControlName="experiencia"
+                      type="radio"
+                      class="custom-control-input"
+                      id="experiencia1"
+                      name="experiencia"
+                      value="sim">
+              <label class="custom-control-label" for="experiencia1">Sim</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline mb-3">
+              <input formControlName="experiencia"
+                      type="radio"
+                      class="custom-control-input"
+                      id="experiencia2"
+                      name="experiencia"
+                      value="nao">
+              <label class="custom-control-label" for="experiencia2">Não</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline mb-3">
+              <input formControlName="experiencia"
+                      checked
+                      type="radio"
+                      class="custom-control-input"
+                      id="experiencia3"
+                      name="experiencia"
+                      value="naoInfo">
+              <label class="custom-control-label" for="experiencia3">Não Informado</label>
+              <div class="invalid-feedback">More example invalid feedback text</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <h6>Observações</h6>
+          <div class="form-check">
+            <textarea formControlName="observacao" class="form-control" rows="5"  name="obs" id="obs" maxlength="500"></textarea>
+          </div>
+        </div>
+
+      </div>
+      <hr class="mb-4">
+      <button class="btn btn-primary btn-lg btn-block mb-5" type="submit">Alterar</button>
+    </form>
+  </div>
+</div>
