@@ -6,7 +6,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from 'src/app/user/user.service';
 import { ScrollToService } from 'ng2-scroll-to-el';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { ColaboradorOcorrencia } from '../../models/colaborador-ocorrencia.model';
 import { ClienteService } from 'src/app/cliente/cliente.service';
 import { Cliente } from 'src/app/cliente/models/cliente.model';
 import { ColaboradorIncompativel } from '../../models/colaborador-incompativel.model';

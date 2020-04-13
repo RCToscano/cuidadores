@@ -1,90 +1,63 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { ColaboradorService } from '../colaborador.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { ColaboradorService } from '../../colaborador.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ScrollToService } from 'ng2-scroll-to-el';
 import { defineLocale, formatDate } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
-import { ColaboradorEntrevista } from '../models/colaborador-entrevista.model';
-import { Colaborador } from '../models/colaborador.model';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { ColaboradorEntrevista } from '../../models/colaborador-entrevista.model';
 
 @Component({
-  selector: 'app-colaborador-entrevista',
-  templateUrl: './colaborador-entrevista.component.html',
-  styles: [
-    `
-      .ng-autocomplete {
-        width: 100%;
-      }
-    `
-  ]
+  selector: 'app-entrevista-alteracao',
+  templateUrl: './entrevista-alteracao.component.html'
 })
-export class ColaboradorEntrevistaComponent implements OnInit {
+export class EntrevistaAlteracaoComponent implements OnInit {
 
   colaboradorEntrevista: ColaboradorEntrevista = {} as ColaboradorEntrevista;
-  titulo = 'Cadastro';
-  botao = 'Cadastrar';
-  alterar = false;
   message: string;
   messageType: string;
   uploadForm: FormGroup;
   submitted = false;
   carregar = false;
 
-  keyword = 'nome';
-  placeholder = 'Digite o nome do Colaborador';
-  searchControl: FormControl;
-  isLoading = false;
-  colaboradores: Colaborador[];
-
   constructor(private formBuilder: FormBuilder,
+              private activatedRoute: ActivatedRoute,
               private colaboradorService: ColaboradorService,
               private spinner: NgxSpinnerService,
               private scrollService: ScrollToService,
               private el: ElementRef) {
     defineLocale('pt-br', ptBrLocale);
-
-    this.searchControl = this.formBuilder.control('', Validators.required);
-    this.uploadForm = this.formBuilder.group({
-      colaborador: this.searchControl
-    });
-
-    this.searchControl.valueChanges
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        switchMap(valor => {
-          this.submitted = false;
-          this.isLoading = true;
-          if (valor != '') {
-            return this.colaboradorService.buscarColaboradores(valor);
-          }
-          else {
-            return this.colaboradorService.buscarColaboradores('1');
-          }
-        })
-      ).subscribe(
-        res => {
-          this.colaboradores = res
-          this.submitted = false;
-          this.isLoading = false;
-        },
-        error => {
-          this.submitted = false;
-          this.isLoading = false;
-        }
-      );
   }
 
   ngOnInit() {
     window.scroll(0,0);
+    this.carregar = true;
+    this.spinner.show();
     this.criarForm();
+
+    this.colaboradorService.consultaEntrevista(this.activatedRoute.snapshot.params['id'])
+      .subscribe(
+      res => {
+        this.colaboradorEntrevista = res;
+        this.colaboradorService.colaboradorEntrevista = res;
+        console.log(res);
+        setTimeout(() => {
+          this.criarForm();
+          this.spinner.hide();
+          this.carregar = false;
+        }, 0);
+      },
+      error =>  {
+        console.log(error);
+        this.spinner.hide();
+        this.carregar = false;
+      }
+    );
   }
 
   criarForm() {
     this.uploadForm = this.formBuilder.group({
-      colaborador: this.searchControl,
       dtEntrevista: [this.formartDate(this.colaboradorEntrevista.dtEntrevista), [Validators.required]],
       aparencia: [this.colaboradorEntrevista.aparencia, [Validators.required]],
       postura: [this.colaboradorEntrevista.postura, [Validators.required]],
@@ -131,13 +104,6 @@ export class ColaboradorEntrevistaComponent implements OnInit {
     });
   }
 
-  formartDate(data: string): Date {
-    if(data != null && data != '') {
-      return new Date(data);
-    }
-    return null;
-  }
-
   onSubmit() {
     this.submitted = true;
     console.log(this.uploadForm.value);
@@ -162,53 +128,27 @@ export class ColaboradorEntrevistaComponent implements OnInit {
       console.log(this.uploadForm.value);
       this.colaboradorEntrevista = this.uploadForm.value;
       this.colaboradorEntrevista.dtEntrevista = formatDate(controls.dtEntrevista.value, 'DD/MM/YYYY').trim();
-      this.colaboradorEntrevista.idColaborador = this.uploadForm.controls.colaborador.value.id;
-      this.colaboradorEntrevista.colaborador = undefined;
+      this.colaboradorEntrevista.idColaborador = this.activatedRoute.snapshot.params['id'];
 
-      if(this.alterar) {
-        this.colaboradorService.alterarEntrevista(this.colaboradorEntrevista)
-          .subscribe(
-            res => {
-              this.messageType = 'success';
-              this.message = 'Alteração realizada com sucesso';
-              this.scrollService.scrollTo('#header', 350, -100);
-              this.submitted = false;
-              this.carregar = false;
-              this.spinner.hide();
-            },
-            error => {
-              console.log(error);
-              this.messageType = 'danger';
-              this.message = error;
-              this.scrollService.scrollTo('#header', 350, -100);
-              this.carregar = false;
-              this.spinner.hide();
-            }
-        );
-      }
-      else {
-        this.colaboradorService.cadastrarEntrevista(this.colaboradorEntrevista)
-          .subscribe(
-            res => {
-              console.log(res);
-              this.uploadForm.reset();
-              this.messageType = 'success';
-              this.message = 'Cadastro realizado com sucesso';
-              this.scrollService.scrollTo('#header');
-              this.submitted = false;
-              this.carregar = false;
-              this.spinner.hide();
-            },
-            error => {
-              console.log(error);
-              this.messageType = 'danger';
-              this.message = error;
-              this.scrollService.scrollTo('#header', 350, -100);
-              this.carregar = false;
-              this.spinner.hide();
-            }
-        );
-      }
+      this.colaboradorService.alterarEntrevista(this.colaboradorEntrevista)
+        .subscribe(
+          res => {
+            this.messageType = 'success';
+            this.message = 'Alteração realizada com sucesso';
+            this.scrollService.scrollTo('#header', 350, -100);
+            this.submitted = false;
+            this.carregar = false;
+            this.spinner.hide();
+          },
+          error => {
+            console.log(error);
+            this.messageType = 'danger';
+            this.message = error;
+            this.scrollService.scrollTo('#header', 350, -100);
+            this.carregar = false;
+            this.spinner.hide();
+          }
+      );
     }
   }
 
@@ -231,12 +171,11 @@ export class ColaboradorEntrevistaComponent implements OnInit {
     }
   }
 
-  selected() {
-    this.isLoading = false;
-  }
-
-  inputCleared() {
-    this.isLoading = false;
+  formartDate(data: string): Date {
+    if(data != null && data != '') {
+      return new Date(data);
+    }
+    return null;
   }
 
 }

@@ -77,13 +77,11 @@ export class ColaboradorConsultaComponent implements OnInit {
   }
 
   selected() {
-    console.log('selected');
     this.colaboradorSelected = true;
     this.isLoading = false;
   }
 
   inputCleared() {
-    console.log('inputCleared');
     this.colaboradorSelected = false;
     this.isLoading = false;
   }

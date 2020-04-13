@@ -43,16 +43,16 @@
               <div [innerHTML]="notFound"></div>
             </ng-template>
 
-            <div class="col-sm-1 mb-3">
+            <!-- <div class="col-sm-1 mb-3">
               <button type="submit" [disabled]="!colaboradorSelected" class="btn btn-primary">Buscar</button>
-            </div>
+            </div> -->
           </div>
         </div>
       </form>
     </div>
   </div>
 
-  <div *ngIf="submitted" class="col-md-12 mb-3">
+  <div *ngIf="colaboradorSelected" class="col-md-12 mb-3">
     <div class="table-responsive-sm">
       <table class="table table-striped">
         <thead>
