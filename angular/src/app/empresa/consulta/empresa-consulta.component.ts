@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Empresa } from '../models/empresa.model';
 import { EmpresaService } from '../empresa.service';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -10,95 +12,75 @@ import { EmpresaService } from '../empresa.service';
 })
 export class EmpresaConsultaComponent implements OnInit {
 
-  empresa: Empresa;
-  users: Empresa[];
-  dropdownList = [];
-  selectedItems = [];
-  dropdownSettings = {};
+  submitted = false;
   carregar = false;
+  keyword = 'nome';
+  placeholder = 'Digite o nome da Empresa';
+  uploadForm: FormGroup;
+  searchControl: FormControl;
+  empresas: Empresa[];
+  isLoading = false;
+  message: string;
+  messageType: string;
+  empresaSelected = false;
 
   constructor(private empresaService: EmpresaService,
-              private spinner: NgxSpinnerService) {
-    // this.selectedItems = [
-    //   { item_id: 3, item_text: 'Pune' },
-    //   { item_id: 4, item_text: 'Navsari' }
-    // ];
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'nome',
-      selectAllText: 'Marcar Todos',
-      unSelectAllText: 'Desmarcar Todos',
-      searchPlaceholderText: "Digite para procurar ...",
-      noDataAvailablePlaceholderText: "Nenhuma empresa encontrada",
-      itemsShowLimit: 5,
-      allowSearchFilter: true
-    };
+              private spinner: NgxSpinnerService,
+              private formBuilder: FormBuilder) {
+
+    this.searchControl = this.formBuilder.control('', Validators.required);
+    this.uploadForm = this.formBuilder.group({
+      empresa: this.searchControl
+    });
+
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap(valor => {
+          this.submitted = false;
+          this.isLoading = true;
+          if (valor != '') {
+            return this.empresaService.buscarEmpresas(valor);
+          }
+          else {
+            return this.empresaService.buscarEmpresas('1');
+          }
+        })
+      ).subscribe(
+        res => {
+          this.empresas = res
+          this.submitted = false;
+          this.isLoading = false;
+        },
+        error => {
+          this.submitted = false;
+          this.isLoading = false;
+        }
+      );
   }
 
   ngOnInit() {
-    this.carregar = true;
-    this.spinner.show();
 
-    this.empresaService.empresas()
-      .subscribe(
-        res => {
-          console.log(res);
-          this.users = res;
-
-          const temp = [];
-          for (let variable of this.users) {
-              const obj = {"id":variable.id,"nome":variable.nome}
-              temp.push(obj);
-          }
-          this.dropdownList = temp;
-          this.carregar = false;
-          this.spinner.hide();
-        },
-        error => {
-          console.log(error);
-          this.carregar = false;
-          this.spinner.hide();
-        }
-      );
   }
 
   onSubmit() {
-    this.carregar = true;
-    this.spinner.show();
 
-    this.empresaService.consultaEmpresa(1)
-      .subscribe(
-        res => {
-          this.empresa = res;
-
-          this.carregar = false;
-          this.spinner.hide();
-        },
-        error => {
-          console.log(error);
-          this.carregar = false;
-          this.spinner.hide();
-        }
-      );
   }
 
-  onItemSelect(item: any) {
-    console.log(item);
-    this.selectedItems.push(item);
-    console.log(this.selectedItems);
+  get form() {
+    if(this.uploadForm != null)
+      return this.uploadForm.controls;
   }
 
-  onDeSelect(item: any) {
-    console.log(item);
-    const index: number = this.selectedItems.indexOf(item.id);
-    if (index !== -1) {
-      this.selectedItems.splice(index, 1);
-    }
+  selected() {
+    this.empresaSelected = true;
+    this.isLoading = false;
   }
 
-  onSelectAll(items: any) {
-    console.log(items);
+  inputCleared() {
+    this.empresaSelected = false;
+    this.isLoading = false;
   }
 
 }

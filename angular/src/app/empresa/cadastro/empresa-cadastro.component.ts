@@ -63,9 +63,6 @@ export class EmpresaCadastroComponent implements OnInit {
 
   ngOnInit() {
     window.scroll(0,0);
-    // $(document).on('click',function(){
-    // 	$('.collapse').collapse('hide');
-    // });
 
     this.carregar = true;
     this.spinner.show();
@@ -102,16 +99,17 @@ export class EmpresaCadastroComponent implements OnInit {
 
   criarForm() {
     this.uploadForm = this.formBuilder.group({
+      idEmpresa: [this.empresa.idEmpresa],
       cnpj: [this.empresa.cnpj, [Validators.required, Validators.minLength(18), Validators.maxLength(18)]],
       nome: [this.empresa.nome, [Validators.required, Validators.maxLength(100)]],
-      coordenadas: [this.empresa.coordenadas, [Validators.required]],
-      latitude: [''],
-      longitude: [''],
+      coordenadas: [this.empresa.coordenadas],
+      latitude: [this.empresa.latitude],
+      longitude: [this.empresa.longitude],
       endereco: [this.empresa.endereco, [Validators.required, Validators.maxLength(100)]],
       numero: [this.empresa.numero, [Validators.required, Validators.maxLength(6)]],
       complemento: [this.empresa.complemento, [Validators.maxLength(50)]],
       municipio: [this.empresa.municipio, [Validators.required, Validators.maxLength(100)]],
-      estado: [this.empresa.estado, [Validators.required, Validators.maxLength(50)]],
+      uf: [this.empresa.uf, [Validators.required, Validators.maxLength(50)]],
       cep: [this.empresa.cep, [Validators.required, Validators.maxLength(9)]],
       pais: [this.empresa.pais, [Validators.required, Validators.maxLength(50)]]
     });
@@ -119,14 +117,16 @@ export class EmpresaCadastroComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    console.log(this.uploadForm.value);
 
-    const controls = this.uploadForm.controls;
-    for (const name in controls) {
-        this.checkField(controls[name].value, name);
-        if (controls[name].invalid) {
-            console.log('invalido: ' + name);
-        }
-    }
+    // const controls = this.uploadForm.controls;
+    // for (const name in controls) {
+    //     this.checkField(controls[name].value, name);
+    //     if (controls[name].invalid) {
+    //         console.log('invalido: ' + name);
+    //         console.log(controls[name].errors);
+    //     }
+    // }
 
     if(this.uploadForm.invalid) {
       const invalidElements = this.el.nativeElement.querySelectorAll('.ng-invalid');
@@ -138,28 +138,86 @@ export class EmpresaCadastroComponent implements OnInit {
       this.spinner.show();
 
       this.empresa = this.uploadForm.value;
-      this.empresa.id = 6;
-      this.empresaService.cadastrarEmpresa(this.empresa)
-        .subscribe(
-          res => {
-            console.log(res);
-            this.uploadForm.reset();
-            this.messageType = 'success';
-            this.message = 'Cadastro realizado com sucesso';
-            this.scrollService.scrollTo('#header');
-            this.carregar = false;
-            this.spinner.hide();
-          },
-          error => {
-            console.log(error);
-            this.messageType = 'danger';
-            this.message = 'erro';
-            this.scrollService.scrollTo('#header', 350, -100);
-            this.carregar = false;
-            this.spinner.hide();
-          }
-      );
+
+      if(this.alterar) {
+        this.empresaService.alterarEmpresa(this.empresa)
+          .subscribe(
+            res => {
+              console.log(res);
+              this.messageType = 'success';
+              this.message = 'Alteração realizada com sucesso';
+              this.scrollService.scrollTo('#header');
+              this.carregar = false;
+              this.submitted = false;
+              this.spinner.hide();
+            },
+            error => {
+              console.log(error);
+              this.messageType = 'danger';
+              this.message = error;
+              this.scrollService.scrollTo('#header', 350, -100);
+              this.submitted = false;
+              this.carregar = false;
+              this.spinner.hide();
+            }
+        );
+      }
+      else {
+        this.empresaService.cadastrarEmpresa(this.empresa)
+          .subscribe(
+            res => {
+              console.log(res);
+              this.messageType = 'success';
+              this.message = 'Cadastro realizado com sucesso';
+              this.scrollService.scrollTo('#header');
+              this.carregar = false;
+              this.submitted = false;
+              this.uploadForm.reset();
+              this.spinner.hide();
+            },
+            error => {
+              console.log(error);
+              this.messageType = 'danger';
+              this.message = error;
+              this.scrollService.scrollTo('#header', 350, -100);
+              this.submitted = false;
+              this.carregar = false;
+              this.spinner.hide();
+            }
+        );
+      }
     }
+  }
+
+  deletar() {
+    this.carregar = true;
+    this.spinner.show();
+
+    this.empresa = this.uploadForm.value;
+
+    this.empresaService.deletarEmpresa(this.empresa.idEmpresa)
+      .subscribe(
+        res => {
+          console.log(res);
+          this.messageType = 'success';
+          this.message = 'Empresa excluída com sucesso';
+          this.scrollService.scrollTo('#header');
+          this.carregar = false;
+          this.submitted = false;
+          this.uploadForm.reset();
+          this.alterar = false;
+          this.spinner.hide();
+        },
+        error => {
+          console.log(error);
+          this.messageType = 'danger';
+          this.message = error;
+          this.scrollService.scrollTo('#header', 350, -100);
+          this.submitted = false;
+          this.carregar = false;
+          this.spinner.hide();
+        }
+    );
   }
 
   get form() {
@@ -188,7 +246,7 @@ export class EmpresaCadastroComponent implements OnInit {
       this.uploadForm.controls.numero.setValue(address.address_components[0].long_name);
       this.uploadForm.controls.endereco.setValue(address.address_components[1].short_name);
       this.uploadForm.controls.municipio.setValue(address.address_components[3].long_name);
-      this.uploadForm.controls.estado.setValue(address.address_components[4].long_name);
+      this.uploadForm.controls.uf.setValue(address.address_components[4].short_name);
       this.uploadForm.controls.pais.setValue(address.address_components[5].long_name);
       this.uploadForm.controls.cep.setValue(address.address_components[6].long_name);
       this.uploadForm.controls.coordenadas.setValue(address.geometry.location.lat().toString() + ',' +
@@ -200,7 +258,7 @@ export class EmpresaCadastroComponent implements OnInit {
       this.uploadForm.controls.numero.setValue('');
       this.uploadForm.controls.endereco.setValue('');
       this.uploadForm.controls.municipio.setValue(address.address_components[2].long_name);
-      this.uploadForm.controls.estado.setValue(address.address_components[3].long_name);
+      this.uploadForm.controls.uf.setValue(address.address_components[3].short_name);
       this.uploadForm.controls.pais.setValue(address.address_components[4].long_name);
       this.uploadForm.controls.cep.setValue(address.address_components[0].long_name);
       this.uploadForm.controls.coordenadas.setValue(address.geometry.location.lat().toString() + ',' +
@@ -213,7 +271,7 @@ export class EmpresaCadastroComponent implements OnInit {
       this.uploadForm.controls.cep.setValue('');
       this.uploadForm.controls.endereco.setValue(address.address_components[0].short_name);
       this.uploadForm.controls.municipio.setValue(address.address_components[2].long_name);
-      this.uploadForm.controls.estado.setValue(address.address_components[3].long_name);
+      this.uploadForm.controls.uf.setValue(address.address_components[3].short_name);
       this.uploadForm.controls.pais.setValue(address.address_components[4].long_name);
       if(address.address_components[5] != undefined) {
         this.uploadForm.controls.cep.setValue(address.address_components[5].long_name);

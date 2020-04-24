@@ -1,62 +1,66 @@
 <div class="container">
 
-  <div *ngIf="carregar">
-    <ngx-spinner
-      [fullScreen]="true"
-      type="ball-clip-rotate-multiple"
-      size="medium">
-      <p class="loading" style="color: white">Carregando...</p>
-    </ngx-spinner>
-  </div>
-
   <div class="py-4 text-center">
-    <h2>Consulta de Empresas</h2>
+    <h2>Consulta de Empresa</h2>
   </div>
 
   <div class="row mb-4">
     <div class="col-md-12">
-      <form (ngSubmit)="onSubmit()">
-        <div class="row">
-          <div class="col-sm-11 mb-3">
-            <ng-multiselect-dropdown
-              [placeholder]="'Selecione a Empresa'"
-              [data]="dropdownList"
-              formControlItem="selectedItems"
-              [settings]="dropdownSettings"
-              (onSelect)="onItemSelect($event)"
-              (onDeSelect)="onDeSelect($event)"
-              (onSelectAll)="onSelectAll($event)"
-            >
-            </ng-multiselect-dropdown>
-          </div>
-          <div class="col-sm-1 mb-3">
-            <button type="submit" class="btn btn-primary">Buscar</button>
+      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+        <div class="col d-flex justify-content-center">
+          <div class="row">
+            <ng-autocomplete
+              #auto
+              [data]="empresas"
+              formControlName="empresa"
+              [placeHolder]="placeholder"
+              [searchKeyword]="keyword"
+              notFoundText="Não encontrado"
+              [itemTemplate]="itemTemplateStatic"
+              [notFoundTemplate]="notFoundTemplate"
+              (selected)="selected()"
+              (inputCleared)="inputCleared()"
+              [isLoading]="isLoading">
+            </ng-autocomplete>
+
+            <ng-template #itemTemplateStatic let-item>
+              <div>&nbsp;
+                <span [innerHTML]="item.nome"></span> -
+                <span>{{item.cnpj}}</span>
+              </div>
+            </ng-template>
+
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+
+            <!-- <div class="col-sm-1 mb-3">
+              <button type="submit" [disabled]="!colaboradorSelected" class="btn btn-primary">Buscar</button>
+            </div> -->
           </div>
         </div>
       </form>
     </div>
   </div>
 
-  <div *ngIf="empresa" class="col-md-12 mb-3">
+  <div *ngIf="empresaSelected" class="col-md-12 mb-3">
     <div class="table-responsive-sm">
       <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">Nº</th>
             <th scope="col">Nome</th>
-            <th scope="col">CNPJ</th>
-            <th scope="col">Endereço</th>
+            <th scope="col">Situação</th>
             <th scope="col">Cadastro</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>1</td>
-            <td>{{empresa.nome}}</td>
-            <td>{{empresa.cnpj}}</td>
-            <td>{{empresa.endereco}}, {{empresa.numero}}</td>
+            <td>{{form.empresa.value.nome}} - {{form.empresa.value.cnpj}}</td>
+            <td>{{form.empresa.value.situacaoDescricao}}</td>
             <td>
-              <button [routerLink]="['/empresa/cadastro', empresa.id]" class="btn btn-sm btn-primary btn-block" type="submit">Alterar</button>
+              <button [routerLink]="['/empresa/cadastro', form.empresa.value.idEmpresa]" class="btn btn-sm btn-primary btn-block" type="submit">Consultar</button>
             </td>
           </tr>
         </tbody>
