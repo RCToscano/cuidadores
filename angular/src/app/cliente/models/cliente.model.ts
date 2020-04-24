@@ -3,6 +3,7 @@ export interface Cliente {
   idGenero: number;
   idEstadoCivil: number;
   idClienteSituacao: number;
+  clienteSituacao: string;
   cpf: string;
   rg: string;
   nome: string;
@@ -23,5 +24,6 @@ export interface Cliente {
   coordenadas: string;
   latitude: string;
   longitude: string;
+  obs: string;
   dtInsert: string;
 }

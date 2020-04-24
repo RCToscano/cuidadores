@@ -1,36 +1,37 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Empresa } from '../models/empresa.model';
-import { EmpresaService } from '../empresa.service';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { Cliente } from '../models/cliente.model';
+import { ClienteService } from '../cliente.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
-
 @Component({
-  selector: 'app-empresa-consulta',
-  templateUrl: './empresa-consulta.component.html'
+  selector: 'app-cliente-consulta',
+  templateUrl: './cliente-consulta.component.html'
 })
-export class EmpresaConsultaComponent implements OnInit {
+export class ClienteConsultaComponent implements OnInit {
 
   submitted = false;
   carregar = false;
   keyword = 'nome';
-  placeholder = 'Digite o nome da Empresa';
+  placeholder = 'Digite o nome do Cliente';
   uploadForm: FormGroup;
   searchControl: FormControl;
-  empresas: Empresa[];
+  clientes: Cliente[];
   isLoading = false;
   message: string;
   messageType: string;
-  empresaSelected = false;
+  clienteSelected = false;
 
-  constructor(private empresaService: EmpresaService,
+  constructor(private clienteService: ClienteService,
               private spinner: NgxSpinnerService,
+              private router: Router,
               private formBuilder: FormBuilder) {
 
     this.searchControl = this.formBuilder.control('', Validators.required);
     this.uploadForm = this.formBuilder.group({
-      empresa: this.searchControl
+      cliente: this.searchControl
     });
 
     this.searchControl.valueChanges
@@ -41,15 +42,15 @@ export class EmpresaConsultaComponent implements OnInit {
           this.submitted = false;
           this.isLoading = true;
           if (valor != '') {
-            return this.empresaService.buscarEmpresas(valor);
+            return this.clienteService.buscarClientesPorNome(valor);
           }
           else {
-            return this.empresaService.buscarEmpresas('1');
+            return this.clienteService.buscarClientesPorNome('1');
           }
         })
       ).subscribe(
         res => {
-          this.empresas = res
+          this.clientes = res
           this.submitted = false;
           this.isLoading = false;
         },
@@ -65,7 +66,7 @@ export class EmpresaConsultaComponent implements OnInit {
   }
 
   onSubmit() {
-
+    this.submitted = true;
   }
 
   get form() {
@@ -74,12 +75,12 @@ export class EmpresaConsultaComponent implements OnInit {
   }
 
   selected() {
-    this.empresaSelected = true;
+    this.clienteSelected = true;
     this.isLoading = false;
   }
 
   inputCleared() {
-    this.empresaSelected = false;
+    this.clienteSelected = false;
     this.isLoading = false;
   }
 

@@ -1,7 +1,21 @@
 <div class="container">
-  <div class="py-5 text-center">
-    <h2>Cadastro de Cliente</h2>
+
+  <div *ngIf="carregar">
+    <ngx-spinner
+      [fullScreen]="true"
+      type="ball-clip-rotate-multiple"
+      size="medium">
+      <p class="loading" style="color: white">Carregando...</p>
+    </ngx-spinner>
   </div>
+
+  <div class="py-5 text-center">
+    <h2>{{titulo}} de Cliente</h2>
+  </div>
+
+  <p *ngIf="message" class="text-center">
+    <ngb-alert [type]="messageType" (close)="close(alert)">{{ message }}</ngb-alert>
+  </p>
 
   <div class="row">
     <div class="col-md-12">
@@ -170,8 +184,8 @@
 
           <div class="col-md-3 mb-3">
             <label>Estado</label>
-            <input formControlName="estado" class="form-control" type="text" name="estado" id="administrative_area_level_1" maxlength="50" />
-            <div *ngIf="submitted && form.estado.errors?.required" class="invalid-feedback" style="display:block">
+            <input formControlName="uf" class="form-control" type="text" name="estado" id="administrative_area_level_1" maxlength="2" />
+            <div *ngIf="submitted && form.uf.errors?.required" class="invalid-feedback" style="display:block">
               Estado é obrigatório.
             </div>
           </div>
@@ -194,15 +208,12 @@
 
           <div class="col-md-12 mb-3">
             <label for="lastName">Observações</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" onkeyup="this.value = this.value.toUpperCase();"></textarea>
-            <div class="invalid-feedback">
-              Valid last name is required.
-            </div>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="resize: none;"></textarea>
           </div>
 
         </div>
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit">Cadastrar</button>
+        <button class="btn btn-primary btn-lg btn-block mb-4" type="submit">{{botao}}</button>
       </form>
     </div>
   </div>

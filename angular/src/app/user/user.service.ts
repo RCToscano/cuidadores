@@ -27,7 +27,7 @@ export class UserService {
 
   setUser(user: User) {
     this.user = user;
-    localStorage.setItem('tokenCuidadores', user.token);
+    localStorage.setItem('token-cuidadores', JSON.stringify(user));
     this.messageEvent.emit(user);
     this.httpHeaders = new HttpHeaders(
       {

@@ -36,6 +36,7 @@ import { VisitaCadastroComponent } from './assistido/visita/cadastro/visita-cada
 //Cliente
 import { ClienteService } from './cliente/cliente.service';
 import { ProspectService } from './prospect/prospect.service';
+import { ClienteConsultaComponent } from './cliente/consulta/cliente-consulta.component';
 import { ClienteCadastroComponent } from './cliente/cadastro/cliente-cadastro.component';
 
 // Prospect
@@ -75,7 +76,8 @@ import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.co
     UsuarioConsultaComponent,
     EscalaConsultaComponent,
     ClienteCadastroComponent,
-    ProspectConsultaComponent
+    ProspectConsultaComponent,
+    ClienteConsultaComponent
   ],
   imports: [
     HttpClientModule,

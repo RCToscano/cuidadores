@@ -31,7 +31,7 @@
 
             <div class="col-md-5 mb-3">
               <label>CNPJ</label>
-              <input formControlName="cnpj" pattern="[0-9]*" digitOnly [textMask]="{mask: maskCNPJ}" class="form-control" name="cpf" id="cpf" type="text"/>
+              <input formControlName="cnpj" pattern="[0-9]{2}[.]{1}[0-9]{3}[.]{1}[0-9]{3}[/]{1}[0-9]{4}[-]{1}[0-9]{2}" digitOnly [textMask]="{mask: maskCNPJ}" class="form-control" name="cpf" id="cpf" type="text"/>
               <div *ngIf="submitted && form?.cnpj?.errors?.required" class="invalid-feedback" style="display:block">
                 CNPJ inválido.
               </div>
@@ -84,15 +84,15 @@
 
             <div class="col-md-3 mb-3">
               <label>Estado</label>
-              <input formControlName="estado" class="form-control" type="text" name="estado" id="administrative_area_level_1"  maxlength="50"/>
-              <div *ngIf="submitted && form.estado.errors?.required" class="invalid-feedback" style="display:block">
+              <input formControlName="uf" class="form-control" type="text" name="estado" id="administrative_area_level_1"  maxlength="50"/>
+              <div *ngIf="submitted && form.uf.errors?.required" class="invalid-feedback" style="display:block">
                 Estado é obrigatório.
               </div>
             </div>
 
             <div class="col-md-2 mb-3">
               <label>CEP</label>
-              <input formControlName="cep" pattern="[0-9]*" digitOnly [textMask]="{mask: maskCEP}" class="form-control" type="text" name="cep" id="postal_code" maxlength="10"/>
+              <input formControlName="cep" pattern="[0-9]{5}[-]{1}[0-9]{3}" digitOnly [textMask]="{mask: maskCEP}" class="form-control" type="text" name="cep" id="postal_code" maxlength="10"/>
               <div *ngIf="submitted && form.cep.errors" class="invalid-feedback" style="display:block">
                 CEP inválido.
               </div>
@@ -112,7 +112,17 @@
           </div>
 
           <hr class="mb-4">
-          <button class="btn btn-primary btn-lg btn-block mb-5" type="submit">{{botao}}</button>
+          <button *ngIf="!alterar" class="btn btn-primary btn-lg btn-block mb-5" type="submit">Cadastrar</button>
+          <div *ngIf="alterar" class="col-md-6 mb-3 float-right">
+            <div class="row">
+              <div class="col-md-6">
+                <button (click)="deletar()" type="button" class="btn btn-danger btn-block mb-5">Excluir</button>
+              </div>
+              <div class="col-md-6">
+                <button class="btn btn-primary btn-block mb-5" type="submit">Alterar</button>
+              </div>
+            </div>
+          </div>
         </form>
       </div>
     </div>

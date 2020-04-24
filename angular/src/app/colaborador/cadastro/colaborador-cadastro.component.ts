@@ -165,13 +165,13 @@ export class ColaboradorCadastroComponent implements OnInit {
     this.submitted = true;
 
     const controls = this.uploadForm.controls;
-    for (const name in controls) {
-        this.checkField(controls[name].value, name);
-        if (controls[name].invalid) {
-            console.log('invalido: ' + name);
-            console.log(controls[name].errors);
-        }
-    }
+    // for (const name in controls) {
+    //     this.checkField(controls[name].value, name);
+    //     if (controls[name].invalid) {
+    //         console.log('invalido: ' + name);
+    //         console.log(controls[name].errors);
+    //     }
+    // }
 
     if(this.uploadForm.invalid) {
       const invalidElements = this.el.nativeElement.querySelectorAll('.ng-invalid');
@@ -181,7 +181,7 @@ export class ColaboradorCadastroComponent implements OnInit {
     else {
       this.carregar = true;
       this.spinner.show();
-      console.log(this.uploadForm.value);
+
       this.colaborador = this.uploadForm.value;
       this.colaborador.dataNascimento = formatDate(controls.dataNascimento.value, 'DD/MM/YYYY').trim();
 

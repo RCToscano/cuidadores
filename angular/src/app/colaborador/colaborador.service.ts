@@ -13,10 +13,13 @@ import { ColaboradorImagem } from './models/colaborador-imagem.model';
 import { ColaboradorOcorrencia } from './models/colaborador-ocorrencia.model';
 import { ColaboradorIncompativel } from './models/colaborador-incompativel.model';
 import { ColaboradorEntrevista } from './models/colaborador-entrevista.model';
+import { User } from '../user/models/user.model';
 
 @Injectable()
 export class ColaboradorService {
 
+  token: string;
+  options = {headers: new HttpHeaders()};
   messageEvent = new EventEmitter();
   colaborador: Colaborador;
   colaboradorContas: ColaboradorConta[];
@@ -26,19 +29,18 @@ export class ColaboradorService {
   bancos: Banco[];
   colaboradorEntrevista: ColaboradorEntrevista;
 
-  constructor(private http: HttpClient,
-              private userService: UserService) {}
-
-  httpHeaders = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Cache-Control': 'no-cache',
-    'Authorization': this.userService.user.token
-    // 'Authorization': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSJ9.Zr5btXBGTotvJdjk2cEe_8KxXP2yoa96Eh3J4rKzRgzrColBx6ka8kf2iJ6wNJQmzygG9idcT9Db56EmDcyq0Q'
-  });
-
-  options = {
-    headers: this.httpHeaders
-  };
+  constructor(private http: HttpClient) {
+    let user: User = JSON.parse(localStorage.getItem('token-cuidadores'));
+    this.token = user.token;
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+      'Authorization': this.token
+    });
+    this.options = {
+      headers: httpHeaders
+    };
+  }
 
   setColaboradorConta(colaboradorContas: ColaboradorConta[]) {
     this.colaboradorContas = colaboradorContas;

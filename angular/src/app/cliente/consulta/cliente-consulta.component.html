@@ -1,7 +1,16 @@
 <div class="container">
 
+  <div *ngIf="carregar">
+    <ngx-spinner
+      [fullScreen]="true"
+      type="ball-clip-rotate-multiple"
+      size="medium">
+      <p class="loading" style="color: white">Carregando...</p>
+    </ngx-spinner>
+  </div>
+
   <div class="py-4 text-center">
-    <h2>Consulta de Empresa</h2>
+    <h2>Consulta de Cliente</h2>
   </div>
 
   <div class="row mb-4">
@@ -11,8 +20,8 @@
           <div class="row">
             <ng-autocomplete
               #auto
-              [data]="empresas"
-              formControlName="empresa"
+              [data]="clientes"
+              formControlName="cliente"
               [placeHolder]="placeholder"
               [searchKeyword]="keyword"
               notFoundText="Não encontrado"
@@ -26,7 +35,7 @@
             <ng-template #itemTemplateStatic let-item>
               <div>&nbsp;
                 <span [innerHTML]="item.nome"></span> -
-                <span>{{item.cnpj}}</span>
+                <span>{{item.cpf}}</span>
               </div>
             </ng-template>
 
@@ -43,7 +52,7 @@
     </div>
   </div>
 
-  <div *ngIf="empresaSelected" class="col-md-12 mb-3">
+  <div *ngIf="clienteSelected" class="col-md-12 mb-3">
     <div class="table-responsive-sm">
       <table class="table table-striped">
         <thead>
@@ -51,16 +60,22 @@
             <th scope="col">Nº</th>
             <th scope="col">Nome</th>
             <th scope="col">Situação</th>
+            <th scope="col">Data de Nascimento</th>
+            <th scope="col">Escalas</th>
             <th scope="col">Cadastro</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>1</td>
-            <td>{{form.empresa.value.nome}} - {{form.empresa.value.cnpj}}</td>
-            <td>{{form.empresa.value.situacaoDescricao}}</td>
+            <td>{{form.cliente.value.nome}}</td>
+            <td>{{form.cliente.value.clienteSituacao}}</td>
+            <td>{{form.cliente.value.dataNascimento | slice:0:10}}</td>
             <td>
-              <button [routerLink]="['/empresa/cadastro', form.empresa.value.idEmpresa]" class="btn btn-sm btn-primary btn-block" type="submit">Consultar</button>
+              <button class="btn btn-sm btn-primary btn-block" type="submit">Consultar</button>
+            </td>
+            <td>
+              <button [routerLink]="['/cliente/cadastro', form.cliente.value.idCliente]" class="btn btn-sm btn-primary btn-block" type="submit">Consultar</button>
             </td>
           </tr>
         </tbody>
