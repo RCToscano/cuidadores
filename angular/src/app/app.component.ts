@@ -11,7 +11,7 @@ export class AppComponent {
 
   title = 'angular';
   carregar = false;
-  token = localStorage.getItem('tokenCuidadores');
+  user = JSON.parse(localStorage.getItem('token-cuidadores'));
 
   constructor(private userService: UserService,
               private router: Router,
@@ -20,29 +20,7 @@ export class AppComponent {
   }
 
   carregarUsuario() {
-    if (this.userService.user.token == null && this.token != null) {
-      this.carregar = true;
-      this.spinner.show();
-
-      this.userService.consultaUsuarioToken(this.token).subscribe(
-        res => {
-            const user = res.body;
-            user.token = this.token;
-            this.userService.setUser(user);
-            this.carregar = false;
-            this.spinner.hide();
-        },
-        error => {
-          console.log(error);
-          this.userService.user = undefined;
-          localStorage.clear();
-          this.carregar = false;
-          this.spinner.hide();
-          this.router.navigate(['']);
-        }
-      );
-    }
-    else {
+    if (this.user == null) {
       this.router.navigate(['']);
     }
   }

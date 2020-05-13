@@ -86,7 +86,7 @@ export class ColaboradorService {
     return this.http.post<any>(`${SC_API_COLABORADOR}/imagens`, file,
       {
         headers: new HttpHeaders({
-          'Authorization': this.userService.user.token
+          'Authorization': this.token
         }),
         observe: 'response'
       }
@@ -100,7 +100,7 @@ export class ColaboradorService {
     return this.http.delete(`${SC_API_COLABORADOR}/imagens/${idImagem}/${idColaborador}`,
       {
         headers: new HttpHeaders({
-          'Authorization': this.userService.user.token
+          'Authorization': this.token
         }),
         observe: 'response'
       }
