@@ -1,17 +1,63 @@
 <div class="container">
+  <div *ngIf="carregar">
+    <ngx-spinner
+      [fullScreen]="true"
+      type="ball-clip-rotate-multiple"
+      size="medium">
+      <p class="loading" style="color: white"> Carregando... </p>
+    </ngx-spinner>
+  </div>
+
   <div class="py-5 text-center">
     <h2>Cadastro de Entrevista Colaborador</h2>
   </div>
 
+  <p *ngIf="message">
+    <ngb-alert [type]="messageType" (close)="close(alert)">{{ message }}</ngb-alert>
+  </p>
+
   <div class="row">
     <div class="col-md-12">
       <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+
         <div class="row">
+          <div class="col-md-11 mb-3">
+            <label>Colaborador</label>
+            <div class="input-group date ng-autocomplete" id="dpdtentrevista">
+              <ng-autocomplete
+                #auto
+                [data]="colaboradores"
+                formControlName="colaborador"
+                [placeHolder]="placeholder"
+                [searchKeyword]="keyword"
+                notFoundText="Não encontrado"
+                [itemTemplate]="itemTemplateStatic"
+                [notFoundTemplate]="notFoundTemplate"
+                (selected)="selected()"
+                (inputCleared)="inputCleared()"
+                [isLoading]="isLoading">
+              </ng-autocomplete>
+
+              <ng-template #itemTemplateStatic let-item>
+                <div>&nbsp;
+                  <span [innerHTML]="item.nome"></span> -
+                  <span [innerHTML]="item.cpf"></span>
+                </div>
+              </ng-template>
+
+              <ng-template #notFoundTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+              </ng-template>
+              <div *ngIf="submitted && form.colaborador.errors?.required" class="invalid-feedback" style="display:block">
+                Colaborador é obrigatório.
+              </div>
+            </div>
+          </div>
+
           <div class="col-md-2 mb-3">
             <label>Data da Entrevista</label>
             <div class="input-group date" id="dpdtentrevista">
               <input formControlName="dtEntrevista"
-                      pattern="[0-9]*"
                       digitOnly
                       [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD/MM/YYYY', locale:'pt-br', language: 'pt-br',  showWeekNumbers:false}"
                       bsDatepicker
@@ -20,46 +66,55 @@
                       name="dtentrevista"
                       id="dtentrevista"
                       maxlength="10"/>
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-              </span>
+              <div *ngIf="submitted && form.dtEntrevista.errors?.required" class="invalid-feedback" style="display:block">
+                Data da Entrevista é obrigatória.
+              </div>
             </div>
           </div>
 
           <div class="col-md-2 mb-3">
             <label>Aparência</label>
             <select formControlName="aparencia" class="combobox form-control" name="aparencia" id="aparencia">
-              <option [value]="null">Selecione</option>
+              <option value="" selected>Selecione</option>
               <option value="B">B</option>
               <option value="N">N</option>
               <option value="R">R</option>
             </select>
+            <div *ngIf="submitted && form.aparencia.errors?.required" class="invalid-feedback" style="display:block">
+              Aparência é obrigatória.
+            </div>
           </div>
 
           <div class="col-md-2 mb-3">
             <label>Postura</label>
             <select formControlName="postura" class="combobox form-control" name="postura" id="postura">
-              <option [value]="null">Selecione</option>
+              <option value="" selected>Selecione</option>
               <option value="B">B</option>
               <option value="N">N</option>
               <option value="R">R</option>
             </select>
+            <div *ngIf="submitted && form.postura.errors?.required" class="invalid-feedback" style="display:block">
+              Postura é obrigatória.
+            </div>
           </div>
 
           <div class="col-md-2 mb-3">
             <label>Interesse</label>
             <select formControlName="interesse" class="combobox form-control" name="interesse" id="interesse">
-              <option [value]="null">Selecione</option>
+              <option value="" selected>Selecione</option>
               <option value="B">B</option>
               <option value="N">N</option>
               <option value="R">R</option>
             </select>
+            <div *ngIf="submitted && form.interesse.errors?.required" class="invalid-feedback" style="display:block">
+              Interesse é obrigatório.
+            </div>
           </div>
 
           <div class="col-md-2 mb-3">
             <label>Potencial</label>
             <select formControlName="potencial" class="combobox form-control" name="potencial" id="potencial">
-              <option [value]="null">Selecione</option>
+              <option value="" selected>Selecione</option>
               <option value="A">A</option>
               <option value="B">B</option>
               <option value="C">C</option>
@@ -67,6 +122,9 @@
               <option value="E">E</option>
               <option value="F">F</option>
             </select>
+            <div *ngIf="submitted && form.potencial.errors?.required" class="invalid-feedback" style="display:block">
+              Potencial é obrigatório.
+            </div>
           </div>
 
           <div class="col-md-12">
@@ -83,7 +141,7 @@
                 <label class="custom-control-label" for="alzheimer">Alzheimer Agressivo</label>
               </div>
               <div class="custom-control custom-checkbox">
-                <input formControlName="parkinson" type="checkbox" class="custom-control-input" id="parkinson">
+                  <input formControlName="parkinson" type="checkbox" class="custom-control-input" id="parkinson">
                 <label class="custom-control-label" for="parkinson">Parkinson</label>
               </div>
               <div class="custom-control custom-checkbox">
@@ -92,7 +150,7 @@
               </div>
               <div class="custom-control custom-checkbox">
                 <input formControlName="grande" type="checkbox" class="custom-control-input" id="grande">
-                <label class="custom-control-label" for="grande">Assistido  Grande / Gordo</label>
+                <label class="custom-control-label" for="grande">Cliente  Grande / Gordo</label>
               </div>
             </div>
           </div>
@@ -319,13 +377,13 @@
           <div class="col-md-12 mb-3">
             <h6>Observações</h6>
             <div class="form-check">
-              <textarea class="form-control" rows="5"  name="obs" id="obs" maxlength="500"></textarea>
+              <textarea formControlName="observacao" class="form-control" rows="5"  name="obs" id="obs" maxlength="500"></textarea>
             </div>
           </div>
 
         </div>
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block mb-5" type="submit">Cadastrar</button>
+        <button class="btn btn-primary btn-lg btn-block mb-5" type="submit">{{botao}}</button>
       </form>
     </div>
   </div>

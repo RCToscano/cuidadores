@@ -1,0 +1,37 @@
+<div *ngIf="carregar">
+  <ngx-spinner
+    [fullScreen]="true"
+    type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading" style="color: white"> Carregando... </p>
+  </ngx-spinner>
+</div>
+
+<p *ngIf="message">
+  <ngb-alert [type]="messageType" [dismissible]="false">{{ message }}</ngb-alert>
+</p>
+
+<div class="col-md-12 mb-3 py-3">
+  <div class="table-responsive-sm">
+    <p><strong>Incompatíveis Cadastrados</strong></p>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" style="width: 15%">Data</th>
+          <th scope="col" style="width: 30%">Cliente</th>
+          <th scope="col">Observação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of colaboradorService?.colaboradorIncompativeis">
+          <td>{{item.dtInsert}}</td>
+          <td>{{item.nomeCliente}}</td>
+          <td>{{item.observacao}}</td>
+        </tr>
+        <tr *ngIf="colaboradorService?.colaboradorIncompativeis == undefined || colaboradorService?.colaboradorIncompativeis.length == 0">
+          <td colspan="9" style="text-align: center">Nenhum incompatível cadastrado</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

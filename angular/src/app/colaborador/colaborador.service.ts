@@ -11,6 +11,8 @@ import { Banco } from './models/bancos.model';
 import { UserService } from '../user/user.service';
 import { ColaboradorImagem } from './models/colaborador-imagem.model';
 import { ColaboradorOcorrencia } from './models/colaborador-ocorrencia.model';
+import { ColaboradorIncompativel } from './models/colaborador-incompativel.model';
+import { ColaboradorEntrevista } from './models/colaborador-entrevista.model';
 
 @Injectable()
 export class ColaboradorService {
@@ -20,8 +22,9 @@ export class ColaboradorService {
   colaboradorContas: ColaboradorConta[];
   colaboradorImagens: ColaboradorImagem[];
   colaboradorOcorrencias: ColaboradorOcorrencia[];
+  colaboradorIncompativeis: ColaboradorIncompativel[];
   bancos: Banco[];
-  colaboradorEntrevista: any;
+  colaboradorEntrevista: ColaboradorEntrevista;
 
   constructor(private http: HttpClient,
               private userService: UserService) {}
@@ -163,6 +166,43 @@ export class ColaboradorService {
 
   colaboradoresOcorrencias(id: number): Observable<ColaboradorOcorrencia[]> {
     return this.http.get<ColaboradorOcorrencia[]>(`${SC_API_COLABORADOR}/ocorrencia/colaborador/${id}`,
+      this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  cadastrarIncompativel(incompativel: ColaboradorIncompativel): Observable<any> {
+    return this.http.post<any>(`${SC_API_COLABORADOR}/incompativel`, incompativel, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  colaboradoresIncompativeis(id: number): Observable<ColaboradorIncompativel[]> {
+    return this.http.get<ColaboradorIncompativel[]>(`${SC_API_COLABORADOR}/incompativel/${id}`,
+      this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  cadastrarEntrevista(entrevista: ColaboradorEntrevista): Observable<any> {
+    return this.http.post<any>(`${SC_API_COLABORADOR}/entrevista`, entrevista, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  alterarEntrevista(entrevista: ColaboradorEntrevista): Observable<any> {
+    return this.http.post<any>(`${SC_API_COLABORADOR}/entrevista/alterar`, entrevista, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  consultaEntrevista(id: number): Observable<ColaboradorEntrevista> {
+    return this.http.get<ColaboradorEntrevista>(`${SC_API_COLABORADOR}/entrevista/${id}`,
       this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)

@@ -23,15 +23,10 @@ export class LoginComponent implements OnInit {
               private spinner: NgxSpinnerService,
               private el: ElementRef) {
 
-    if(this.userService.user != null && this.userService.user.token != 'null') {
-      this.router.navigate(['/home']);
-    }
-    else {
-      this.uploadForm = this.formBuilder.group({
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', Validators.required]
-      });
-    }
+    this.uploadForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
   }
 
   ngOnInit() {

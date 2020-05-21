@@ -14,51 +14,35 @@ import { Login } from './models/login.model';
 export class UserService {
 
   messageEvent = new EventEmitter();
-  user: User;
+  user: User = {} as User;
   navigateTo: string;
-  token = localStorage.getItem('tokenCuidadores');
   error: string;
 
+  httpHeaders: HttpHeaders;
+  options = {};
+
   constructor(private http: HttpClient, private router: Router) {
-    if (this.token != null && this.token != 'null') {
-      this.consultaUsuarioToken(this.token).subscribe(
-        res => {
-            this.user = res.body;
-            this.user.token = this.token;
-            this.setUser(this.user);
-        },
-        error => {
-          console.log(error);
-          this.error = error;
-          this.user = undefined;
-          localStorage.clear();
-          this.messageEvent.emit(this.user);
-          this.router.navigate(['']);
-        }
-      );
-    }
+
   }
 
   setUser(user: User) {
     this.user = user;
     localStorage.setItem('tokenCuidadores', user.token);
     this.messageEvent.emit(user);
+    this.httpHeaders = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+        'Authorization': this.user.token
+      }
+    );
+    this.options = {
+      headers: this.httpHeaders
+    };
   }
 
-  httpHeaders = new HttpHeaders(
-    {
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache'
-    }
-  );
-
-  options = {
-    headers: this.httpHeaders
-  };
-
   isLogged(): boolean {
-    if ((this.user != undefined && this.user.token != null) ||
-          (this.token != null && this.token != 'null')) {
+    if (this.user != undefined && this.user.token != null) {
       return true;
     }
     return false;
@@ -69,14 +53,14 @@ export class UserService {
   }
 
   login(login: Login): Observable<User> {
-    return this.http.post<any>(`${SC_API_GENERICO}/login/autenticar`, login, this.options)
+    return this.http.post<any>(`${SC_API_GENERICO}/login/autenticar`, login)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
   }
 
   logout() {
-    this.user = undefined;
+    this.user = {} as User;
     localStorage.clear();
     this.messageEvent.emit(this.user);
     this.router.navigate(['']);
@@ -103,8 +87,8 @@ export class UserService {
       );
   }
 
-  consultaUsuarioId(id: number): Observable<any> {
-    return this.http.get(`${SC_API_GENERICO}/users/${id}`, this.options)
+  consultaUsuarioId(id: number): Observable<User> {
+    return this.http.get<User>(`${SC_API_GENERICO}/users/${id}`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
@@ -119,6 +103,13 @@ export class UserService {
 
   usuarios(): Observable<User[]> {
     return this.http.get<User[]>(`${SC_API_GENERICO}/users`, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  buscarUsuariosPorNome(valor: string): Observable<User[]> {
+    return this.http.get<User[]>(`${SC_API_GENERICO}/users/nome/${valor}`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );

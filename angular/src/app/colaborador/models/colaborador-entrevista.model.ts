@@ -1,5 +1,6 @@
 export interface ColaboradorEntrevista {
-  id: number;
+  idColaborador: number;
+  colaborador: string;
   dtEntrevista: string;
   aparencia: string;
   postura: string;
@@ -41,6 +42,6 @@ export interface ColaboradorEntrevista {
   sabadoNoite: boolean;
   domingoDia: boolean;
   domingoNoite: boolean;
-  experienciaAnterior: boolean;
-  observacoes: string;
+  experiencia: boolean;
+  observacao: string;
 }

@@ -14,6 +14,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
 import { ScrollToModule } from 'ng2-scroll-to-el';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { FileUploadModule } from 'ng2-file-upload';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 // import { DigitOnlyDirective } from './common/directives/digitonly/digit-only.directive';
 
 import { LoginComponent } from './user/login/login.component';
@@ -34,11 +35,13 @@ import { VisitaCadastroComponent } from './assistido/visita/cadastro/visita-cada
 
 //Cliente
 import { ClienteService } from './cliente/cliente.service';
+import { ProspectService } from './prospect/prospect.service';
 import { ClienteCadastroComponent } from './cliente/cadastro/cliente-cadastro.component';
 import { ClienteConsultaComponent } from './cliente/consulta/cliente-consulta.component';
 
 // Prospect
 import { ProspectCadastroComponent } from './prospect/cadastro/prospect-cadastro.component';
+import { ProspectConsultaComponent } from './prospect/consulta/prospect-consulta.component';
 
 // Escala
 import { EscalaInclusaoComponent } from './escala/inclusao/escala-inclusao.component';
@@ -52,6 +55,7 @@ import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.co
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 registerLocaleData(localePt);
+
 
 @NgModule({
   declarations: [
@@ -75,7 +79,8 @@ registerLocaleData(localePt);
     UsuarioConsultaComponent,
     EscalaConsultaComponent,
     ClienteCadastroComponent,
-    ClienteConsultaComponent
+    ClienteConsultaComponent,
+    ProspectConsultaComponent
   ],
   imports: [
     HttpClientModule,
@@ -92,12 +97,14 @@ registerLocaleData(localePt);
     BsDatepickerModule.forRoot(),
     ScrollToModule.forRoot(),
     NgxSpinnerModule,
-    FileUploadModule
+    FileUploadModule,
+    AutocompleteLibModule
   ],
   providers: [
     UserService,
     EmpresaService,
     ClienteService,
+    ProspectService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: LOCALE_ID, useValue: 'pt-BR'}
   ],

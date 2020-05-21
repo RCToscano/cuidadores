@@ -1,16 +1,11 @@
-<div *ngIf="userService.user == undefined" class="container">
-
+<div *ngIf="userService?.user.token == null" class="container">
   <div *ngIf="carregar">
     <ngx-spinner
-      bdOpacity = 0.6
-      bdColor = "rgba(255,255,255,0.85)"
-      size = "default"
-      color = "#3d3b3b"
-      type = "ball-clip-rotate"
-      [fullScreen] = "true"
-    >
-    <p style="color: #3d3b3b" > Loading... </p>
-    </ngx-spinner>
+      [fullScreen]="true"
+      type="ball-clip-rotate-multiple"
+      size="medium">
+      <p class="loading" style="color: white"> Entrando... </p>
+    </ngx-spinner> -->
   </div>
 
   <!-- Outer Row -->

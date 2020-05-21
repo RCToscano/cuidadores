@@ -1,4 +1,13 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<div *ngIf="carregar">
+  <ngx-spinner
+    [fullScreen]="true"
+    type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading" style="color: white"> Saindo... </p>
+  </ngx-spinner>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="header">
   <a class="navbar-brand" [routerLink]="['home']">Cuidadores</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -47,9 +56,9 @@
           Prospect
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" [routerLink]="['prospect/consulta']">Consultar</a>
+          <div class="dropdown-divider"></div>
           <a class="dropdown-item" [routerLink]="['prospect/cadastro']">Cadastrar</a>
-          <!-- <div class="dropdown-divider"></div> -->
-          <!-- <a class="dropdown-item" [routerLink]="['assistido/ocorrencia/cadastro']">Cadastrar Ocorrência</a> -->
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -92,7 +101,7 @@
         <li class="nav-item dropdown no-arrow">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown">
             <i class="fas fa-users-cog mr-2 text-gray-400"></i>
-            UsuárioTeste
+            <!-- {{ userService?.user.nome }} -->
           </a>
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
             <a class="dropdown-item">

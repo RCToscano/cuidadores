@@ -18,7 +18,6 @@ import { ColaboradorService } from './colaborador.service';
 import { ColaboradorRoutingModule } from './colaborador-routing.module';
 import { ColaboradorCadastroComponent } from './cadastro/colaborador-cadastro.component';
 import { ColaboradorContaCadastroComponent } from './conta/colaborador-conta.component';
-import { ColaboradorEntrevistaComponent } from './entrevista/colaborador-entrevista.component';
 import { ColaboradorOcorrenciaComponent } from './ocorrencia/colaborador-ocorrencia.component';
 import { IncompativeisCadastroComponent } from './incompativeis/cadastro/incompativeis-cadastro.component';
 import { ColaboradorConsultaComponent } from './consulta/colaborador-consulta.component';
@@ -28,6 +27,9 @@ import { ColaboradorContaPadraoComponent } from './conta/padrao/conta-padrao.com
 import { ColaboradorContaExclusaoComponent } from './conta/exclusao/conta-exclusao.component';
 import { ColaboradorCadastroOcorrenciaComponent } from './ocorrencia/cadastro/cadastro-ocorrencia.component';
 import { ListaOcorrenciaComponent } from './ocorrencia/lista/lista-ocorrencia.component';
+import { ListaIncompativelComponent } from './incompativeis/lista/lista-incompativel.component';
+import { ColaboradorEntrevistaComponent } from './entrevista/colaborador-entrevista.component';
+import { EntrevistaAlteracaoComponent } from './entrevista/alteracao/entrevista-alteracao.component';
 
 
 @NgModule({
@@ -44,7 +46,9 @@ import { ListaOcorrenciaComponent } from './ocorrencia/lista/lista-ocorrencia.co
     ColaboradorContaPadraoComponent,
     ColaboradorContaExclusaoComponent,
     ColaboradorCadastroOcorrenciaComponent,
-    ListaOcorrenciaComponent
+    ListaOcorrenciaComponent,
+    ListaIncompativelComponent,
+    EntrevistaAlteracaoComponent
   ],
   imports: [
     ColaboradorRoutingModule,

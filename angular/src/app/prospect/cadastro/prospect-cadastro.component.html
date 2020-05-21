@@ -1,58 +1,110 @@
 <div class="container">
+  <div *ngIf="carregar">
+    <ngx-spinner
+      [fullScreen]="true"
+      type="ball-clip-rotate-multiple"
+      size="medium">
+      <p class="loading" style="color: white"> Carregando... </p>
+    </ngx-spinner>
+  </div>
+
   <div class="py-5 text-center">
-    <h2>Cadastro de Prospect</h2>
+    <h2>{{titulo}} de Prospect</h2>
   </div>
 
   <div class="row justify-content-center">
+
+    <p *ngIf="message">
+      <ngb-alert [type]="messageType" (close)="close(alert)">{{ message }}</ngb-alert>
+    </p>
+
     <div class="col-md-10">
-      <form class="needs-validation" novalidate>
+      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
         <div class="row">
 
           <div class="col-md-6 mb-3">
             <label for="firstName">Nome do Responsável pela Avaliação</label>
-            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-            <div class="invalid-feedback">
-              Valid first name is required.
+            <ng-autocomplete
+              #auto
+              [data]="usuarios"
+              formControlName="nomeResponsavel"
+              [placeHolder]="placeholder"
+              [searchKeyword]="keyword"
+              notFoundText="Não encontrado"
+              [itemTemplate]="itemTemplateStatic"
+              [notFoundTemplate]="notFoundTemplate"
+              (selected)="selected()"
+              (inputCleared)="inputCleared()"
+              [isLoading]="isLoading">
+            </ng-autocomplete>
+
+            <ng-template #itemTemplateStatic let-item>
+              <div>&nbsp;
+                <span [innerHTML]="item.nome"></span> -
+                <span>{{item.cpf}}</span>
+              </div>
+              <!-- <a [innerHTML]="item.nome"></a>
+              <span> - {{item.cpf}}</span> -->
+            </ng-template>
+
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <div *ngIf="submitted && form.nomeResponsavel.errors?.required" class="invalid-feedback" style="display:block">
+              Nome do Responsável é obrigatório.
             </div>
           </div>
 
           <div class="col-md-3 mb-3">
             <label for="firstName">Data</label>
-            <input type="text" class="form-control" id="firstName" placeholder="dd/MM/yyyy" value="" required>
-            <div class="invalid-feedback">
-              Valid first name is required.
+            <input formControlName="data"
+                    digitOnly
+                    [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD/MM/YYYY', locale:'pt-br', language: 'pt-br',  showWeekNumbers:false}"
+                    bsDatepicker
+                    type="text"
+                    class="form-control"
+                    placeholder="DD/MM/YYYY"
+                    id="data">
+            <div *ngIf="submitted && form.data.errors?.required" class="invalid-feedback" style="display:block">
+              Data é obrigatória.
+            </div>
+            <div *ngIf="!form.data.errors?.required && submitted && form.data.errors" class="invalid-feedback" style="display:block">
+              Data inválida.
             </div>
           </div>
 
           <div class="col-md-6 mb-3">
             <label for="firstName">Nome do Contato</label>
-            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-            <div class="invalid-feedback">
-              Valid first name is required.
+            <input formControlName="nomeContato" type="text" class="form-control" id="firstName" maxlength="100">
+            <div *ngIf="submitted && form.nomeContato.errors?.required" class="invalid-feedback" style="display:block">
+              Nome do Contato é obrigatório.
             </div>
           </div>
 
           <div class="col-md-6 mb-3">
             <label for="firstName">E-mail</label>
-            <input type="email" class="form-control" id="firstName" placeholder="" value="" required>
-            <div class="invalid-feedback">
-              Valid first name is required.
+            <input formControlName="emailContato" type="email" class="form-control" id="firstName" maxlength="100">
+            <div *ngIf="submitted && form.emailContato.errors?.required" class="invalid-feedback" style="display:block">
+              E-mail é obrigatório.
+            </div>
+            <div *ngIf="submitted && form.emailContato.errors?.email" class="invalid-feedback" style="display:block">
+              E-mail inválido.
             </div>
           </div>
 
           <div class="col-md-3 mb-3">
             <label for="firstName">Tel. Fixo</label>
-            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-            <div class="invalid-feedback">
-              Valid first name is required.
+            <input formControlName="telFixo" pattern="[(][0-9]{2}[)][\s]{1}[0-9]{4}[-]{1}[0-9]{4}" [textMask]="{mask: maskTel}" type="text" class="form-control" id="firstName" >
+            <div *ngIf="submitted && form.telFixo.errors?.required" class="invalid-feedback" style="display:block">
+              Tel. Fixo é obrigatório.
             </div>
           </div>
 
           <div class="col-md-3 mb-3">
             <label for="firstName">Tel. Celular</label>
-            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-            <div class="invalid-feedback">
-              Valid first name is required.
+            <input formControlName="telCel" pattern="[(][0-9]{2}[)][\s]{1}[0-9]{5}[-]{1}[0-9]{4}" [textMask]="{mask: maskCel}" type="text" class="form-control" id="firstName" >
+            <div *ngIf="submitted && form.telCel.errors?.required" class="invalid-feedback" style="display:block">
+              Tel. Celular é obrigatório.
             </div>
           </div>
 
@@ -63,54 +115,66 @@
           </div>
 
           <div class="col-md-3 mb-3">
-            <label for="firstName">CPF do Assistido</label>
-            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-            <div class="invalid-feedback">
-              Valid first name is required.
+            <label for="firstName">CPF do Cliente</label>
+            <input formControlName="cpfCliente" pattern="[0-9]{3}[.]{1}[0-9]{3}[.]{1}[0-9]{3}[-]{1}[0-9]{2}" [textMask]="{mask: maskCPF}" type="text" class="form-control" id="firstName">
+            <div *ngIf="submitted && form.cpfCliente.errors?.required" class="invalid-feedback" style="display:block">
+              CPF do Cliente é obrigatório.
             </div>
           </div>
 
           <div class="col-md-6 mb-3">
-            <label for="firstName">Nome do Assistido</label>
-            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-            <div class="invalid-feedback">
-              Valid first name is required.
+            <label for="firstName">Nome do Cliente</label>
+            <input formControlName="nomeCliente" type="text" class="form-control" id="firstName" maxlength="100">
+            <div *ngIf="submitted && form.nomeCliente.errors?.required" class="invalid-feedback" style="display:block">
+              Nome do Cliente é obrigatório.
             </div>
           </div>
 
           <div class="col-md-3 mb-3">
             <label for="firstName">Data de Nascimento</label>
-            <input type="text" class="form-control" id="firstName" placeholder="dd/MM/yyyy" value="" required>
-            <div class="invalid-feedback">
-              Valid first name is required.
+            <input formControlName="dataNascimento"
+                    digitOnly
+                    [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD/MM/YYYY', locale:'pt-br', language: 'pt-br',  showWeekNumbers:false}"
+                    bsDatepicker
+                    type="text"
+                    class="form-control"
+                    placeholder="DD/MM/YYYY"
+                    id="dataNascimento">
+            <div *ngIf="submitted && form.dataNascimento.errors?.required" class="invalid-feedback" style="display:block">
+              Data de Nascimento é obrigatória.
+            </div>
+            <div *ngIf="!form.dataNascimento.errors?.required && submitted && form.dataNascimento.errors" class="invalid-feedback" style="display:block">
+              Data de Nascimento inválida.
             </div>
           </div>
 
           <div class="col-md-3 mb-3">
             <label for="country">Sexo</label>
-            <select class="custom-select d-block w-100" id="country" required>
-              <option value="">Selecione...</option>
-              <option>Feminino</option>
-              <option>Masculino</option>
+            <select formControlName="idGenero" class="combobox form-control" name="sexo" id="sexo">
+              <option [value]="null">Selecione</option>
+              <option *ngFor="let item of generos"
+                      [value]="item.idGenero">
+                {{item.genero}}
+              </option>
             </select>
-            <div class="invalid-feedback">
-              Please select a valid country.
+            <div *ngIf="submitted && form.idGenero.errors?.required" class="invalid-feedback" style="display:block">
+              Sexo é obrigatório.
             </div>
           </div>
 
           <div class="col-md-2 mb-3">
             <label for="lastName">Peso (kg)</label>
-            <input type="text" class="form-control" id="lastName" placeholder="100,0 kg" value="" required>
-            <div class="invalid-feedback">
-              Valid last name is required.
+            <input formControlName="peso" type="number" class="form-control" id="lastName" placeholder="100 kg" maxlength="3">
+            <div *ngIf="submitted && form.peso.errors?.required" class="invalid-feedback" style="display:block">
+              Peso é obrigatório.
             </div>
           </div>
 
           <div class="col-md-2 mb-3">
             <label for="lastName">Altura (m)</label>
-            <input type="text" class="form-control" id="lastName" placeholder="1,50 m" value="" required>
-            <div class="invalid-feedback">
-              Valid last name is required.
+            <input formControlName="altura" pattern="[0-9]{1}[.]{1}[0-9]{2}" [textMask]="{mask: maskAltura}" type="text" class="form-control" id="lastName" placeholder="1,50 m" maxlength="6">
+            <div *ngIf="submitted && form.altura.errors?.required" class="invalid-feedback" style="display:block">
+              Altura é obrigatória.
             </div>
           </div>
 
@@ -120,17 +184,17 @@
 
           <div class="col-md-12 mb-3">
             <label for="lastName">Proposta</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" style="resize: none;"></textarea>
-            <div class="invalid-feedback">
-              Valid last name is required.
+            <textarea formControlName="proposta" class="form-control" id="exampleFormControlTextarea1" rows="4" maxlength="1000" style="resize: none;"></textarea>
+            <div *ngIf="submitted && form.proposta.errors?.required" class="invalid-feedback" style="display:block">
+              Proposta é obrigatório.
             </div>
           </div>
 
           <div class="col-md-12 mb-3">
             <label for="lastName">Histórico / Resumo</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" style="resize: none;"></textarea>
-            <div class="invalid-feedback">
-              Valid last name is required.
+            <textarea formControlName="historico" class="form-control" id="exampleFormControlTextarea1" rows="4" maxlength="1000" style="resize: none;"></textarea>
+            <div *ngIf="submitted && form.historico.errors?.required" class="invalid-feedback" style="display:block">
+              Histórico é obrigatório.
             </div>
           </div>
 
@@ -139,7 +203,7 @@
 
 
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block mb-5" type="submit">Cadastrar</button>
+        <button class="btn btn-primary btn-lg btn-block mb-5" type="submit">{{botao}}</button>
       </form>
     </div>
   </div>

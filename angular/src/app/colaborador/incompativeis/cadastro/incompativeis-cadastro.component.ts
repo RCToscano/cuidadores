@@ -6,9 +6,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from 'src/app/user/user.service';
 import { ScrollToService } from 'ng2-scroll-to-el';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { ColaboradorOcorrencia } from '../../models/colaborador-ocorrencia.model';
 import { ClienteService } from 'src/app/cliente/cliente.service';
 import { Cliente } from 'src/app/cliente/models/cliente.model';
+import { ColaboradorIncompativel } from '../../models/colaborador-incompativel.model';
 
 @Component({
   selector: 'app-colaborador-incompativeis-cadastro',
@@ -124,19 +124,19 @@ export class IncompativeisCadastroComponent implements OnInit {
       this.carregar = true;
       this.spinner.show();
 
-      const ocorrencia = {} as ColaboradorOcorrencia;
-      ocorrencia.dtInsert = this.uploadForm.controls.data.value;
-      ocorrencia.idColaborador = this.uploadForm.controls.colaborador.value.id;
-      ocorrencia.ocorrencia = this.uploadForm.controls.ocorrencia.value;
-      ocorrencia.idUser = this.userService.user.idUser;
+      const incompativel = {} as ColaboradorIncompativel;
+      incompativel.idColaborador = this.uploadForm.controls.colaborador.value.id;
+      incompativel.idCliente = this.uploadForm.controls.cliente.value.idCliente;
+      incompativel.observacao = this.uploadForm.controls.obs.value;
+      incompativel.idUser = this.userService.user.idUser;
 
-      this.colaboradorService.cadastrarOcorrencia(ocorrencia)
+      this.colaboradorService.cadastrarIncompativel(incompativel)
         .subscribe(
           res => {
             console.log(res);
             this.uploadForm.reset();
             this.messageType = 'success';
-            this.message = 'Ocorrência cadastrada com sucesso';
+            this.message = 'Incompatível cadastrado com sucesso';
             this.scrollService.scrollTo('#header');
             this.submitted = false;
             this.carregar = false;

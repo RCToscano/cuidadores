@@ -1,4 +1,11 @@
-
+<div *ngIf="carregar">
+  <ngx-spinner
+    [fullScreen]="true"
+    type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading" style="color: white"> Carregando... </p>
+  </ngx-spinner>
+</div>
 <app-header></app-header>
 <!-- <app-login></app-login> -->
 <!-- <app-assistido></app-assistido> -->
