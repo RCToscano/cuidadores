@@ -1,6 +1,5 @@
-import { Component, OnInit, ElementRef, Input, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbDate, NgbCalendar, NgbDatepickerConfig, NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Cliente } from '../models/cliente.model';
 import '../../../assets/scripts/endereco.js';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
@@ -45,16 +44,13 @@ export class ClienteCadastroComponent implements OnInit {
   }
 
   constructor(private formBuilder: FormBuilder,
-    private el: ElementRef,
-    private activatedRoute: ActivatedRoute,
-    private clienteService: ClienteService,
-    private spinner: NgxSpinnerService,
-    private scrollService: ScrollToService,
-    private localeService: BsLocaleService
-  ) {
-    defineLocale('pt-br', ptBrLocale);
-    localeService.use('pt-br');
-    if (this.activatedRoute.snapshot.params['idCliente'] != undefined) {
+              private el: ElementRef,
+              private activatedRoute: ActivatedRoute,
+              private clienteService: ClienteService,
+              private spinner: NgxSpinnerService,
+              private scrollService: ScrollToService) {
+
+    if (this.activatedRoute.snapshot.params['id'] != undefined) {
       this.titulo = 'Alteração';
       this.botao = 'Alterar';
       this.alterar = true;
@@ -74,8 +70,6 @@ export class ClienteCadastroComponent implements OnInit {
         .subscribe(
           (res: Cliente) => {
             this.cliente = res;
-
-            this.cliente.dataNascimento = '21/04/1979'
             setTimeout(() => {
               this.buscarParametros();
               this.criarForm();
@@ -105,11 +99,12 @@ export class ClienteCadastroComponent implements OnInit {
       .subscribe(
         (res: CadastroParametros) => {
           this.parametros = res;
-          console.log(this.parametros);
         },
         error => {
           this.messageType = 'danger';
           this.message = error;
+          this.spinner.hide();
+          this.carregar = false;
           this.scrollService.scrollTo('#header');
         }
       );
@@ -125,37 +120,35 @@ export class ClienteCadastroComponent implements OnInit {
       cpf: [this.cliente.cpf, [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
       rg: [this.cliente.rg, [Validators.required, Validators.maxLength(15)]],
       nome: [this.cliente.nome, [Validators.required, Validators.maxLength(100)]],
-      //dataNascimento: [this.cliente.dataNascimento, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-      dataNascimento: [this.cliente.dataNascimento],
+      dataNascimento: [this.formartDate(this.cliente.dataNascimento), [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       peso: [this.cliente.peso, [Validators.required, Validators.maxLength(3)]],
       altura: [this.cliente.altura, [Validators.required]],
       telFixo: [this.cliente.telFixo, [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
       telCel: [this.cliente.telCel, [Validators.required, Validators.minLength(15), Validators.maxLength(15)]],
       nomeContato: [this.cliente.nomeContato, [Validators.required]],
-      coordenadas: [this.cliente.latitude + ',' + this.cliente.longitude, [Validators.required]],
+      coordenadas: [this.cliente.coordenadas],
       latitude: [this.cliente.latitude],
       longitude: [this.cliente.longitude],
       endereco: [this.cliente.endereco, [Validators.required, Validators.maxLength(100)]],
       numero: [this.cliente.numero, [Validators.required, Validators.maxLength(6)]],
       complemento: [this.cliente.complemento, [Validators.maxLength(50)]],
       municipio: [this.cliente.municipio, [Validators.required, Validators.maxLength(100)]],
-      //uf: ['', [Validators.required, Validators.maxLength(50)]],
-      estado: [this.cliente.estado, [Validators.required, Validators.maxLength(50)]],
+      uf: [this.cliente.uf, [Validators.required, Validators.maxLength(2)]],
       cep: [this.cliente.cep, [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
-      pais: [this.cliente.pais, [Validators.required, Validators.maxLength(50)]],
-      obs: [this.cliente.obs, [Validators.maxLength(200)]]
+      pais: [this.cliente.pais, [Validators.required, Validators.maxLength(50)]]
     });
   }
 
   onSubmit() {
     this.submitted = true;
     const controls = this.uploadForm.controls;
-    for (const name in controls) {
-      this.checkField(controls[name].value, name);
-      if (controls[name].invalid) {
-        console.log('invalido: ' + name);
-      }
-    }
+    // for (const name in controls) {
+    //     this.checkField(controls[name].value, name);
+    //     if (controls[name].invalid) {
+    //         console.log('invalido: ' + name);
+    //         console.log(controls[name].errors);
+    //     }
+    // }
 
     if (this.uploadForm.invalid) {
       const invalidElements = this.el.nativeElement.querySelectorAll('.ng-invalid');
@@ -166,50 +159,51 @@ export class ClienteCadastroComponent implements OnInit {
       this.carregar = true;
       this.spinner.show();
       this.cliente = this.uploadForm.value;
+      this.cliente.dataNascimento = formatDate(controls.dataNascimento.value, 'DD/MM/YYYY').trim();
 
-      if (this.cliente.idCliente === undefined ||
-            this.cliente.idCliente === null) {
-        this.cliente.dataNascimento = formatDate(controls.dataNascimento.value, 'DD/MM/YYYY').trim();
-        this.clienteService.cadastrarCliente(this.cliente)
-          .subscribe(
-            res => {
-              this.uploadForm.reset();
-              this.messageType = 'success';
-              this.message = 'Cadastro realizado com sucesso';
-              this.scrollService.scrollTo('#header');
-              this.carregar = false;
-              this.spinner.hide();
-            },
-            error => {
-              this.messageType = 'danger';
-              this.message = 'erro';
-              this.scrollService.scrollTo('#header', 350, -100);
-              this.carregar = false;
-              this.spinner.hide();
-            }
-          );
-      }
-      else {
-        this.cliente.dataNascimento = formatDate(controls.dataNascimento.value, 'DD/MM/YYYY').trim();
-        console.log('data nascimento alteracao ' + this.cliente.dataNascimento);
+      if(this.alterar) {
         this.clienteService.alterarCliente(this.cliente)
           .subscribe(
             res => {
-              this.uploadForm.reset();
               this.messageType = 'success';
-              this.message = 'Cadastro realizado com sucesso';
+              this.message = 'Alteração realizada com sucesso';
               this.scrollService.scrollTo('#header');
+              this.submitted = false;
               this.carregar = false;
               this.spinner.hide();
             },
             error => {
+              console.log(error);
               this.messageType = 'danger';
-              this.message = 'erro';
+              this.message = error;
               this.scrollService.scrollTo('#header', 350, -100);
               this.carregar = false;
               this.spinner.hide();
             }
-          );
+        );
+      }
+      else {
+        this.clienteService.cadastrarCliente(this.cliente)
+          .subscribe(
+            res => {
+              console.log(res);
+              this.uploadForm.reset();
+              this.messageType = 'success';
+              this.message = 'Cadastro realizado com sucesso';
+              this.scrollService.scrollTo('#header');
+              this.submitted = false;
+              this.carregar = false;
+              this.spinner.hide();
+            },
+            error => {
+              console.log(error);
+              this.messageType = 'danger';
+              this.message = error;
+              this.scrollService.scrollTo('#header', 350, -100);
+              this.carregar = false;
+              this.spinner.hide();
+            }
+        );
       }
     }
   }
@@ -233,6 +227,13 @@ export class ClienteCadastroComponent implements OnInit {
     }
   }
 
+  formartDate(data: string): Date {
+    if(data != null && data != '') {
+      return new Date(data);
+    }
+    return null;
+  }
+
   handleAddressChange(address: Address) {
     console.log(address);
     this.link = address.url;
@@ -240,7 +241,7 @@ export class ClienteCadastroComponent implements OnInit {
       this.uploadForm.controls.numero.setValue(address.address_components[0].long_name);
       this.uploadForm.controls.endereco.setValue(address.address_components[1].short_name);
       this.uploadForm.controls.municipio.setValue(address.address_components[3].long_name);
-      this.uploadForm.controls.estado.setValue(address.address_components[4].long_name);
+      this.uploadForm.controls.uf.setValue(address.address_components[4].short_name);
       this.uploadForm.controls.pais.setValue(address.address_components[5].long_name);
       this.uploadForm.controls.cep.setValue(address.address_components[6].long_name);
       this.uploadForm.controls.coordenadas.setValue(address.geometry.location.lat().toString() + ',' +
@@ -252,7 +253,7 @@ export class ClienteCadastroComponent implements OnInit {
       this.uploadForm.controls.numero.setValue('');
       this.uploadForm.controls.endereco.setValue('');
       this.uploadForm.controls.municipio.setValue(address.address_components[2].long_name);
-      this.uploadForm.controls.estado.setValue(address.address_components[3].long_name);
+      this.uploadForm.controls.uf.setValue(address.address_components[3].short_name);
       this.uploadForm.controls.pais.setValue(address.address_components[4].long_name);
       this.uploadForm.controls.cep.setValue(address.address_components[0].long_name);
       this.uploadForm.controls.coordenadas.setValue(address.geometry.location.lat().toString() + ',' +
@@ -265,7 +266,7 @@ export class ClienteCadastroComponent implements OnInit {
       this.uploadForm.controls.cep.setValue('');
       this.uploadForm.controls.endereco.setValue(address.address_components[0].short_name);
       this.uploadForm.controls.municipio.setValue(address.address_components[2].long_name);
-      this.uploadForm.controls.estado.setValue(address.address_components[3].long_name);
+      this.uploadForm.controls.uf.setValue(address.address_components[3].short_name);
       this.uploadForm.controls.pais.setValue(address.address_components[4].long_name);
       if (address.address_components[5] != undefined) {
         this.uploadForm.controls.cep.setValue(address.address_components[5].long_name);

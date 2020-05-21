@@ -7,25 +7,29 @@ import { ErrorHandler } from '../app.error-handler';
 import { UserService } from '../user/user.service';
 import { Prospect } from './models/prospect.model';
 import { Genero } from '../common/models/genero.models';
+import { User } from '../user/models/user.model';
 
 @Injectable()
 export class ProspectService {
 
+  token: string;
+  options = {headers: new HttpHeaders()};
   messageEvent = new EventEmitter();
   prospect: Prospect;
 
-  constructor(private http: HttpClient,
-              private userService: UserService) {}
+  constructor(private http: HttpClient) {
+    let user: User = JSON.parse(localStorage.getItem('token-cuidadores'));
+    this.token = user.token;
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+      'Authorization': this.token
+    });
+    this.options = {
+      headers: httpHeaders
+    };
+  }
 
-  httpHeaders = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Cache-Control': 'no-cache',
-    'Authorization': this.userService.user.token
-  });
-
-  options = {
-    headers: this.httpHeaders
-  };
 
   buscarGeneros(): Observable<Genero[]> {
     return this.http.get<Genero[]>(`${SC_API_PROSPECT}/parametros`, this.options)

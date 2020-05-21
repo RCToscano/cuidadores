@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User } from './models/user.model';
 import { ErrorHandler } from '../app.error-handler';
-import { SC_API_GENERICO } from '../app.api';
+import { SC_API_GENERICO, SC_API_USER } from '../app.api';
 import { CadastroParametros } from './models/cadastro-parametros-model';
 import { Login } from './models/login.model';
 
@@ -22,12 +22,23 @@ export class UserService {
   options = {};
 
   constructor(private http: HttpClient, private router: Router) {
-
+    let user: User = JSON.parse(localStorage.getItem('token-cuidadores'));
+    if (user != null) {
+      this.user = user;
+      let httpHeaders = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+        'Authorization': user.token
+      });
+      this.options = {
+        headers: httpHeaders
+      };
+    }
   }
 
   setUser(user: User) {
     this.user = user;
-    localStorage.setItem('tokenCuidadores', user.token);
+    localStorage.setItem('token-cuidadores', JSON.stringify(user));
     this.messageEvent.emit(user);
     this.httpHeaders = new HttpHeaders(
       {
@@ -67,7 +78,7 @@ export class UserService {
   }
 
   cadastroParametros(): Observable<CadastroParametros> {
-    return this.http.get<CadastroParametros>(`${SC_API_GENERICO}/parametros`, this.options)
+    return this.http.get<CadastroParametros>(`${SC_API_USER}/parametros`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
@@ -88,28 +99,28 @@ export class UserService {
   }
 
   consultaUsuarioId(id: number): Observable<User> {
-    return this.http.get<User>(`${SC_API_GENERICO}/users/${id}`, this.options)
+    return this.http.get<User>(`${SC_API_USER}/${id}`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
   }
 
   cadastrarUsuario(user: User): Observable<any> {
-    return this.http.post<any>(`${SC_API_GENERICO}/users`, user, this.options)
+    return this.http.post<any>(`${SC_API_USER}`, user, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
   }
 
   usuarios(): Observable<User[]> {
-    return this.http.get<User[]>(`${SC_API_GENERICO}/users`, this.options)
+    return this.http.get<User[]>(`${SC_API_USER}`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
   }
 
   buscarUsuariosPorNome(valor: string): Observable<User[]> {
-    return this.http.get<User[]>(`${SC_API_GENERICO}/users/nome/${valor}`, this.options)
+    return this.http.get<User[]>(`${SC_API_USER}/nome/${valor}`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );

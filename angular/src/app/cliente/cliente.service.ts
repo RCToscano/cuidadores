@@ -6,62 +6,60 @@ import { SC_API_CLIENTE} from '../app.api';
 import { ErrorHandler } from '../app.error-handler';
 import { CadastroParametros } from './models/cadastro-parametros-model';
 import { Cliente } from './models/cliente.model';
+import { User } from '../user/models/user.model';
 
 @Injectable()
 export class ClienteService {
 
+  token: string;
+  options = {headers: new HttpHeaders()};
   messageEvent = new EventEmitter();
   cliente: Cliente;
 
-  constructor(private http: HttpClient) {}
 
-  httpHeaders = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Cache-Control': 'no-cache',
-    'Authentication': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3YWduZXIifQ.zJNGtr7o2gRFmBuAcJzpqa99gxL4sgJ-gRYQ8onEiTMLjY0dJPYsx1WFYKjM73DFVK6n8ArPQqDEMh56NuVAaQ'
-  });
-
-  options = {
-    headers: this.httpHeaders
-  };
+  constructor(private http: HttpClient) {
+    let user: User = JSON.parse(localStorage.getItem('token-cuidadores'));
+    this.token = user.token;
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+      'Authorization': this.token
+    });
+    this.options = {
+      headers: httpHeaders
+    };
+  }
 
   cadastroParametros(): Observable<CadastroParametros> {
-    return this.http.get<CadastroParametros>(`${SC_API_CLIENTE}/web/cliente/parametros`, this.options)
+    return this.http.get<CadastroParametros>(`${SC_API_CLIENTE}/parametros`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
   }
 
   cadastrarCliente(cliente: Cliente): Observable<any> {
-    return this.http.post<any>(`${SC_API_CLIENTE}/web/cliente/cadastrar`, cliente, this.options)
+    return this.http.post<any>(`${SC_API_CLIENTE}`, cliente, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
   }
 
   alterarCliente(cliente: Cliente): Observable<any> {
-    return this.http.post<any>(`${SC_API_CLIENTE}/web/cliente/alterar`, cliente, this.options)
+    return this.http.put<any>(`${SC_API_CLIENTE}`, cliente, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
   }
 
-  buscarPorIdCliente(idCliente: number): Observable<Cliente> {
-    return this.http.get<Cliente>(`${SC_API_CLIENTE}/web/cliente/buscar/idCliente/${idCliente}`, this.options)
-      .pipe(
-        catchError(ErrorHandler.handlerError)
-      );
-  }
-
-  listarCliente(): Observable<any> {
-    return this.http.get<any>(`${SC_API_CLIENTE}/web/cliente/listar`, this.options)
+  consultaCliente(id: number): Observable<Cliente> {
+    return this.http.get<Cliente>(`${SC_API_CLIENTE}/${id}`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
   }
 
   buscarClientesPorNome(valor: string): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(`${SC_API_CLIENTE}/web/cliente/nome/${valor}`, this.options)
+    return this.http.get<Cliente[]>(`${SC_API_CLIENTE}/nome/${valor}`, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );

@@ -1,7 +1,12 @@
 export interface Empresa {
-  id: number;
-  cnpj: string;
+  idEmpresa: number;
+  idEmpresaSituacao: number;
+  situacaoDescricao: string;
   nome: string;
+  cnpj: string;
+  telFixo1: string;
+  telFixo2: string;
+  telCel: string;
   coordenadas: string;
   latitude: string;
   longitude: string;
@@ -9,7 +14,8 @@ export interface Empresa {
   numero: number;
   complemento: string;
   municipio: string;
-  estado: string;
+  uf: string;
   cep: string;
   pais: string;
+  dtInsert: string;
 }

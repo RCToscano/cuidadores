@@ -1,7 +1,10 @@
 <div class="container">
 
   <div *ngIf="carregar">
-    <ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium">
+    <ngx-spinner
+      [fullScreen]="true"
+      type="ball-clip-rotate-multiple"
+      size="medium">
       <p class="loading" style="color: white">Carregando...</p>
     </ngx-spinner>
   </div>
@@ -12,46 +15,67 @@
 
   <div class="row mb-4">
     <div class="col-md-12">
-      <form (ngSubmit)="onSubmit()">
-        <div class="row">
-          <div class="col-sm-11 mb-3">
-            <ng-multiselect-dropdown [placeholder]="'Selecione o Colaborador'" [data]="dropdownList" formControlItem="selectedItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onDeSelect)="onDeSelect($event)"
-              (onSelectAll)="onSelectAll($event)">
-            </ng-multiselect-dropdown>
-          </div>
-          <div class="col-sm-1 mb-3">
-            <button type="submit" class="btn btn-primary">Buscar</button>
+      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+        <div class="col d-flex justify-content-center">
+          <div class="row">
+            <ng-autocomplete
+              #auto
+              [data]="clientes"
+              formControlName="cliente"
+              [placeHolder]="placeholder"
+              [searchKeyword]="keyword"
+              notFoundText="Não encontrado"
+              [itemTemplate]="itemTemplateStatic"
+              [notFoundTemplate]="notFoundTemplate"
+              (selected)="selected()"
+              (inputCleared)="inputCleared()"
+              [isLoading]="isLoading">
+            </ng-autocomplete>
+
+            <ng-template #itemTemplateStatic let-item>
+              <div>&nbsp;
+                <span [innerHTML]="item.nome"></span> -
+                <span>{{item.cpf}}</span>
+              </div>
+            </ng-template>
+
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+
+            <!-- <div class="col-sm-1 mb-3">
+              <button type="submit" [disabled]="!colaboradorSelected" class="btn btn-primary">Buscar</button>
+            </div> -->
           </div>
         </div>
       </form>
     </div>
   </div>
 
-  <div class="col-md-12 mb-3">
+  <div *ngIf="clienteSelected" class="col-md-12 mb-3">
     <div class="table-responsive-sm">
       <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">Nº</th>
             <th scope="col">Nome</th>
-            <th scope="col">CPF</th>
-            <th scope="col">Tel</th>
-            <th scope="col">Cel</th>
-            <th scope="col">Idade</th>
+            <th scope="col">Situação</th>
+            <th scope="col">Data de Nascimento</th>
+            <th scope="col">Escalas</th>
             <th scope="col">Cadastro</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let cliente of listCliente; let seq = index">
-            <!-- <tr> -->
+          <tr>
             <td>1</td>
-            <td>{{cliente.nome}}</td>
-            <td>{{cliente.cpf}}</td>
-            <td>{{cliente.telFixo}}</td>
-            <td>{{cliente.telCel}}</td>
-            <td></td>
+            <td>{{form.cliente.value.nome}}</td>
+            <td>{{form.cliente.value.clienteSituacao}}</td>
+            <td>{{form.cliente.value.dataNascimento | slice:0:10}}</td>
             <td>
-              <button [routerLink]="['/cliente/cadastro', cliente.idCliente]" class="btn btn-sm btn-primary btn-block" type="submit">Alterar</button>
+              <button class="btn btn-sm btn-primary btn-block" type="submit">Consultar</button>
+            </td>
+            <td>
+              <button [routerLink]="['/cliente/cadastro', form.cliente.value.idCliente]" class="btn btn-sm btn-primary btn-block" type="submit">Consultar</button>
             </td>
           </tr>
         </tbody>

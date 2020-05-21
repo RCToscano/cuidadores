@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ClienteService } from '../cliente.service';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Cliente } from '../models/cliente.model';
+import { ClienteService } from '../cliente.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cliente-consulta',
@@ -9,98 +12,76 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class ClienteConsultaComponent implements OnInit {
 
-  cliente: Cliente;
-  listCliente: Cliente[];
-  dropdownList = [];
-  selectedItems = [];
-  dropdownSettings = {};
+  submitted = false;
   carregar = false;
+  keyword = 'nome';
+  placeholder = 'Digite o nome do Cliente';
+  uploadForm: FormGroup;
+  searchControl: FormControl;
+  clientes: Cliente[];
+  isLoading = false;
+  message: string;
+  messageType: string;
+  clienteSelected = false;
 
   constructor(private clienteService: ClienteService,
-    private spinner: NgxSpinnerService) {
-    // this.selectedItems = [
-    //   { item_id: 3, item_text: 'Pune' },
-    //   { item_id: 4, item_text: 'Navsari' }
-    // ];
+              private spinner: NgxSpinnerService,
+              private router: Router,
+              private formBuilder: FormBuilder) {
 
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'nome',
-      selectAllText: 'Marcar Todos',
-      unSelectAllText: 'Desmarcar Todos',
-      searchPlaceholderText: "Digite para procurar ...",
-      noDataAvailablePlaceholderText: "Nenhum colaborador encontrado",
-      itemsShowLimit: 5,
-      allowSearchFilter: true
-    };
+    this.searchControl = this.formBuilder.control('', Validators.required);
+    this.uploadForm = this.formBuilder.group({
+      cliente: this.searchControl
+    });
+
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap(valor => {
+          this.submitted = false;
+          this.isLoading = true;
+          if (valor != '') {
+            return this.clienteService.buscarClientesPorNome(valor);
+          }
+          else {
+            return this.clienteService.buscarClientesPorNome('1');
+          }
+        })
+      ).subscribe(
+        res => {
+          this.clientes = res
+          this.submitted = false;
+          this.isLoading = false;
+        },
+        error => {
+          this.submitted = false;
+          this.isLoading = false;
+        }
+      );
   }
 
   ngOnInit() {
-    this.carregar = true;
-    this.spinner.show();
-
-    this.clienteService.listarCliente()
-
-      .subscribe(
-        res => {
-          console.log(res);
-          this.listCliente = res;
-
-          // const temp = [];
-          // for (let variable of this.colaboradores) {
-          //     const obj = {"id":variable.id,"nome":variable.nome}
-          //     temp.push(obj);
-          // }
-          //this.dropdownList = temp;
-          this.carregar = false;
-          this.spinner.hide();
-        },
-        error => {
-          console.log(error);
-          this.carregar = false;
-          this.spinner.hide();
-        }
-      );
 
   }
 
   onSubmit() {
-    this.carregar = true;
-    this.spinner.show();
-
-    // this.colaboradorService.consultaColaborador(1)
-    //   .subscribe(
-    //     res => {
-    //       this.colaborador = res;
-    //
-    //       this.carregar = false;
-    //       this.spinner.hide();
-    //     },
-    //     error => {
-    //       console.log(error);
-    //       this.carregar = false;
-    //       this.spinner.hide();
-    //     }
-    //   );
+    this.submitted = true;
   }
 
-  onItemSelect(item: any) {
-    console.log(item);
-    this.selectedItems.push(item);
-    console.log(this.selectedItems);
+  get form() {
+    if(this.uploadForm != null)
+      return this.uploadForm.controls;
   }
 
-  onDeSelect(item: any) {
-    console.log(item);
-    const index: number = this.selectedItems.indexOf(item.id);
-    if (index !== -1) {
-      this.selectedItems.splice(index, 1);
-    }
+  selected() {
+    this.clienteSelected = true;
+    this.isLoading = false;
   }
 
-  onSelectAll(items: any) {
-    console.log(items);
+  inputCleared() {
+    this.clienteSelected = false;
+    this.isLoading = false;
   }
 
 }

@@ -67,9 +67,6 @@ export class UsuarioCadastroComponent implements OnInit {
 
   ngOnInit() {
     window.scroll(0,0);
-    // $(document).on('click',function(){
-    // 	$('.collapse').collapse('hide');
-    // });
 
     this.carregar = true;
     this.spinner.show();

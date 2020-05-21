@@ -1,33 +1,29 @@
 <div class="container">
+
+  <div *ngIf="carregar">
+    <ngx-spinner
+      [fullScreen]="true"
+      type="ball-clip-rotate-multiple"
+      size="medium">
+      <p class="loading" style="color: white">Carregando...</p>
+    </ngx-spinner>
+  </div>
+
   <div class="py-5 text-center">
     <h2>{{titulo}} de Cliente</h2>
   </div>
 
+  <p *ngIf="message" class="text-center">
+    <ngb-alert [type]="messageType" (close)="close(alert)">{{ message }}</ngb-alert>
+  </p>
+
   <div class="row">
     <div class="col-md-12">
       <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
-
         <div class="row">
-          <label for="lastName">Data de Nascimento</label>
-          <div class="col-md-3 mb-3">
-            <form class="form-inline">
-              <div class="form-group">
-                <div class="input-group">
-                  <input class="form-control" placeholder="dd/mm/yyyy"
-                         id="dataNascimento" name="dataNascimento" #c2="ngModel" [(ngModel)]="dataNascimento" ngbDatepicker #d2="ngbDatepicker">
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button"></button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
 
-        <div class="row">
           <div class="col-md-2 mb-3">
             <label>CPF</label>
-            <input formControlName="idCliente" class="form-control" name="idCliente" id="idCliente" type="hidden" />
             <input formControlName="cpf" [textMask]="{mask: maskCPF}" class="form-control" name="cpf" id="cpf" type="text" />
             <div *ngIf="submitted && form?.cpf?.errors?.required" class="invalid-feedback" style="display:block">
               CPF inválido.
@@ -42,7 +38,7 @@
             </div>
           </div>
 
-          <div class="col-md-4 mb-3">
+          <div class="col-md-6 mb-3">
             <label for="nome">Nome do Cliente</label>
             <input formControlName="nome" class="form-control" name="nome" id="nome" maxlength="100" type="text" onkeyup="this.value = this.value.toUpperCase();" />
             <div *ngIf="submitted && form.nome.errors?.required" class="invalid-feedback" style="display:block">
@@ -50,18 +46,16 @@
             </div>
           </div>
 
-          <!-- <div class="col-md-2 mb-3">
+          <div class="col-md-2 mb-3">
             <label for="lastName">Data de Nascimento</label>
             <input formControlName="dataNascimento"
-              [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD/MM/YYYY', locale:'pt-br', language: 'pt-br', showWeekNumbers:false}"
+              [bsConfig]="{containerClass: 'theme-dark-blue', dateInputFormat: 'DD/MM/YYYY', locale:'pt-br', language: 'pt-br',  showWeekNumbers:false}"
               bsDatepicker type="text"
-              class="form-control"
-              id="dataNascimento"
-              value="{{ dataNascimento | date: 'dd/MM/yyyy' }}">
+              class="form-control" id="dataNascimento">
             <div *ngIf="submitted && form.dataNascimento.errors?.required" class="invalid-feedback" style="display:block">
               Data Nascimento é obrigatório.
             </div>
-          </div> -->
+          </div>
 
           <div class="col-md-2 mb-3">
             <label>Sexo</label>
@@ -190,8 +184,8 @@
 
           <div class="col-md-3 mb-3">
             <label>Estado</label>
-            <input formControlName="estado" class="form-control" type="text" name="estado" id="administrative_area_level_1" maxlength="50" />
-            <div *ngIf="submitted && form.estado.errors?.required" class="invalid-feedback" style="display:block">
+            <input formControlName="uf" class="form-control" type="text" name="estado" id="administrative_area_level_1" maxlength="2" />
+            <div *ngIf="submitted && form.uf.errors?.required" class="invalid-feedback" style="display:block">
               Estado é obrigatório.
             </div>
           </div>
@@ -213,16 +207,13 @@
           </div>
 
           <div class="col-md-12 mb-3">
-            <label>Observações</label>
-            <textarea formControlName="obs" class="form-control" name="obs" id="obs" rows="3" maxlength="200" onkeyup="this.value = this.value.toUpperCase();"></textarea>
-            <div class="invalid-feedback">
-              Observação é obrigatório.
-            </div>
+            <label for="lastName">Observações</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="resize: none;"></textarea>
           </div>
 
         </div>
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit">{{botao}}</button>
+        <button class="btn btn-primary btn-lg btn-block mb-4" type="submit">{{botao}}</button>
       </form>
     </div>
   </div>
