@@ -22,7 +22,7 @@ export class ClienteConsultaComponent implements OnInit {
     //   { item_id: 3, item_text: 'Pune' },
     //   { item_id: 4, item_text: 'Navsari' }
     // ];
-    
+
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'id',

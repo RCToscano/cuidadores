@@ -105,8 +105,8 @@ registerLocaleData(localePt);
     EmpresaService,
     ClienteService,
     ProspectService,
-    {provide: LocationStrategy, useClass: HashLocationStrategy},
-    {provide: LOCALE_ID, useValue: 'pt-BR'}
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: LOCALE_ID, useValue: 'pt-BR' }
   ],
   bootstrap: [AppComponent]
 })
