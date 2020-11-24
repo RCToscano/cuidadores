@@ -4,14 +4,12 @@ import { Cliente } from '../models/cliente.model';
 import '../../../assets/scripts/endereco.js';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { defineLocale, formatDate } from 'ngx-bootstrap/chronos';
-import { ptBrLocale } from 'ngx-bootstrap/locale';
+import { formatDate } from 'ngx-bootstrap/chronos';
 import { ClienteService } from '../cliente.service';
 import { ActivatedRoute } from '@angular/router';
 import { CadastroParametros } from '../models/cadastro-parametros-model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ScrollToService } from 'ng2-scroll-to-el';
-import { BsLocaleService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-cliente',
@@ -66,7 +64,7 @@ export class ClienteCadastroComponent implements OnInit {
     this.criarForm();
 
     if (this.alterar) {
-      this.clienteService.buscarPorIdCliente(this.activatedRoute.snapshot.params['idCliente'])
+      this.clienteService.consultaCliente(this.activatedRoute.snapshot.params['idCliente'])
         .subscribe(
           (res: Cliente) => {
             this.cliente = res;

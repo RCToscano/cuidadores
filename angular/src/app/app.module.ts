@@ -38,7 +38,6 @@ import { ClienteService } from './cliente/cliente.service';
 import { ProspectService } from './prospect/prospect.service';
 import { ClienteConsultaComponent } from './cliente/consulta/cliente-consulta.component';
 import { ClienteCadastroComponent } from './cliente/cadastro/cliente-cadastro.component';
-import { ClienteConsultaComponent } from './cliente/consulta/cliente-consulta.component';
 
 // Prospect
 import { ProspectCadastroComponent } from './prospect/cadastro/prospect-cadastro.component';
