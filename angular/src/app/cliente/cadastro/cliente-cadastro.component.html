@@ -84,6 +84,14 @@
           </div>
 
           <div class="col-md-2 mb-3">
+            <label>Idade</label>
+            <input formControlName="idade" class="form-control" pattern="[0-9]*" digitOnly type="text" name="idade" id="idade"  maxlength="3"/>
+            <div *ngIf="submitted && form.idade.errors?.required" class="invalid-feedback" style="display:block">
+              Idade é obrigatória.
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-3">
             <label>Peso (kg)</label>
             <input formControlName="peso" type="text" class="form-control" name="peso" id="peso" maxlength="3" placeholder="" value="" required>
             <div *ngIf="submitted && form.peso.errors?.required" class="invalid-feedback" style="display:block">
@@ -99,7 +107,7 @@
             </div>
           </div>
 
-          <div class="col-md-4 mb-3">
+          <div class="col-md-2 mb-3">
             <label>Situação</label>
             <select formControlName="idClienteSituacao" class="combobox form-control" name="idClienteSituacao" id="idClienteSituacao">
               <option [value]="null">Selecione</option>

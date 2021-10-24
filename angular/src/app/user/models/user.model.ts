@@ -1,14 +1,18 @@
 export interface User {
   idUser: number;
-  tpUser: number;
+  idPerfil: number;
+  descPerfil: string;
+  idGenero: number;
+  descGenero: string;
+  idSituacao: number;
+  descSituacao: string;
+  idEstadoCivil: number;
   cpf: string;
   rg: string;
 	nome: string;
   dataNascimento: string;
-  estadoCivil: number;
   sexo: string;
 	email: string;
-  situacao: number;
   telFixo: string;
   telCel: string;
   coordenadas: string;
@@ -18,8 +22,9 @@ export interface User {
   numero: number;
   complemento: string;
   municipio: string;
-  estado: string;
+  uf: string;
   cep: string;
   pais: string;
+  funcionalidades: string[];
   token: string;
 }

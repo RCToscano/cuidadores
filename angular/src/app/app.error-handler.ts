@@ -3,7 +3,7 @@ import { throwError } from 'rxjs';
 export class ErrorHandler {
 
   static handlerError(error: any) {
-    // debugger;
+    debugger;
     let errorMessage = 'Servidor Indisponível';
     if (error.error instanceof ErrorEvent) {
       // console.log('errorHandler0' + JSON.stringify(error));
@@ -18,7 +18,10 @@ export class ErrorHandler {
       if (error.status == 0 || error.status == 404 || error.status == 504) {
         errorMessage = 'Servidor Indisponível';
       }
-      else if (error.error.message != undefined && error.error.message != '') {
+      else if (error.status == 401) {
+        errorMessage = 'Não autorizado';
+      }
+      else if (error.error != undefined && error.error.message != undefined && error.error.message != '') {
         errorMessage = error.error.message;
       }
       else if (error.error != undefined && error.error != '') {

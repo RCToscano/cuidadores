@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User } from './models/user.model';
 import { ErrorHandler } from '../app.error-handler';
-import { SC_API_GENERICO, SC_API_USER } from '../app.api';
+import { TOKEN, SC_API_GENERICO, SC_API_USER } from '../app.api';
 import { CadastroParametros } from './models/cadastro-parametros-model';
 import { Login } from './models/login.model';
 
@@ -21,14 +21,15 @@ export class UserService {
   httpHeaders: HttpHeaders;
   options = {};
 
-  constructor(private http: HttpClient, private router: Router) {
-    let user: User = JSON.parse(localStorage.getItem('token-cuidadores'));
+  constructor(private http: HttpClient,
+              private router: Router) {
+
+    let user: User = JSON.parse(localStorage.getItem(TOKEN));
     if (user != null) {
       this.user = user;
       let httpHeaders = new HttpHeaders({
         'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache',
-        'Authorization': user.token
+        'Cache-Control': 'no-cache'
       });
       this.options = {
         headers: httpHeaders
@@ -38,13 +39,12 @@ export class UserService {
 
   setUser(user: User) {
     this.user = user;
-    localStorage.setItem('token-cuidadores', JSON.stringify(user));
+    localStorage.setItem(TOKEN, JSON.stringify(user));
     this.messageEvent.emit(user);
     this.httpHeaders = new HttpHeaders(
       {
         'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache',
-        'Authorization': this.user.token
+        'Cache-Control': 'no-cache'
       }
     );
     this.options = {
@@ -54,6 +54,13 @@ export class UserService {
 
   isLogged(): boolean {
     if (this.user != undefined && this.user.token != null) {
+      return true;
+    }
+    return false;
+  }
+
+  verificarPermissao(feature: string): boolean {
+    if (this.user != undefined && this.user.token != null && this.user.funcionalidades.includes(feature)) {
       return true;
     }
     return false;
@@ -85,7 +92,7 @@ export class UserService {
   }
 
   consultaUsuarioToken(token: string): Observable<any> {
-    return this.http.get(`${SC_API_GENERICO}/users/token`,
+    return this.http.get(`${SC_API_USER}/token`,
       {
         headers: new HttpHeaders({
           'Authorization': token
@@ -107,6 +114,20 @@ export class UserService {
 
   cadastrarUsuario(user: User): Observable<any> {
     return this.http.post<any>(`${SC_API_USER}`, user, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  alterarUsuario(user: User): Observable<any> {
+    return this.http.put<any>(`${SC_API_USER}`, user, this.options)
+      .pipe(
+        catchError(ErrorHandler.handlerError)
+      );
+  }
+
+  alterarSenha(senha: any): Observable<any> {
+    return this.http.put<any>(`${SC_API_USER}/senha`, senha, this.options)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );

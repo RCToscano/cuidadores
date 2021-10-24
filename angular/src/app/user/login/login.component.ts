@@ -36,14 +36,13 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
     this.userService.error = '';
 
-    const controls = this.uploadForm.controls;
-    for (const name in controls) {
-        if (controls[name].invalid) {
-            console.log('invalido: ' + name);
-        }
-    }
-
     if(this.uploadForm.invalid) {
+      const controls = this.uploadForm.controls;
+      for (const name in controls) {
+          if (controls[name].invalid) {
+              console.log('invalido: ' + name);
+          }
+      }
       const invalidElements = this.el.nativeElement.querySelectorAll('.ng-invalid');
       invalidElements[1].focus();
       return;

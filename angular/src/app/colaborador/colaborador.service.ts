@@ -8,17 +8,15 @@ import { CadastroParametros } from './models/cadastro-parametros-model';
 import { Colaborador } from './models/colaborador.model';
 import { ColaboradorConta } from './models/colaborador-conta.model';
 import { Banco } from './models/bancos.model';
-import { UserService } from '../user/user.service';
 import { ColaboradorImagem } from './models/colaborador-imagem.model';
 import { ColaboradorOcorrencia } from './models/colaborador-ocorrencia.model';
 import { ColaboradorIncompativel } from './models/colaborador-incompativel.model';
 import { ColaboradorEntrevista } from './models/colaborador-entrevista.model';
-import { User } from '../user/models/user.model';
+
 
 @Injectable()
 export class ColaboradorService {
 
-  token: string;
   options = {headers: new HttpHeaders()};
   messageEvent = new EventEmitter();
   colaborador: Colaborador;
@@ -30,12 +28,9 @@ export class ColaboradorService {
   colaboradorEntrevista: ColaboradorEntrevista;
 
   constructor(private http: HttpClient) {
-    let user: User = JSON.parse(localStorage.getItem('token-cuidadores'));
-    this.token = user.token;
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache',
-      'Authorization': this.token
+      'Cache-Control': 'no-cache'
     });
     this.options = {
       headers: httpHeaders
@@ -83,28 +78,14 @@ export class ColaboradorService {
   }
 
   uploadImage(file: FormData): Observable<any> {
-    return this.http.post<any>(`${SC_API_COLABORADOR}/imagens`, file,
-      {
-        headers: new HttpHeaders({
-          'Authorization': this.token
-        }),
-        observe: 'response'
-      }
-    )
+    return this.http.post<any>(`${SC_API_COLABORADOR}/imagens`, file)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );
   }
 
   deletarImagem(idImagem: number, idColaborador: number): Observable<any> {
-    return this.http.delete(`${SC_API_COLABORADOR}/imagens/${idImagem}/${idColaborador}`,
-      {
-        headers: new HttpHeaders({
-          'Authorization': this.token
-        }),
-        observe: 'response'
-      }
-    )
+    return this.http.delete(`${SC_API_COLABORADOR}/imagens/${idImagem}/${idColaborador}`)
       .pipe(
         catchError(ErrorHandler.handlerError)
       );

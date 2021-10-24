@@ -3,7 +3,7 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -15,9 +15,19 @@ import { ScrollToModule } from 'ng2-scroll-to-el';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { FileUploadModule } from 'ng2-file-upload';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
-// import { DigitOnlyDirective } from './common/directives/digitonly/digit-only.directive';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+registerLocaleData(localePt);
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { CalendarHeaderComponent } from "./common/calendario/calendar-header.component";
+
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { LoginComponent } from './user/login/login.component';
+import { LoginModalComponent } from "./user/login/modal/login-modal.component";
+import { AuthGuard } from "./auth-guard.service";
+import { AuthInterceptor } from "./auth.service";
+
 import { MenuComponent } from './menu/menu.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
@@ -52,9 +62,12 @@ import { EmpresaService } from './empresa/empresa.service';
 import { EmpresaConsultaComponent } from './empresa/consulta/empresa-consulta.component';
 import { EmpresaCadastroComponent } from './empresa/cadastro/empresa-cadastro.component';
 
-import { registerLocaleData } from '@angular/common';
-import localePt from '@angular/common/locales/pt';
-registerLocaleData(localePt);
+// Perfil
+import { UserPerfilComponent } from './user/perfil/user-perfil.component';
+import { UserPerfilSenhaComponent } from './user/perfil/senha/user-perfil-senha.component';
+
+
+
 
 
 @NgModule({
@@ -62,6 +75,7 @@ registerLocaleData(localePt);
     AppComponent,
     // DigitOnlyDirective,
     LoginComponent,
+    LoginModalComponent,
     MenuComponent,
     AssistidoCadastroComponent,
     ClienteCadastroComponent,
@@ -80,7 +94,10 @@ registerLocaleData(localePt);
     EscalaConsultaComponent,
     ClienteCadastroComponent,
     ProspectConsultaComponent,
-    ClienteConsultaComponent
+    ClienteConsultaComponent,
+    UserPerfilComponent,
+    UserPerfilSenhaComponent,
+    CalendarHeaderComponent
   ],
   imports: [
     HttpClientModule,
@@ -98,14 +115,29 @@ registerLocaleData(localePt);
     ScrollToModule.forRoot(),
     NgxSpinnerModule,
     FileUploadModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+  ],
+  entryComponents: [
+    LoginModalComponent
+  ],
+  exports: [
+    CalendarHeaderComponent
   ],
   providers: [
     UserService,
     EmpresaService,
     ClienteService,
     ProspectService,
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
     { provide: LOCALE_ID, useValue: 'pt-BR' }
   ],
   bootstrap: [AppComponent]

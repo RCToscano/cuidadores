@@ -1,3 +1,6 @@
+export const API_TIMEOUT = 150000;
+export const TOKEN = 'authSystem01';
+
 export const SC_API_COLABORADOR = '/sicds-colaborador-api/colaboradores';
 export const SC_API_GENERICO = '/sicds-generic-api';
 export const SC_API_USER = '/sicds-generic-api/users';

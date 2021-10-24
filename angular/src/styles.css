@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+
 :root {
   --input-padding-x: .75rem;
   --input-padding-y: .75rem;
@@ -270,4 +272,56 @@ input[type="file"] {
     padding-right: 15px;
     padding-left: 15px;
   }
+}
+
+.strengthBar {
+  display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  vertical-align: 2px;
+}
+
+.point:last-of-type {
+  margin: 0 !important;
+}
+
+.point {
+  background: #DDD;
+  border-radius: 2px;
+  display: inline-block;
+  height: 5px;
+  margin-right: 1px;
+  width: 62px;
+}
+
+
+.row-previewbtn {
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.photo__frame {
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    width: 160px;
+    height: 160px;
+}
+
+.photo__frame .message {
+    position: absolute;
+    left: 5px;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-block;
+    color: #268eff;
+    z-index: 3;
+}
+
+.photo__frame--circle {
+    border: 1px solid #e2e2e2;
+    border-radius: 50%;
 }

@@ -6,24 +6,19 @@ import { SC_API_CLIENTE} from '../app.api';
 import { ErrorHandler } from '../app.error-handler';
 import { CadastroParametros } from './models/cadastro-parametros-model';
 import { Cliente } from './models/cliente.model';
-import { User } from '../user/models/user.model';
 
 @Injectable()
 export class ClienteService {
 
-  token: string;
   options = {headers: new HttpHeaders()};
   messageEvent = new EventEmitter();
   cliente: Cliente;
 
 
   constructor(private http: HttpClient) {
-    let user: User = JSON.parse(localStorage.getItem('token-cuidadores'));
-    this.token = user.token;
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache',
-      'Authorization': this.token
+      'Cache-Control': 'no-cache'
     });
     this.options = {
       headers: httpHeaders

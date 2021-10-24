@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from '../user.service';
 import { User } from '../models/user.model';
+import { FormGroup, FormControl, FormBuilder, Validators } from "@angular/forms";
+import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 
 @Component({
   selector: 'app-usuario-consulta',
@@ -9,95 +11,75 @@ import { User } from '../models/user.model';
 })
 export class UsuarioConsultaComponent implements OnInit {
 
-  user: User;
   users: User[];
-  dropdownList = [];
-  selectedItems = [];
-  dropdownSettings = {};
+  userSelected = false;
+  uploadForm: FormGroup;
+  searchControl: FormControl;
+  keyword = 'nome';
+  placeholder = 'Digite o nome do Usuário';
+  submitted = false;
   carregar = false;
+  isLoading = false;
+  message: string;
+  messageType: string;
 
   constructor(private userService: UserService,
-              private spinner: NgxSpinnerService) {
-    // this.selectedItems = [
-    //   { item_id: 3, item_text: 'Pune' },
-    //   { item_id: 4, item_text: 'Navsari' }
-    // ];
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'nome',
-      selectAllText: 'Marcar Todos',
-      unSelectAllText: 'Desmarcar Todos',
-      searchPlaceholderText: "Digite para procurar ...",
-      noDataAvailablePlaceholderText: "Nenhum usuário encontrado",
-      itemsShowLimit: 5,
-      allowSearchFilter: true
-    };
+              private spinner: NgxSpinnerService,
+              private formBuilder: FormBuilder) {
+
+    this.searchControl = this.formBuilder.control('', Validators.required);
+    this.uploadForm = this.formBuilder.group({
+      user: this.searchControl
+    });
+
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap(valor => {
+          this.submitted = false;
+          this.isLoading = true;
+          if (valor != '') {
+            return this.userService.buscarUsuariosPorNome(valor)
+          }
+          else {
+            return this.userService.buscarUsuariosPorNome('1');
+          }
+        })
+      ).subscribe(
+        res => {
+          this.users = res
+          this.submitted = false;
+          this.isLoading = false;
+        },
+        error => {
+          this.submitted = false;
+          this.isLoading = false;
+        }
+      );
   }
 
   ngOnInit() {
-    this.carregar = true;
-    this.spinner.show();
 
-    this.userService.usuarios()
-      .subscribe(
-        res => {
-          console.log(res);
-          this.users = res;
-
-          const temp = [];
-          for (let variable of this.users) {
-              const obj = {"id":variable.idUser,"nome":variable.nome}
-              temp.push(obj);
-          }
-          this.dropdownList = temp;
-          this.carregar = false;
-          this.spinner.hide();
-        },
-        error => {
-          console.log(error);
-          this.carregar = false;
-          this.spinner.hide();
-        }
-      );
   }
 
   onSubmit() {
-    this.carregar = true;
-    this.spinner.show();
-
-    this.userService.consultaUsuarioId(1)
-      .subscribe(
-        res => {
-          this.user = res;
-
-          this.carregar = false;
-          this.spinner.hide();
-        },
-        error => {
-          console.log(error);
-          this.carregar = false;
-          this.spinner.hide();
-        }
-      );
+    this.submitted = true;
   }
 
-  onItemSelect(item: any) {
-    console.log(item);
-    this.selectedItems.push(item);
-    console.log(this.selectedItems);
+  get form() {
+    if(this.uploadForm != null)
+      return this.uploadForm.controls;
   }
 
-  onDeSelect(item: any) {
-    console.log(item);
-    const index: number = this.selectedItems.indexOf(item.id);
-    if (index !== -1) {
-      this.selectedItems.splice(index, 1);
-    }
+  selected() {
+    this.userSelected = true;
+    this.isLoading = false;
   }
 
-  onSelectAll(items: any) {
-    console.log(items);
+  inputCleared() {
+    this.userSelected = false;
+    this.isLoading = false;
   }
 
 }

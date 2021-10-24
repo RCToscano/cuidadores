@@ -15,29 +15,45 @@
 
   <div class="row mb-4">
     <div class="col-md-12">
-      <form (ngSubmit)="onSubmit()">
-        <div class="row">
-          <div class="col-sm-11 mb-3">
-            <ng-multiselect-dropdown
-              [placeholder]="'Selecione o Usuário'"
-              [data]="dropdownList"
-              formControlItem="selectedItems"
-              [settings]="dropdownSettings"
-              (onSelect)="onItemSelect($event)"
-              (onDeSelect)="onDeSelect($event)"
-              (onSelectAll)="onSelectAll($event)"
-            >
-            </ng-multiselect-dropdown>
-          </div>
-          <div class="col-sm-1 mb-3">
-            <button type="submit" class="btn btn-primary">Buscar</button>
+      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+        <div class="col d-flex justify-content-center">
+          <div class="row">
+            <ng-autocomplete
+              #auto
+              [data]="users"
+              formControlName="user"
+              [placeHolder]="placeholder"
+              [searchKeyword]="keyword"
+              notFoundText="Não encontrado"
+              [itemTemplate]="itemTemplateStatic"
+              [notFoundTemplate]="notFoundTemplate"
+              (selected)="selected()"
+              (inputCleared)="inputCleared()"
+              [isLoading]="isLoading">
+            </ng-autocomplete>
+
+            <ng-template #itemTemplateStatic let-item>
+              <div>&nbsp;
+                <span [innerHTML]="item.nome"></span> -
+                <span>{{item.email}}</span>
+              </div>
+            </ng-template>
+
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+
           </div>
         </div>
       </form>
     </div>
   </div>
 
-  <div *ngIf="user" class="col-md-12 mb-3">
+  <p *ngIf="message">
+    <ngb-alert [type]="messageType" (close)="close(alert)">{{ message }}</ngb-alert>
+  </p>
+
+  <div *ngIf="userSelected" class="col-md-12 mb-3">
     <div class="table-responsive-sm">
       <table class="table table-striped">
         <thead>
@@ -52,11 +68,14 @@
         <tbody>
           <tr>
             <td>1</td>
-            <td>{{user.nome}}</td>
-            <td>{{user.email}}</td>
-            <td>{{user.situacao}}</td>
+            <td>{{form.user.value.nome}}</td>
+            <td>{{form.user.value.email}}</td>
             <td>
-              <button [routerLink]="['/usuario/cadastro', user.id]" class="btn btn-sm btn-primary btn-block" type="submit">Alterar</button>
+              <span *ngIf="form.user.value.idSituacao == 1" class="badge badge-success rounded">{{form.user.value.descSituacao}}</span>
+              <span *ngIf="form.user.value.idSituacao == 2" class="badge badge-danger rounded">{{form.user.value.descSituacao}}</span>
+            </td>
+            <td>
+              <button [routerLink]="['/usuario/cadastro', form.user.value.idUser]" class="btn btn-sm btn-primary btn-block" type="submit">Alterar</button>
             </td>
           </tr>
         </tbody>

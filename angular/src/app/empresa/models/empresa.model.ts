@@ -4,6 +4,7 @@ export interface Empresa {
   situacaoDescricao: string;
   nome: string;
   cnpj: string;
+  email: string;
   telFixo1: string;
   telFixo2: string;
   telCel: string;
@@ -17,5 +18,6 @@ export interface Empresa {
   uf: string;
   cep: string;
   pais: string;
+  logo: string;
   dtInsert: string;
 }

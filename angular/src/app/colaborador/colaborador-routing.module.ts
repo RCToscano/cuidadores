@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { AuthGuard } from "../auth-guard.service";
+
 // Colaborador
+import { Funcionalidade } from "../common/models/funcionalidade.models";
 import { ColaboradorConsultaComponent } from './consulta/colaborador-consulta.component';
 import { ColaboradorCadastroComponent } from './cadastro/colaborador-cadastro.component';
 import { ColaboradorContaCadastroComponent } from './conta/colaborador-conta.component';
@@ -12,13 +15,13 @@ import { IncompativeisCadastroComponent } from './incompativeis/cadastro/incompa
 
 
 const routes: Routes = [
-  { path: '', component: ColaboradorConsultaComponent },
-  { path: 'cadastro', component: ColaboradorCadastroComponent },
-  { path: 'cadastro/:id', component: ColaboradorCadastroComponent },
-  { path: 'conta/cadastro', component: ColaboradorContaCadastroComponent },
-  { path: 'entrevista/cadastro', component: ColaboradorEntrevistaComponent },
-  { path: 'ocorrencia/cadastro', component: ColaboradorOcorrenciaComponent },
-  { path: 'incompativel/cadastro', component: IncompativeisCadastroComponent }
+  { path: '', component: ColaboradorConsultaComponent, canActivate: [AuthGuard], data: { feature: Funcionalidade.COLABORADOR_CONSULTA }, },
+  { path: 'cadastro', component: ColaboradorCadastroComponent, canActivate: [AuthGuard], data: { feature: Funcionalidade.COLABORADOR_CADASTRO }, },
+  { path: 'cadastro/:id', component: ColaboradorCadastroComponent, canActivate: [AuthGuard], data: { feature: Funcionalidade.COLABORADOR_CONSULTA }, },
+  { path: 'conta/cadastro', component: ColaboradorContaCadastroComponent, canActivate: [AuthGuard], data: { feature: Funcionalidade.COLABORADOR_CONTAS_CADASTRO },  },
+  { path: 'entrevista/cadastro', component: ColaboradorEntrevistaComponent, canActivate: [AuthGuard], data: { feature: Funcionalidade.COLABORADOR_ENTREVISTA_CADASTRO },  },
+  { path: 'ocorrencia/cadastro', component: ColaboradorOcorrenciaComponent, canActivate: [AuthGuard], data: { feature: Funcionalidade.COLABORADOR_OCORRENCIA_CADASTRO },  },
+  { path: 'incompativel/cadastro', component: IncompativeisCadastroComponent, canActivate: [AuthGuard], data: { feature: Funcionalidade.COLABORADOR_INCOMPATIVEL_CADASTRO },  }
 ];
 
 @NgModule({

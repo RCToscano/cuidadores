@@ -5,7 +5,7 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { defineLocale, formatDate } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 import '../../../assets/scripts/endereco.js';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CadastroParametros } from '../../colaborador/models/cadastro-parametros-model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ScrollToService } from 'ng2-scroll-to-el';
@@ -16,16 +16,13 @@ import { Validacoes } from "src/app/common/validacoes/validacoes.js";
 defineLocale('pt-br', ptBrLocale);
 
 @Component({
-  selector: 'app-usuario-cadastro',
-  templateUrl: './usuario-cadastro.component.html'
+  selector: 'app-user-perfil',
+  templateUrl: './user-perfil.component.html'
 })
-export class UsuarioCadastroComponent implements OnInit {
+export class UserPerfilComponent implements OnInit {
 
   user: User = {} as User;
   parametros: CadastroParametros;
-  titulo = 'Cadastro';
-  botao = 'Cadastrar';
-  alterar = false;
   message: string;
   messageType: string;
   uploadForm: FormGroup;
@@ -48,22 +45,15 @@ export class UsuarioCadastroComponent implements OnInit {
   }
 
   constructor(private formBuilder: FormBuilder,
+              private router: Router,
               private el: ElementRef,
-              private activatedRoute: ActivatedRoute,
               private userService: UserService,
               private spinner: NgxSpinnerService,
               private scrollService: ScrollToService) {
-    // if(!this.userService.isLogged()) {
-    //   this.router.navigate(['']);
-    // }
-    // else {
 
-      if(this.activatedRoute.snapshot.params['id'] != undefined) {
-        this.titulo = 'Alteração';
-        this.botao = 'Alterar';
-        this.alterar = true;
-      }
-    // }
+    if(!this.userService.isLogged()) {
+      this.router.navigate(['']);
+    }
   }
 
   ngOnInit() {
@@ -73,34 +63,29 @@ export class UsuarioCadastroComponent implements OnInit {
     this.spinner.show();
     this.criarForm();
 
-    if(this.alterar) {
-      this.userService.consultaUsuarioId(this.activatedRoute.snapshot.params['id'])
-        .subscribe(
-        (res : User) => {
-          this.user = res;
-          console.log(res);
-          setTimeout(() => {
-            this.buscarParametros();
-            this.criarForm();
-            this.spinner.hide();
-            this.carregar = false;
-          }, 0);
-        },
-        error =>  {
-          console.log(error);
-          this.messageType = 'danger';
-          this.message = error;
+    this.userService.consultaUsuarioId(this.userService.user.idUser)
+      .subscribe(
+      (res : User) => {
+        this.user = res;
+        console.log(res);
+        setTimeout(() => {
+          this.buscarParametros();
+          this.criarForm();
+          this.form.idSituacao.disable();
+          this.form.idPerfil.disable();
           this.spinner.hide();
           this.carregar = false;
-        }
-      );
-    }
-    else {
-      this.buscarParametros();
-      this.criarForm();
-      this.spinner.hide();
-      this.carregar = false;
-    }
+        }, 0);
+      },
+      error =>  {
+        console.log(error);
+        this.messageType = 'danger';
+        this.message = error;
+        this.spinner.hide();
+        this.carregar = false;
+      }
+    );
+
   }
 
   buscarParametros() {
@@ -143,7 +128,7 @@ export class UsuarioCadastroComponent implements OnInit {
     });
   }
 
-  alterarSenha() {
+  onSubmit() {
     this.submitted = true;
 
     if(this.uploadForm.invalid) {
@@ -165,49 +150,25 @@ export class UsuarioCadastroComponent implements OnInit {
       this.user = this.uploadForm.value;
       this.user.dataNascimento = formatDate(this.uploadForm.controls.dataNascimento.value, 'DD/MM/YYYY').trim();
 
-      if(this.alterar) {
-        this.userService.alterarUsuario(this.user).subscribe(
-          res => {
-            console.log(res);
-            this.messageType = 'success';
-            this.message = 'Alteração realizada com sucesso';
-            this.scrollService.scrollTo('#header');
-            this.carregar = false;
-            this.submitted = false;
-            this.spinner.hide();
-          },
-          error => {
-            console.log(error);
-            this.messageType = 'danger';
-            this.message = error;
-            this.scrollService.scrollTo('#header', 350, -100);
-            this.carregar = false;
-            this.spinner.hide();
-          }
-        )
-      }
-      else {
-        this.userService.cadastrarUsuario(this.user)
-          .subscribe(
-            res => {
-              console.log(res);
-              this.uploadForm.reset();
-              this.messageType = 'success';
-              this.message = 'Cadastro realizado com sucesso';
-              this.scrollService.scrollTo('#header');
-              this.carregar = false;
-              this.spinner.hide();
-            },
-            error => {
-              console.log(error);
-              this.messageType = 'danger';
-              this.message = error;
-              this.scrollService.scrollTo('#header', 350, -100);
-              this.carregar = false;
-              this.spinner.hide();
-            }
-        );
-      }
+      this.userService.alterarUsuario(this.user).subscribe(
+        res => {
+          console.log(res);
+          this.messageType = 'success';
+          this.message = 'Alteração realizada com sucesso';
+          this.scrollService.scrollTo('#header');
+          this.carregar = false;
+          this.submitted = false;
+          this.spinner.hide();
+        },
+        error => {
+          console.log(error);
+          this.messageType = 'danger';
+          this.message = error;
+          this.scrollService.scrollTo('#header', 350, -100);
+          this.carregar = false;
+          this.spinner.hide();
+        }
+      )
     }
   }
 

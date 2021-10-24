@@ -1,0 +1,64 @@
+<div *ngIf="carregar">
+  <ngx-spinner
+    [fullScreen]="true"
+    type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading" style="color: white"> Aguarde... </p>
+  </ngx-spinner>
+</div>
+
+<div *ngIf="sair">
+  <ngx-spinner
+    [fullScreen]="true"
+    type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading" style="color: white"> Redirecionando para a página de Login... </p>
+  </ngx-spinner>
+</div>
+
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Login</h4>
+  <button type="button" class="close" aria-describedby="modal-title" (click)="cancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>
+    <strong>Parece que você esteve ausente por um tempo.</strong>
+  </p>
+  <p>
+    <strong>
+      <span class="text-primary">Faça Login novamente para continuar usando o sistema.</span>
+    </strong>
+  </p>
+  <form [formGroup]="uploadForm" (ngSubmit)="login()">
+    <div class="form-group mb-4">
+      <input formControlName="email" type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="E-mail">
+      <div class="invalid-feedback" style="height:8px; display:block">
+        <div *ngIf="submitted && form.email.errors?.required">
+          Por favor, preencha o e-mail.
+        </div>
+        <div *ngIf="submitted && form.email.errors?.email">
+          E-mail inválido.
+        </div>
+      </div>
+    </div>
+    <div class="form-group mb-4">
+      <input formControlName="password" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Senha">
+      <div class="invalid-feedback" style="height:8px; display:block">
+        <div *ngIf="submitted && form.password.errors?.required">
+          Por favor, preencha a senha.
+        </div>
+      </div>
+    </div>
+    <!-- <p *ngIf="message">
+      <ngb-alert [type]="messageType" (close)="close(alert)">{{ message }}</ngb-alert>
+    </p> -->
+    <div class="invalid-feedback mb-3" style="min-height:30px; text-align: center; font-size: 17px; display:block">
+      <div *ngIf="message">
+        {{ message }}
+      </div>
+    </div>
+    <button class="btn btn-primary btn-block" type="submit">Login</button>
+  </form>
+</div>

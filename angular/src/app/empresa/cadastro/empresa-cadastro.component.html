@@ -9,7 +9,7 @@
   </div>
 
   <div class="py-4 text-center">
-    <h2>{{titulo}} de Empresa</h2>
+    <h2>Informações da Empresa</h2>
   </div>
 
   <p *ngIf="message">
@@ -21,6 +21,27 @@
       <div class="col-md-12" style="padding-top:1rem">
         <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
           <div class="row">
+
+          <div class="col-md-7 mb-3">
+            <div *ngIf="empresa?.logo == null" class="row-previewbtn justify-content-md-center mb-3">
+              <label for="button" title="Upload image file">
+                <div (click)="picture()" class="photo__frame photo__frame--circle">
+                  <div class="message is-empty text-center">
+                      <span style="cursor: pointer">Adicionar Logo</span>
+                  </div>
+                </div>
+              </label>
+            </div>
+            <div *ngIf="empresa?.logo != null" class="row-previewbtn justify-content-md-center mb-3">
+              <!-- <img class="myprofile-pricture" [src]="getImage(userService.user?.picture)" /> -->
+              <div class="docs-preview clearfix">
+                <div class="img-preview preview-lg">
+                  <img [src]="getImage(empresa?.logo)" />
+                </div>
+              </div>
+            </div>
+          </div>
+
             <div class="col-md-7 mb-3">
               <label for="nome">Nome</label>
               <input formControlName="nome" class="form-control" name="nome" id="nome" maxlength="100" type="text" />
@@ -34,6 +55,33 @@
               <input formControlName="cnpj" pattern="[0-9]{2}[.]{1}[0-9]{3}[.]{1}[0-9]{3}[/]{1}[0-9]{4}[-]{1}[0-9]{2}" digitOnly [textMask]="{mask: maskCNPJ}" class="form-control" name="cpf" id="cpf" type="text"/>
               <div *ngIf="submitted && form?.cnpj?.errors?.required" class="invalid-feedback" style="display:block">
                 CNPJ inválido.
+              </div>
+            </div>
+
+            <div class="col-md-7 mb-3">
+              <label>E-mail</label>
+              <input formControlName="email" type="email" class="form-control" name="email" id="email"  maxlength="100"/>
+              <div *ngIf="submitted && form.email.errors?.required" class="invalid-feedback" style="display:block">
+                E-mail é obrigatório.
+              </div>
+              <div *ngIf="submitted && form.email.errors?.email" class="invalid-feedback" style="display:block">
+                E-mail inválido.
+              </div>
+            </div>
+
+            <div class="col-md-2 mb-3">
+              <label>Telefone Fixo</label>
+              <input formControlName="telFixo1" [textMask]="{mask: maskTel}" type="text" class="form-control" name="telFixo1" id="telFixo1" />
+              <div *ngIf="submitted && form.telFixo1.errors" class="invalid-feedback" style="display:block">
+                Telefone Fixo inválido.
+              </div>
+            </div>
+
+            <div class="col-md-2 mb-3">
+              <label>Telefone Celular</label>
+              <input formControlName="telCel" [textMask]="{mask: maskCel}" type="text" class="form-control" name="telCel" id="telCel" />
+              <div *ngIf="submitted && form.telCel.errors" class="invalid-feedback" style="display:block">
+                Telefone Celular inválido.
               </div>
             </div>
 

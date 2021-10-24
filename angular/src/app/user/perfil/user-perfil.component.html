@@ -9,7 +9,7 @@
   </div>
 
   <div class="py-4 text-center">
-    <h2>{{titulo}} de Usuário</h2>
+    <h2>Meu Perfil</h2>
   </div>
 
   <p *ngIf="message">
@@ -109,7 +109,7 @@
 
                   <div class="col-md-2 mb-3">
                     <label>Situação</label>
-                    <select formControlName="idSituacao" class="combobox form-control" name="sitcolab" id="sitcolab">
+                    <select  formControlName="idSituacao" class="combobox form-control" name="sitcolab" id="sitcolab">
                       <option  [value]="null">Selecione</option>
                       <option *ngFor="let item of parametros?.situacao"
                               [value]="item.idUserSituacao">
@@ -218,15 +218,15 @@
                 </div>
 
                 <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block mb-5" type="submit">{{botao}}</button>
+                <button class="btn btn-primary btn-lg btn-block mb-5" type="submit">Alterar</button>
               </form>
             </div>
           </ng-template>
         </ngb-tab>
-        <ngb-tab id="tab-fotos" title="Mídias" [disabled]="alterar == false">
+        <ngb-tab id="tab-fotos" title="Senha">
           <ng-template ngbTabContent>
             <div class="col-md-12" style="padding-top:1rem">
-              <!-- <app-colaborador-fotos></app-colaborador-fotos> -->
+              <app-user-perfil-senha></app-user-perfil-senha>
             </div>
           </ng-template>
         </ngb-tab>

@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ScrollToService } from 'ng2-scroll-to-el';
 import { Empresa } from '../models/empresa.model';
+import { DomSanitizer } from "@angular/platform-browser";
 
 defineLocale('pt-br', ptBrLocale);
 
@@ -30,8 +31,10 @@ export class EmpresaCadastroComponent implements OnInit {
   carregar = false;
   maskCNPJ = [/[0-9]/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/,];
   maskCEP = [/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
+  maskTel = ['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+  maskCel = ['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 
-
+  private readonly imageType: string = 'data:image/jpg;base64,';
 
   @ViewChild("placesRef")
   placesRef: GooglePlaceDirective;
@@ -47,7 +50,8 @@ export class EmpresaCadastroComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private empresaService: EmpresaService,
               private spinner: NgxSpinnerService,
-              private scrollService: ScrollToService) {
+              private scrollService: ScrollToService,
+              private sanitizer: DomSanitizer,) {
     // if(!this.userService.isLogged()) {
     //   this.router.navigate(['']);
     // }
@@ -102,6 +106,10 @@ export class EmpresaCadastroComponent implements OnInit {
       idEmpresa: [this.empresa.idEmpresa],
       cnpj: [this.empresa.cnpj, [Validators.required, Validators.minLength(18), Validators.maxLength(18)]],
       nome: [this.empresa.nome, [Validators.required, Validators.maxLength(100)]],
+      email: [this.empresa.email, [Validators.required, Validators.email, Validators.maxLength(100)]],
+      telFixo1: [this.empresa.telFixo1, [Validators.minLength(14), Validators.maxLength(14)]],
+      telFixo2: [this.empresa.telFixo2, [Validators.minLength(14), Validators.maxLength(14)]],
+      telCel: [this.empresa.telCel, [Validators.maxLength(16)]],
       coordenadas: [this.empresa.coordenadas],
       latitude: [this.empresa.latitude],
       longitude: [this.empresa.longitude],
@@ -113,6 +121,10 @@ export class EmpresaCadastroComponent implements OnInit {
       cep: [this.empresa.cep, [Validators.required, Validators.maxLength(9)]],
       pais: [this.empresa.pais, [Validators.required, Validators.maxLength(50)]]
     });
+  }
+
+  getImage(imageLookAdress: string): any {
+    return this.sanitizer.bypassSecurityTrustUrl(this.imageType + imageLookAdress);
   }
 
   onSubmit() {

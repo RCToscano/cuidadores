@@ -20,11 +20,15 @@
           Cliente
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" [routerLink]="['cliente/consulta']">Consultar</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" [routerLink]="['cliente/cadastro']">Cadastrar</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" [routerLink]="['cliente/consulta']">Consultar</a>
+          <div *ngIf="userService.verificarPermissao(func.CLIENTE_CONSULTA)">
+            <a class="dropdown-item" [routerLink]="['cliente/consulta']">Consultar</a>
+            <div class="dropdown-divider"></div>
+          </div>
+          <div *ngIf="userService.verificarPermissao(func.CLIENTE_CADASTRO)">
+            <a [routerLink]="['cliente/cadastro']" class="dropdown-item">Cadastrar</a>
+          </div>
+          <!-- <div class="dropdown-divider"></div> -->
+          <!-- <a class="dropdown-item" [routerLink]="['cliente/consulta']">Consultar</a> -->
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -32,15 +36,25 @@
           Colaborador
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" [routerLink]="['colaborador']">Consultar</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" [routerLink]="['colaborador/cadastro']">Cadastrar</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" [routerLink]="['colaborador/entrevista/cadastro']">Cadastrar Entrevista</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" [routerLink]="['colaborador/ocorrencia/cadastro']">Cadastrar Ocorrência</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" [routerLink]="['colaborador/incompativel/cadastro']">Cadastrar Incompatível</a>
+          <div *ngIf="userService.verificarPermissao(func.COLABORADOR_CONSULTA)">
+            <a class="dropdown-item" [routerLink]="['colaborador']">Consultar</a>
+            <div class="dropdown-divider"></div>
+          </div>
+          <div *ngIf="userService.verificarPermissao(func.COLABORADOR_CADASTRO)">
+            <a [routerLink]="['colaborador/cadastro']" class="dropdown-item">Cadastrar</a>
+            <div class="dropdown-divider"></div>
+          </div>
+          <div *ngIf="userService.verificarPermissao(func.COLABORADOR_ENTREVISTA_CADASTRO)">
+            <a class="dropdown-item" [routerLink]="['colaborador/entrevista/cadastro']">Cadastrar Entrevista</a>
+            <div class="dropdown-divider"></div>
+          </div>
+          <div *ngIf="userService.verificarPermissao(func.COLABORADOR_OCORRENCIA_CADASTRO)">
+            <a class="dropdown-item" [routerLink]="['colaborador/ocorrencia/cadastro']">Cadastrar Ocorrência</a>
+            <div class="dropdown-divider"></div>
+          </div>
+          <div *ngIf="userService.verificarPermissao(func.COLABORADOR_INCOMPATIVEL_CADASTRO)">
+            <a class="dropdown-item" [routerLink]="['colaborador/incompativel/cadastro']">Cadastrar Incompatível</a>
+          </div>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -48,9 +62,13 @@
           Prospect
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" [routerLink]="['prospect/consulta']">Consultar</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" [routerLink]="['prospect/cadastro']">Cadastrar</a>
+          <div *ngIf="userService.verificarPermissao(func.CLIENTE_CONSULTA)">
+            <a class="dropdown-item" [routerLink]="['prospect/consulta']">Consultar</a>
+            <div class="dropdown-divider"></div>
+          </div>
+          <div *ngIf="userService.verificarPermissao(func.CLIENTE_CONSULTA)">
+            <a class="dropdown-item" [routerLink]="['prospect/cadastro']">Cadastrar</a>
+          </div>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -58,9 +76,9 @@
           Empresa
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" [routerLink]="['empresa/consulta']">Consultar</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" [routerLink]="['empresa/cadastro']">Cadastrar</a>
+          <div *ngIf="userService.verificarPermissao(func.CLIENTE_CONSULTA)">
+            <a class="dropdown-item" [routerLink]="['empresa/cadastro']">Informações</a>
+          </div>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -68,9 +86,13 @@
           Escala
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" [routerLink]="['escala/inclusao']">Programar</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" [routerLink]="['escala/consulta']">Consultar</a>
+          <div *ngIf="userService.verificarPermissao(func.CLIENTE_CONSULTA)">
+            <a class="dropdown-item" [routerLink]="['escala/inclusao']">Programar</a>
+            <div class="dropdown-divider"></div>
+          </div>
+          <div *ngIf="userService.verificarPermissao(func.CLIENTE_CONSULTA)">
+            <a class="dropdown-item" [routerLink]="['escala/consulta']">Consultar</a>
+          </div>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -78,9 +100,13 @@
           Usuários
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" [routerLink]="['usuario/consulta']">Consultar</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" [routerLink]="['usuario/cadastro']">Cadastrar</a>
+          <div *ngIf="userService.verificarPermissao(func.CLIENTE_CONSULTA)">
+            <a class="dropdown-item" [routerLink]="['usuario/consulta']">Consultar</a>
+            <div class="dropdown-divider"></div>
+          </div>
+          <div *ngIf="userService.verificarPermissao(func.CLIENTE_CONSULTA)">
+            <a class="dropdown-item" [routerLink]="['usuario/cadastro']">Cadastrar</a>
+          </div>
         </div>
       </li>
     </ul>
@@ -96,7 +122,7 @@
             <!-- {{ userService?.user.nome }} -->
           </a>
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-            <a class="dropdown-item">
+            <a [routerLink]="['perfil']" class="dropdown-item">
               <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
               Perfil
             </a>

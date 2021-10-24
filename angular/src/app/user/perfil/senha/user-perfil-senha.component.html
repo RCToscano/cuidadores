@@ -1,0 +1,68 @@
+<div *ngIf="carregar">
+  <ngx-spinner
+    [fullScreen]="true"
+    type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading" style="color: white"> Carregando... </p>
+  </ngx-spinner>
+</div>
+
+<p *ngIf="message">
+  <ngb-alert [type]="messageType" [dismissible]="false">{{ message }}</ngb-alert>
+</p>
+
+<div class="row justify-content-center mb-4">
+  <div class="col d-flex justify-content-center">
+  <!-- <p><strong>Senha</strong></p> -->
+  <!-- <hr class="mb-4"> -->
+
+    <form [formGroup]="uploadFormSenha" (ngSubmit)="alterarSenha()">
+      <div class="row">
+        <div class="col-md-12 mb-3">
+          <label>Senha Atual</label>
+          <input formControlName="senhaAtual" type="password" name="senhaAtual" id="senhaAtual" class="form-control" maxlength="20"/>
+          <div *ngIf="submittedSenha && form.senhaAtual.errors?.required" class="invalid-feedback" style="display:block">
+            Senha Atual é obrigatória.
+          </div>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label>Nova Senha</label>
+          <input formControlName="novaSenha" type="password" name="novaSenha" id="novaSenha" class="form-control" maxlength="20"/>
+          <div class="strength">
+            <ul class="strengthBar">
+              <li class="point" [style.background-color]="bar0"></li>
+              <li class="point" [style.background-color]="bar1"></li>
+              <li class="point" [style.background-color]="bar2"></li>
+              <li class="point" [style.background-color]="bar3"></li>
+            </ul>
+            <br>
+          </div>
+          <p class="password-information small">* Precisa conter pelo menos 8 caracteres, com numeros, letras (uma maiúscula) e caracteres especiais</p>
+          <div *ngIf="submittedSenha && form.novaSenha.errors?.required" class="invalid-feedback" style="display:block">
+            Nova Senha é obrigatória.
+          </div>
+          <div *ngIf="submittedSenha && passwordStrength < 40" class="invalid-feedback" style="display:block">
+            Nova Senha não atende os requisitos mínimos.
+          </div>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label>Confirmação Nova Senha</label>
+          <input formControlName="confirmNovaSenha" type="password" name="confirmNovaSenha" id="confirmNovaSenha" class="form-control" maxlength="20"/>
+          <div *ngIf="submittedSenha && form.confirmNovaSenha.errors?.required" class="invalid-feedback" style="display:block">
+            Confirmação Nova Senha é obrigatório.
+          </div>
+          <div *ngIf="submittedSenha && form.confirmNovaSenha.errors?.mustMatch" class="invalid-feedback" style="display:block">
+            Senhas não conferem.
+          </div>
+        </div>
+
+      </div>
+
+      <hr class="mb-4">
+      <button class="btn btn-primary btn-lg btn-block mb-4" type="submit">Alterar</button>
+
+    </form>
+  </div>
+</div>

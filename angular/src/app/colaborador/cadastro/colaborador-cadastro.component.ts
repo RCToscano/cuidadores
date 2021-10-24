@@ -47,15 +47,9 @@ export class ColaboradorCadastroComponent implements OnInit {
               private el: ElementRef,
               private activatedRoute: ActivatedRoute,
               private colaboradorService: ColaboradorService,
-              private userService: UserService,
-              private router: Router,
               private spinner: NgxSpinnerService,
               private scrollService: ScrollToService) {
 
-    if(!this.userService.isLogged()) {
-      this.router.navigate(['']);
-    }
-    else {
       defineLocale('pt-br', ptBrLocale);
 
       if(this.activatedRoute.snapshot.params['id'] != undefined) {
@@ -68,7 +62,6 @@ export class ColaboradorCadastroComponent implements OnInit {
       this.colaboradorService.colaboradorOcorrencias = undefined;
       this.colaboradorService.colaboradorIncompativeis = undefined;
       this.colaboradorService.colaboradorEntrevista = undefined;
-    }
   }
 
   ngOnInit() {
@@ -164,16 +157,15 @@ export class ColaboradorCadastroComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    const controls = this.uploadForm.controls;
-    // for (const name in controls) {
-    //     this.checkField(controls[name].value, name);
-    //     if (controls[name].invalid) {
-    //         console.log('invalido: ' + name);
-    //         console.log(controls[name].errors);
-    //     }
-    // }
-
     if(this.uploadForm.invalid) {
+      const controls = this.uploadForm.controls;
+      // for (const name in controls) {
+      //     this.checkField(controls[name].value, name);
+      //     if (controls[name].invalid) {
+      //         console.log('invalido: ' + name);
+      //         console.log(controls[name].errors);
+      //     }
+      // }
       const invalidElements = this.el.nativeElement.querySelectorAll('.ng-invalid');
       invalidElements[1].focus();
       return;
@@ -183,7 +175,7 @@ export class ColaboradorCadastroComponent implements OnInit {
       this.spinner.show();
 
       this.colaborador = this.uploadForm.value;
-      this.colaborador.dataNascimento = formatDate(controls.dataNascimento.value, 'DD/MM/YYYY').trim();
+      this.colaborador.dataNascimento = formatDate(this.uploadForm.controls.dataNascimento.value, 'DD/MM/YYYY').trim();
 
       if(this.alterar) {
         this.colaboradorService.alterarColaborador(this.colaborador)
